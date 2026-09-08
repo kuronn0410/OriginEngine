@@ -1,37 +1,27 @@
 #include <Windows.h>
-#include <d3d12.h>
-#include <wrl.h>
+#include "Include/Window/Window.h"
 
-#pragma comment(lib, "d3d12.lib")
-
-int main()
+int WINAPI WinMain(
+    _In_ HINSTANCE hInstance,
+    _In_opt_ HINSTANCE hPrevInstance,
+    _In_ LPSTR lpCmdLine,
+    _In_ int nCmdShow
+)
 {
-    Microsoft::WRL::ComPtr<ID3D12Device> device;
-
-    HRESULT result = D3D12CreateDevice(
-        nullptr,
-        D3D_FEATURE_LEVEL_11_0,
-        IID_PPV_ARGS(&device)
-    );
-
-    if (FAILED(result))
+    Window window;
+    if (!window.Initialize(hInstance))
     {
-        MessageBox(
-            nullptr,
-            L"DirectX 12 Device の生成に失敗しました",
-            L"Error",
-            MB_OK
-        );
-
         return -1;
     }
 
-    MessageBox(
-        nullptr,
-        L"DirectX 12 Device の生成に成功しました",
-        L"Success",
-        MB_OK
-    );
+	// メッセージループ用
+    MSG msg = {};
+
+    while (GetMessage(&msg, nullptr, 0, 0) > 0)
+    {
+        //TranslateMessage(&msg);
+        DispatchMessage(&msg);//取得したメッセージを、そのウィンドウの WindowProc に送ります。
+    }
 
     return 0;
 }
