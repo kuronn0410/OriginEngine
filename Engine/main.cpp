@@ -1,6 +1,8 @@
 #include <Windows.h>
 #include "Include/Window/Window.h"
 
+
+
 int WINAPI WinMain(
     _In_ HINSTANCE hInstance,
     _In_opt_ HINSTANCE hPrevInstance,
