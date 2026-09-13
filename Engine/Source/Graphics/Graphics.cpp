@@ -35,8 +35,145 @@ bool Graphics::Initialize(HWND hwnd)
 	{
 		return false;
 	}
+	if (!CreateRenderTargets())
+	{
+		return false;
+	}
+	if (!CreateCommandAllocator())
+	{
+		return false;
+	}
+	if (!CreateCommandList())
+	{
+		return false;
+	}
+	if (!CreateFence())
+	{
+		return false;
+	}
 
 	return true;
+}
+
+void Graphics::Render()
+{
+	// ① 現在のBackBuffer番号取得
+	UINT frameIndex = swapChain_->GetCurrentBackBufferIndex();
+   // ② CommandAllocator Reset
+	commandAllocator_->Reset();
+   // ③ CommandList Reset
+	commandList_->Reset(commandAllocator_.Get(), nullptr);
+   // ④ PRESENT → RENDER_TARGET
+	D3D12_RESOURCE_BARRIER barrier = {};
+
+	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+
+	barrier.Transition.pResource =
+		renderTargets_[frameIndex].Get();
+
+	barrier.Transition.StateBefore =
+		D3D12_RESOURCE_STATE_PRESENT;
+
+	barrier.Transition.StateAfter =
+		D3D12_RESOURCE_STATE_RENDER_TARGET;
+
+	barrier.Transition.Subresource =
+		D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
+
+	commandList_->ResourceBarrier(
+		1,
+		&barrier
+	);
+   // ⑤ RTV取得
+	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle =
+		rtvHeap_->GetCPUDescriptorHandleForHeapStart();
+	UINT descriptorSize =
+		device_->GetDescriptorHandleIncrementSize(
+			D3D12_DESCRIPTOR_HEAP_TYPE_RTV
+		);
+	rtvHandle.ptr += frameIndex * descriptorSize;
+   // ⑥ 描画先設定
+	commandList_->OMSetRenderTargets(
+		1,
+		&rtvHandle,
+		FALSE,
+		nullptr
+	);
+   // ⑦ 単色クリア
+	float clearColor[] =
+	{
+		0.0f,
+		0.2f,
+		0.8f,
+		1.0f
+	};
+	commandList_->ClearRenderTargetView(
+		rtvHandle,
+		clearColor,
+		0,
+		nullptr
+	);
+
+   // ⑧ RENDER_TARGET → PRESENT
+   // ⑨ CommandList Close
+	HRESULT cmhr = commandList_->Close();
+
+	if (FAILED(cmhr))
+	{
+		return;
+	}
+   // ⑩ ExecuteCommandLists
+	ID3D12CommandList* commandLists[] =
+	{
+		commandList_.Get()
+	};
+
+	commandQueue_->ExecuteCommandLists(
+		1,
+		commandLists
+	);
+
+   // ⑪ Present
+	HRESULT swhr = swapChain_->Present(
+		1,
+		0
+	);
+
+	if (FAILED(swhr))
+	{
+		return;
+	}
+   // ⑫ GPU同期
+	++fenceValue_;
+
+	HRESULT hr = commandQueue_->Signal(
+		fence_.Get(),
+		fenceValue_
+	);
+
+	if (FAILED(hr))
+	{
+		return;
+	}
+
+	if (fence_->GetCompletedValue() < fenceValue_)
+	{
+		hr = fence_->SetEventOnCompletion(
+			fenceValue_,
+			fenceEvent_
+		);
+
+		if (FAILED(hr))
+		{
+			return;
+		}
+
+		WaitForSingleObject(
+			fenceEvent_,
+			INFINITE
+		);
+	}
+
 }
 
 bool Graphics::CreateFactory()
@@ -168,7 +305,7 @@ bool Graphics::CreateSwapChain(HWND hwnd)
 	desc.Height = rect.bottom - rect.top;
 	desc.Width = rect.right - rect.left;
 	desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	desc.BufferCount = 2;
+	desc.BufferCount = kFrameCount;
 	desc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;//裏表を入れ替える
 	desc.Flags = 0;
 	desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
@@ -206,7 +343,7 @@ bool Graphics::CreateRTVHeap()
 	D3D12_DESCRIPTOR_HEAP_DESC desc = {};
 
 	desc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
-	desc.NumDescriptors = 2;
+	desc.NumDescriptors = kFrameCount;
 	desc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
 	desc.NodeMask = 0;
 
@@ -227,3 +364,100 @@ bool Graphics::CreateRTVHeap()
 
 	return true;
 }
+
+
+bool Graphics::CreateRenderTargets()
+{
+	// ① RTV Heap の先頭アドレスを取得
+	D3D12_CPU_DESCRIPTOR_HANDLE handle =
+		rtvHeap_->GetCPUDescriptorHandleForHeapStart();
+
+	// ② RTV 1個分のサイズを取得
+	UINT descriptorSize =
+		device_->GetDescriptorHandleIncrementSize(
+			D3D12_DESCRIPTOR_HEAP_TYPE_RTV
+		);
+
+	for (UINT i = 0; i < kFrameCount; ++i)
+	{
+		// ③ SwapChain から i 番目の BackBuffer を取得
+		HRESULT hr = swapChain_->GetBuffer(
+			i, 
+			IID_PPV_ARGS(renderTargets_[i].GetAddressOf())
+		);
+
+		if (FAILED(hr))
+		{
+			return false;
+		}
+
+		// ④ その BackBuffer 用の RTV を作る
+		D3D12_RENDER_TARGET_VIEW_DESC rtvDesc = {};
+		rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
+		device_->CreateRenderTargetView(
+			renderTargets_[i].Get(), 
+			&rtvDesc, handle
+		);
+		// ⑤ handle を次の RTV の位置へ進める
+		handle.ptr += descriptorSize;
+	}
+
+	return true;
+}
+
+bool Graphics::CreateCommandAllocator()
+{
+	HRESULT hr = device_->CreateCommandAllocator(
+		D3D12_COMMAND_LIST_TYPE_DIRECT,
+		IID_PPV_ARGS(commandAllocator_.GetAddressOf())
+	);
+
+	if (FAILED(hr))
+	{
+		return false;
+	}
+
+	return true;
+}
+
+bool Graphics::CreateCommandList()
+{
+	HRESULT hr = device_->CreateCommandList(
+		/* ① NodeMask */
+		0,
+		/* ② CommandListの種類 */
+		D3D12_COMMAND_LIST_TYPE_DIRECT,
+		/* ③ 使用するCommandAllocator */
+		commandAllocator_.Get(),
+		/* ④ 初期PipelineState */
+		nullptr,
+		IID_PPV_ARGS(commandList_.GetAddressOf())
+	);
+
+	if (FAILED(hr))
+	{
+		return false;
+	}
+
+	// ⑤ 初期状態ではOpenなので、必要ならCloseする
+	commandList_->Close();
+	return true;
+}
+
+bool Graphics::CreateFence() 
+{
+	HRESULT hr = device_->CreateFence(
+		0,
+		D3D12_FENCE_FLAG_NONE,
+		IID_PPV_ARGS(fence_.GetAddressOf())
+	);
+
+	if (FAILED(hr))
+	{
+		return false;
+	}
+
+	return true;
+}
+

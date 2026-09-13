@@ -1,6 +1,6 @@
 #include <Windows.h>
+#include "Include/Graphics/Graphics.h"
 #include "Include/Window/Window.h"
-
 
 
 int WINAPI WinMain(
@@ -16,14 +16,28 @@ int WINAPI WinMain(
         return -1;
     }
 
+    Graphics graphics;
+    if (!graphics.Initialize(window.GetHwnd()))
+    {
+        return -1;
+    }
+
 	// メッセージループ用
     MSG msg = {};
 
-    while (GetMessage(&msg, nullptr, 0, 0) > 0)
+    while (msg.message != WM_QUIT)
     {
         //TranslateMessage(&msg);
-        DispatchMessage(&msg);//取得したメッセージを、そのウィンドウの WindowProc に送ります。
+        if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+        {
+            DispatchMessage(&msg);//取得したメッセージを、そのウィンドウの WindowProc に送ります。
+        }
+        else
+        {
+            graphics.Render();
+        }
     }
+   
 
     return 0;
 }
