@@ -1,6 +1,9 @@
 #include <Windows.h>
 #include "Include/Graphics/Graphics.h"
 #include "Include/Window/Window.h"
+#include "Include/Scenes/SceneManager.h"
+#include "include/Scenes/SceneChangeRequest.h"
+#include "GameMain.h"
 
 
 int WINAPI WinMain(
@@ -16,8 +19,20 @@ int WINAPI WinMain(
         return -1;
     }
 
+    
+
     Graphics graphics;
     if (!graphics.Initialize(window.GetHwnd()))
+    {
+        return -1;
+    }
+
+    SceneManager sceneManager;
+
+    SceneChangeRequest sceneRequest(sceneManager);
+
+    GameMain gameMain;
+    if (!gameMain.Initialize(sceneRequest))
     {
         return -1;
     }
@@ -34,7 +49,9 @@ int WINAPI WinMain(
         }
         else
         {
-            graphics.Render();
+            sceneManager.Update();
+			sceneManager.Render(graphics);
+            //graphics.Render();
         }
     }
    

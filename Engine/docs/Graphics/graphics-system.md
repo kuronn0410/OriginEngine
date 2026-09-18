@@ -57,3 +57,22 @@ APIからCOMオブジェクトのポインターを書き込んでもらうと�
 ### Get()
 ComPtrが保持している生ポインターを取得する。
 所有権はComPtr側に残る。
+
+
+初期化
+- Factory
+- Adapter
+- Device
+- CommandQueue
+- SwapChain
+- RTV
+- Fence
+
+毎フレーム
+- CommandAllocator Reset
+- CommandList Reset
+- ResourceBarrier
+- Clear
+- Execute
+- Present
+- GPU同期

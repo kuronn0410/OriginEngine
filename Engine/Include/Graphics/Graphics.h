@@ -2,6 +2,7 @@
 #include <d3d12.h>//D3D12CreateDevice などDirectX12本体
 #include <dxgi1_6.h>//IDXGIFactory6 などDXGI本体
 #include <wrl.h>//Microsoft::WRL::ComPtr などのスマートポインタ
+#include "include/Graphics/Color.h"
 
 
 
@@ -9,7 +10,7 @@ class Graphics
 {
 public:
 	bool Initialize(HWND hwnd);
-	void Render();// 1フレームの描画
+	void Render(const Color& clearColor);// 1フレームの描画
 	bool Update();
 	bool Finalize();
 private:
@@ -36,11 +37,11 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12CommandAllocator> commandAllocator_;
 	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList_;
 	Microsoft::WRL::ComPtr<ID3D12Fence> fence_;
-	UINT64 fenceValue_ = 0;
+	
 
 	/*---------毎フレームの描画処理-----------*/
 	 // 描画補助
 	void WaitForGPU();
-	//UINT64 fenceValue_ = 0;
+	UINT64 fenceValue_ = 0;
 	HANDLE fenceEvent_ = nullptr;
 };

@@ -16,3 +16,4 @@ Release/
 *.log
 
 ipch/
+/Engine/docs/Graphics/graphics-overview.md

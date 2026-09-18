@@ -55,9 +55,9 @@ bool Graphics::Initialize(HWND hwnd)
 	return true;
 }
 
-void Graphics::Render()
+void Graphics::Render(const Color& clearColor)
 {
-	// ① 現在のBackBuffer番号取得
+	// ① 現在のBackBuffer(描画する場所)番号取得
 	UINT frameIndex = swapChain_->GetCurrentBackBufferIndex();
    // ② CommandAllocator Reset
 	commandAllocator_->Reset();
@@ -67,19 +67,12 @@ void Graphics::Render()
 	D3D12_RESOURCE_BARRIER barrier = {};
 
 	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+	barrier.Transition.pResource = renderTargets_[frameIndex].Get();
+	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
+	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
+	barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
 
-	barrier.Transition.pResource =
-		renderTargets_[frameIndex].Get();
-
-	barrier.Transition.StateBefore =
-		D3D12_RESOURCE_STATE_PRESENT;
-
-	barrier.Transition.StateAfter =
-		D3D12_RESOURCE_STATE_RENDER_TARGET;
-
-	barrier.Transition.Subresource =
-		D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
-
+	// ResourceBarrierをCommandListに記録する
 	commandList_->ResourceBarrier(
 		1,
 		&barrier
@@ -100,21 +93,34 @@ void Graphics::Render()
 		nullptr
 	);
    // ⑦ 単色クリア
-	float clearColor[] =
+	float color[4] =
 	{
-		0.0f,
-		0.2f,
-		0.8f,
-		1.0f
+		clearColor.r,
+		clearColor.g,
+		clearColor.b,
+		clearColor.a
+
 	};
 	commandList_->ClearRenderTargetView(
 		rtvHandle,
-		clearColor,
+		color,
 		0,
 		nullptr
 	);
 
    // ⑧ RENDER_TARGET → PRESENT
+	D3D12_RESOURCE_BARRIER returnbarrier = {};
+	returnbarrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+	returnbarrier.Transition.pResource = renderTargets_[frameIndex].Get();
+	returnbarrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
+	returnbarrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
+	returnbarrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
+
+	// ResourceBarrierをCommandListに記録する
+	commandList_->ResourceBarrier(
+		1,
+		&returnbarrier
+	);
    // ⑨ CommandList Close
 	HRESULT cmhr = commandList_->Close();
 
@@ -156,7 +162,7 @@ void Graphics::Render()
 		return;
 	}
 
-	if (fence_->GetCompletedValue() < fenceValue_)
+	if (fence_->GetCompletedValue() < fenceValue_)//GPUがまだ今回の処理を終えていないなら待つ
 	{
 		hr = fence_->SetEventOnCompletion(
 			fenceValue_,
@@ -180,7 +186,7 @@ bool Graphics::CreateFactory()
 {
 	HRESULT hr = CreateDXGIFactory2(
 		0,//フラグ
-		IID_PPV_ARGS(factory_.GetAddressOf())//ComPtrの中にあるポインターのアドレスを渡す。
+		IID_PPV_ARGS(factory_.GetAddressOf())//ComPtrの中にあるポインタのアドレスを渡す。
 	
 	);
 
@@ -225,7 +231,6 @@ bool Graphics::CreateAdapter()
 			continue;
 		}
 
-		/*---------ここから----------*/
 		// DirectX12が使用可能か確認
 		if (SUCCEEDED(D3D12CreateDevice(
 			adapter.Get(),
@@ -243,17 +248,6 @@ bool Graphics::CreateAdapter()
 
 bool Graphics::CreateDevice()
 {
-	/*
-	adapter_ が保持しているGPUを使って
-	↓
-	最低 Feature Level 11_0 を要求し
-	↓
-	ID3D12Device を生成して
-	↓
-	device_ に書き込んでもらう
-	↓
-	HRESULTで成功/失敗を確認する
-	*/
 
 	HRESULT hr = D3D12CreateDevice(
 		adapter_.Get(),
@@ -347,10 +341,6 @@ bool Graphics::CreateRTVHeap()
 	desc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
 	desc.NodeMask = 0;
 
-	// ① Heapの種類
-	// ② Descriptorを何個置くか
-	// ③ Shaderから見える必要があるか
-	// ④ NodeMask
 
 	HRESULT hr = device_->CreateDescriptorHeap(
 		&desc,
@@ -395,9 +385,11 @@ bool Graphics::CreateRenderTargets()
 		D3D12_RENDER_TARGET_VIEW_DESC rtvDesc = {};
 		rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 		rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
+
 		device_->CreateRenderTargetView(
 			renderTargets_[i].Get(), 
-			&rtvDesc, handle
+			&rtvDesc, 
+			handle
 		);
 		// ⑤ handle を次の RTV の位置へ進める
 		handle.ptr += descriptorSize;
