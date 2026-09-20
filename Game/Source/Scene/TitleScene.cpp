@@ -1,4 +1,6 @@
 #include "include/Scene/TitleScene.h"
+#include "include/Graphics/Color.h"
+#include "include/Graphics/Graphics.h"
 
 void TitleScene::Render(Graphics& graphics)
 {

@@ -1,6 +1,8 @@
 #pragma once
-#include "include/Scenes/Scene.h"
-#include "include/Scenes/SceneManager.h"
+#include <memory>
+
+class SceneManager;
+class Scene;
 
 class SceneChangeRequest
 {

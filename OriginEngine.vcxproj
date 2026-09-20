@@ -151,21 +151,30 @@
     <ClCompile Include="Engine\Source\Window\Window.cpp" />
     <ClCompile Include="Engine\Source\Scenes\SceneChangeRequest.cpp" />
     <ClCompile Include="Game\GameMain.cpp" />
+    <ClCompile Include="Game\Source\Scene\GameSceneFactory.cpp" />
     <ClCompile Include="Game\Source\Scene\TestScene.cpp" />
     <ClCompile Include="Game\Source\Scene\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Include\Graphics\Color.h" />
     <ClInclude Include="Engine\Include\Graphics\Graphics.h" />
+    <ClInclude Include="Engine\Include\Scenes\ISceneFactory.h" />
     <ClInclude Include="Engine\Include\Scenes\Scene.h" />
     <ClInclude Include="Engine\Include\Scenes\SceneManager.h" />
+    <ClInclude Include="Engine\Include\Scenes\SceneType.h" />
     <ClInclude Include="Engine\Include\Window\Window.h" />
     <ClInclude Include="Engine\Include\Scenes\SceneChangeRequest.h" />
     <ClInclude Include="Game\GameMain.h" />
+    <ClInclude Include="Game\Include\Scene\GameSceneFactory.h" />
+    <ClInclude Include="Game\Include\Scene\GameSceneType.h" />
     <ClInclude Include="Game\Include\Scene\TestScene.h" />
     <ClInclude Include="Game\Include\Scene\TitleScene.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Engine\docs\EngineStartupFlow.md">
+      <SubType>
+      </SubType>
+    </None>
     <None Include="Engine\docs\Graphics\graphics-initialize.md">
       <SubType>
       </SubType>

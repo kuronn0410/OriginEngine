@@ -2,6 +2,7 @@
 #include "include/Scenes/Scene.h"
 #include <memory>
 
+class Graphics;
 
 class SceneManager
 {

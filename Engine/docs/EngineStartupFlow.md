@@ -14,17 +14,3 @@ Initialize(sceneRequest))
 
 GameMain::Initialize(sceneRequest)
 ceneChangeRequestに初期シーンを登録する
-
-
-
-## 各クラスの責務
-
-## 所有関係
-
-## シーン変更の流れ
-
-## include / 前方宣言の考え方
-
-## 現状の仮実装
-
-## 今後直したい点
