@@ -1,6 +1,6 @@
 #pragma once
 #include "include/Scenes/ISceneFactory.h"
-#include "include/Scene/GameSceneType.h"
+#include <memory>
 
 
 class SceneChangeRequest;
@@ -16,5 +16,4 @@ public:
 
 private:
 	virtual std::unique_ptr<Scene> CreateScene(SceneType type) override;
-	//SceneChangeRequest& sceneRequest_;
 };

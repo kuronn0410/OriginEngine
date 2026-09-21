@@ -4,13 +4,42 @@
 ## 全体フロー
 初期化時
 main
+window生成
 Graphics初期化
 SceneManager 生成
-ceneChangeRequest (sceneManager)　生成
+SceneChangeRequest (sceneManager)　生成
 GameMain 初期化
 Initialize(sceneRequest))
 
 ↓
 
 GameMain::Initialize(sceneRequest)
-ceneChangeRequestに初期シーンを登録する
+sceneChangeRequestに初期シーンを登録する
+GameSceneFactory(sceneRequest)
+
+## 修正
+
+main.cpp
+Window生成
+Graphics初期化
+SceneManager 生成
+SceneManager 生成
+SceneChangeRequest (sceneManager)　生成
+
+↓
+
+GameMain::Initialize(sceneRequest)
+sceneChangeRequestに初期シーンを登録する
+
+↓
+
+GameSceneFactory(sceneRequest)
+
+↓
+
+sceneChangeRequestに生成したシーンの所有権を
+SceneManagerに送る
+
+
+
+

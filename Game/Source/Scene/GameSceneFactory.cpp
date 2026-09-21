@@ -1,9 +1,10 @@
 #include "include/Scene/GameSceneFactory.h"
-
 #include "include/Scene/TestScene.h"
-
 #include "include/Scene/TitleScene.h"
 #include "include/Scenes/Scene.h"
+#include "include/Scene/GameSceneType.h"
+#include "include/Scenes/SceneType.h"
+#include <memory>
 
 
 std::unique_ptr<Scene> GameSceneFactory::CreateScene(SceneType type)

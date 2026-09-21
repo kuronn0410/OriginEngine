@@ -2,18 +2,44 @@
 シーンの管理を行うクラス群の設計についてまとめる。
 
 ## 全体フロー
-初期化時
-main
+### 初期化時
+main.cpp
+Graphics生成
 Graphics初期化
 SceneManager 生成
 ceneChangeRequest (sceneManager)　生成
-GameMain 初期化
-Initialize(sceneRequest))
+GameMain 生成
+Initialize(sceneRequest))　GameMain 初期化
+
+↓
+GmaeMain.cpp
+GameMain::Initialize(sceneRequest)
+GameMainがGameSceneFactoryを生成し、一時的に所有する
 
 ↓
 
-GameMain::Initialize(sceneRequest)
-ceneChangeRequestに初期シーンを登録する
+SceneChangeRequesにISceneFactoryの所有権を渡す
+
+↓
+
+最初に生成するシーンをSceneChangeRequesに登録する
+
+
+### シーン移動
+参照しているSceneChangeRequesにシーン移動の要求を登録する
+
+↓
+
+ISceneFactory(ゲーム固有のSceneFactory)にTypeに応じたシーンを生成してもらう
+
+↓
+
+SceneChangeRequesが生成したシーンの所有権をSceneManagerに送る
+
+↓
+
+SceneManagerが現在のシーンを破棄して、新しいシーンに切り替える
+
 
 
 

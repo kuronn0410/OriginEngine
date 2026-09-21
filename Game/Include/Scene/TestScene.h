@@ -1,6 +1,6 @@
 #pragma once
 #include "include/Scenes/Scene.h"
-
+class SceneChangeRequest;
 
 class TestScene : public Scene
 {

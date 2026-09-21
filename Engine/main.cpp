@@ -4,7 +4,7 @@
 #include "Include/Scenes/SceneManager.h"
 #include "include/Scenes/SceneChangeRequest.h"
 #include "GameMain.h"
-
+#include <sal.h>
 
 int WINAPI WinMain(
     _In_ HINSTANCE hInstance,

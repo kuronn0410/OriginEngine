@@ -3,12 +3,9 @@
 /*=== 仮実装 ===*/
 #include <Windows.h>//GetAsyncKeyState
 #include "include/Scenes/SceneChangeRequest.h"
-#include "include/Scene/TitleScene.h"
 #include "include/Graphics/Color.h"
 #include "include/Graphics/Graphics.h"
-#include "include/Scenes/SceneType.h"
-#include "include/Scene/GameSceneFactory.h"
-#include <memory>
+#include "include/Scene/GameSceneType.h"
 
 void TestScene::Render(Graphics& graphics)
 {
@@ -20,6 +17,6 @@ void TestScene::Update()
 {
     if (GetAsyncKeyState('1') & 0x8000)
     {
-        sceneRequest_.RequestChangeScene(std::make_unique<TitleScene>(sceneRequest_));
+        sceneRequest_.RequestChangeScene(GameSceneType::Title);
     }
 }
