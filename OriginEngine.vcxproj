@@ -144,6 +144,8 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Source\Renderer\Renderer.cpp" />
+    <ClCompile Include="Engine\Source\Renderer\ShaderCompiler.cpp" />
     <ClCompile Include="Engine\Source\Scenes\SceneManager.cpp" />
     <ClCompile Include="Engine\main.cpp" />
     <ClCompile Include="Engine\Source\Graphics\Graphics.cpp" />
@@ -158,6 +160,8 @@
   <ItemGroup>
     <ClInclude Include="Engine\Include\Graphics\Color.h" />
     <ClInclude Include="Engine\Include\Graphics\Graphics.h" />
+    <ClInclude Include="Engine\Include\Renderer\Renderer.h" />
+    <ClInclude Include="Engine\Include\Renderer\ShaderCompiler.h" />
     <ClInclude Include="Engine\Include\Scenes\ISceneFactory.h" />
     <ClInclude Include="Engine\Include\Scenes\Scene.h" />
     <ClInclude Include="Engine\Include\Scenes\SceneManager.h" />
@@ -200,6 +204,20 @@
       </SubType>
     </None>
     <None Include="Engine\docs\window-system.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Engine\Shader\BasicPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Engine\Shader\BasicVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

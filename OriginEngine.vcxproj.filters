@@ -45,6 +45,12 @@
     <ClCompile Include="Game\Source\Scene\GameSceneFactory.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Source\Renderer\Renderer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Source\Renderer\ShaderCompiler.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Include\Window\Window.h">
@@ -86,6 +92,12 @@
     <ClInclude Include="Game\Include\Scene\GameSceneType.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Include\Renderer\Renderer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Include\Renderer\ShaderCompiler.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\docs\window-system.md" />
@@ -96,5 +108,9 @@
     <None Include="Engine\docs\Graphics\graphics-initialize.md" />
     <None Include="Engine\docs\Scene\Scene.md" />
     <None Include="Engine\docs\EngineStartupFlow.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Engine\Shader\BasicVS.hlsl" />
+    <FxCompile Include="Engine\Shader\BasicPS.hlsl" />
   </ItemGroup>
 </Project>

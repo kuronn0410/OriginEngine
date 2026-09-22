@@ -2,7 +2,11 @@
 #include <d3d12.h>//D3D12CreateDevice などDirectX12本体
 #include <dxgi1_6.h>//IDXGIFactory6 などDXGI本体
 #include <wrl.h>//Microsoft::WRL::ComPtr などのスマートポインタ
+#include <wrl/client.h>
+#include <dxgi.h>
+#include <dxgi1_5.h>
 #include "include/Graphics/Color.h"
+#include <Windows.h>
 
 
 
@@ -11,8 +15,12 @@ class Graphics
 public:
 	bool Initialize(HWND hwnd);
 	void Render(const Color& clearColor);// 1フレームの描画
+	void BeginFrame(const Color& clearColor);
+	void EndFrame();
 	bool Update();
 	bool Finalize();
+	/*----取得関数------*/
+	ID3D12GraphicsCommandList* GetCommandList() const { return commandList_.Get(); }
 private:
 	bool CreateFactory();//オブジェクトの生成の入り口
 	bool CreateAdapter();//使えるGPUを探す
@@ -42,6 +50,7 @@ private:
 	/*---------毎フレームの描画処理-----------*/
 	 // 描画補助
 	void WaitForGPU();
+	UINT frameIndex_ = 0;
 	UINT64 fenceValue_ = 0;
 	HANDLE fenceEvent_ = nullptr;
 };

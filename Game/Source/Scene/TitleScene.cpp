@@ -3,12 +3,13 @@
 #include "include/Graphics/Graphics.h"
 #include "include/Scene/GameSceneType.h"
 #include "include/Scenes/SceneChangeRequest.h"
+#include "include/Renderer/Renderer.h"
 #include <Windows.h>//GetAsyncKeyState
 
-void TitleScene::Render(Graphics& graphics)
+void TitleScene::Render(Renderer& renderer)
 {
-    Color color{ 1.0f, 1.0f, 0.0f, 1.0f };
-    graphics.Render(color);
+    //Color color{ 1.0f, 1.0f, 0.0f, 1.0f };
+    renderer.Draw();
 }
 
 void TitleScene::Update()

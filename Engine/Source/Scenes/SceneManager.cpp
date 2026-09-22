@@ -1,4 +1,7 @@
 #include "include/Scenes/SceneManager.h"
+#include <memory>
+#include <utility>
+#include "include/Scenes/Scene.h"
 
 void SceneManager::ChangeScene(std::unique_ptr<Scene> scene)
 {
@@ -13,10 +16,10 @@ void SceneManager::Update()
     }
 }
 
-void SceneManager::Render(Graphics& graphics)
+void SceneManager::Render(Renderer& renderer)
 {
     if (currentScene_)
     {
-        currentScene_->Render(graphics);
+        currentScene_->Render(renderer);
     }
 }

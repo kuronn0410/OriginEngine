@@ -3,6 +3,9 @@
 #include "Include/Window/Window.h"
 #include "Include/Scenes/SceneManager.h"
 #include "include/Scenes/SceneChangeRequest.h"
+#include "include/Renderer/Renderer.h"
+#include "include/Renderer/ShaderCompiler.h"
+#include "include/Graphics/Color.h"
 #include "GameMain.h"
 #include <sal.h>
 
@@ -25,6 +28,17 @@ int WINAPI WinMain(
     if (!graphics.Initialize(window.GetHwnd()))
     {
         return -1;
+    }
+
+    ShaderCompiler shaderCompiler;
+	if (!shaderCompiler.Initialize())
+	{
+		return -1;
+	}
+	Renderer renderer;
+    if (!renderer.Initialize(shaderCompiler))
+    {
+		return -1;
     }
 
     SceneManager sceneManager;
@@ -50,7 +64,11 @@ int WINAPI WinMain(
         else
         {
             sceneManager.Update();
-			sceneManager.Render(graphics);
+
+			graphics.BeginFrame(Color(0.0f, 0.0f, 0.0f, 1.0f));
+            renderer.BeginFrame(graphics.GetCommandList());
+			sceneManager.Render(renderer);
+			graphics.EndFrame();
             //graphics.Render();
         }
     }

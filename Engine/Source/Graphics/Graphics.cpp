@@ -1,6 +1,16 @@
 #include "Include/Graphics/Graphics.h"
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
+#include <wrl/client.h>
+#include <Windows.h>
+#include <d3d12.h>
+#include <dxgi1_2.h>
+#include <dxgi1_3.h>
+#include <dxgi1_6.h>
+#include <dxgi.h>
+#include <dxgiformat.h>
+#include "Include/Graphics/Color.h"
+#include <d3dcommon.h>
 /*
 DXGI Factory
     ↓ GPUを探す
@@ -57,17 +67,24 @@ bool Graphics::Initialize(HWND hwnd)
 
 void Graphics::Render(const Color& clearColor)
 {
+	BeginFrame(clearColor);
+
+	EndFrame();
+}
+
+void Graphics::BeginFrame(const Color& clearColor)
+{
 	// ① 現在のBackBuffer(描画する場所)番号取得
-	UINT frameIndex = swapChain_->GetCurrentBackBufferIndex();
-   // ② CommandAllocator Reset
+	frameIndex_ = swapChain_->GetCurrentBackBufferIndex();
+	// ② CommandAllocator Reset
 	commandAllocator_->Reset();
-   // ③ CommandList Reset
+	// ③ CommandList Reset
 	commandList_->Reset(commandAllocator_.Get(), nullptr);
-   // ④ PRESENT → RENDER_TARGET
+	// ④ PRESENT → RENDER_TARGET
 	D3D12_RESOURCE_BARRIER barrier = {};
 
 	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
-	barrier.Transition.pResource = renderTargets_[frameIndex].Get();
+	barrier.Transition.pResource = renderTargets_[frameIndex_].Get();
 	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
 	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
 	barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
@@ -77,22 +94,22 @@ void Graphics::Render(const Color& clearColor)
 		1,
 		&barrier
 	);
-   // ⑤ RTV取得
+	// ⑤ RTV取得
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle =
 		rtvHeap_->GetCPUDescriptorHandleForHeapStart();
 	UINT descriptorSize =
 		device_->GetDescriptorHandleIncrementSize(
 			D3D12_DESCRIPTOR_HEAP_TYPE_RTV
 		);
-	rtvHandle.ptr += frameIndex * descriptorSize;
-   // ⑥ 描画先設定
+	rtvHandle.ptr += frameIndex_ * descriptorSize;
+	// ⑥ 描画先設定
 	commandList_->OMSetRenderTargets(
 		1,
 		&rtvHandle,
 		FALSE,
 		nullptr
 	);
-   // ⑦ 単色クリア
+	// ⑦ 単色クリア
 	float color[4] =
 	{
 		clearColor.r,
@@ -107,11 +124,14 @@ void Graphics::Render(const Color& clearColor)
 		0,
 		nullptr
 	);
+}
 
-   // ⑧ RENDER_TARGET → PRESENT
+void Graphics::EndFrame()
+{
+	// ⑧ RENDER_TARGET → PRESENT
 	D3D12_RESOURCE_BARRIER returnbarrier = {};
 	returnbarrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
-	returnbarrier.Transition.pResource = renderTargets_[frameIndex].Get();
+	returnbarrier.Transition.pResource = renderTargets_[frameIndex_].Get();
 	returnbarrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
 	returnbarrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
 	returnbarrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
@@ -121,14 +141,14 @@ void Graphics::Render(const Color& clearColor)
 		1,
 		&returnbarrier
 	);
-   // ⑨ CommandList Close
+	// ⑨ CommandList Close
 	HRESULT cmhr = commandList_->Close();
 
 	if (FAILED(cmhr))
 	{
 		return;
 	}
-   // ⑩ ExecuteCommandLists
+	// ⑩ ExecuteCommandLists
 	ID3D12CommandList* commandLists[] =
 	{
 		commandList_.Get()
@@ -139,7 +159,7 @@ void Graphics::Render(const Color& clearColor)
 		commandLists
 	);
 
-   // ⑪ Present
+	// ⑪ Present
 	HRESULT swhr = swapChain_->Present(
 		1,
 		0
@@ -149,7 +169,7 @@ void Graphics::Render(const Color& clearColor)
 	{
 		return;
 	}
-   // ⑫ GPU同期
+	// ⑫ GPU同期
 	++fenceValue_;
 
 	HRESULT hr = commandQueue_->Signal(
@@ -179,7 +199,6 @@ void Graphics::Render(const Color& clearColor)
 			INFINITE
 		);
 	}
-
 }
 
 bool Graphics::CreateFactory()

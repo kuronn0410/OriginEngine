@@ -4,13 +4,14 @@
 #include <Windows.h>//GetAsyncKeyState
 #include "include/Scenes/SceneChangeRequest.h"
 #include "include/Graphics/Color.h"
-#include "include/Graphics/Graphics.h"
+//#include "include/Graphics/Graphics.h"
 #include "include/Scene/GameSceneType.h"
+#include "include/Renderer/Renderer.h"
 
-void TestScene::Render(Graphics& graphics)
+void TestScene::Render(Renderer& renderer)
 {
     Color color{ 0.2f, 0.4f, 0.8f, 1.0f };
-    graphics.Render(color);
+    renderer.Draw();
 }
 
 void TestScene::Update()
