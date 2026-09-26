@@ -144,6 +144,7 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Source\Renderer\Mesh.cpp" />
     <ClCompile Include="Engine\Source\Renderer\Renderer.cpp" />
     <ClCompile Include="Engine\Source\Renderer\ShaderCompiler.cpp" />
     <ClCompile Include="Engine\Source\Scenes\SceneManager.cpp" />
@@ -160,8 +161,10 @@
   <ItemGroup>
     <ClInclude Include="Engine\Include\Graphics\Color.h" />
     <ClInclude Include="Engine\Include\Graphics\Graphics.h" />
+    <ClInclude Include="Engine\Include\Renderer\Mesh.h" />
     <ClInclude Include="Engine\Include\Renderer\Renderer.h" />
     <ClInclude Include="Engine\Include\Renderer\ShaderCompiler.h" />
+    <ClInclude Include="Engine\Include\Renderer\Vertex.h" />
     <ClInclude Include="Engine\Include\Scenes\ISceneFactory.h" />
     <ClInclude Include="Engine\Include\Scenes\Scene.h" />
     <ClInclude Include="Engine\Include\Scenes\SceneManager.h" />

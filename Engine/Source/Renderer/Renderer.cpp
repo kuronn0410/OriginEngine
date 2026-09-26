@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include <climits>
 #include <cstring>
+#include "Include/Renderer/Mesh.h"
 //#include <d3dx12.h>
 
 bool Renderer::Initialize(
@@ -39,11 +40,6 @@ bool Renderer::Initialize(
     }
     
     if (!CreatePipelineState(device, *vertexShader.Get(), *pixelShader.Get()))
-    {
-		return false;
-    }
-
-    if (!CreateVertexBuffer(device))
     {
 		return false;
     }
@@ -132,6 +128,7 @@ bool Renderer::CreatePipelineState(
 
     //⑤ Rasterizer
     psoDesc.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;
+    //psoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_BACK;
     psoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_BACK;
     psoDesc.RasterizerState.FrontCounterClockwise = FALSE;
     psoDesc.RasterizerState.DepthClipEnable = TRUE;
@@ -200,79 +197,14 @@ bool Renderer::CreatePipelineState(
 	return true;
 }
 
-bool Renderer::CreateVertexBuffer(ID3D12Device& device)
-{
-    //① Vertex構造体を用意
-    Vertex vertices[3] = {
-        { 0.0f, 0.5f, 0.0f },   // 上の頂点
-        { 0.5f, -0.5f, 0.0f },  // 右下の頂点
-        { -0.5f, -0.5f, 0.0f }  // 左下の頂点
-    };
-    // ② 必要なバッファサイズを計算
-    const UINT vertexBufferSize = sizeof(vertices);
-
-   // ③ VertexBuffer用のResourceを生成
-    D3D12_HEAP_PROPERTIES heapProperties = {};
-	heapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;
-
-    D3D12_RESOURCE_DESC resourceDesc = {};
-    resourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-    resourceDesc.Width = vertexBufferSize;
-    resourceDesc.Height = 1;
-    resourceDesc.DepthOrArraySize = 1;
-    resourceDesc.MipLevels = 1;
-    resourceDesc.SampleDesc.Count = 1;
-    resourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-
-    D3D12_RESOURCE_STATES initialState = D3D12_RESOURCE_STATE_GENERIC_READ;
-
-	HRESULT hr = device.CreateCommittedResource(
-        &heapProperties,
-        D3D12_HEAP_FLAG_NONE,
-        &resourceDesc,
-        initialState,
-        nullptr,
-		IID_PPV_ARGS(vertexBuffer_.GetAddressOf())
-	);
-    if (FAILED(hr))
-    {
-        return false;
-    }
-
-   // ④ Map
-    void* mappedData = nullptr;
-
-    hr = vertexBuffer_->Map(
-        0,
-        nullptr,
-        &mappedData
-    );
-
-    if (FAILED(hr))
-    {
-        return false;
-    }
-
-    // ⑤ verticesをコピー
-    std::memcpy(mappedData, vertices, sizeof(vertices));
-
-   // ⑥ Unmap
-    vertexBuffer_->Unmap(0, nullptr);
-
-    // ⑦ VertexBufferView
-    vertexBufferView_.BufferLocation = vertexBuffer_->GetGPUVirtualAddress();
-    vertexBufferView_.SizeInBytes = vertexBufferSize;
-    vertexBufferView_.StrideInBytes = sizeof(Vertex);
-	return true;
-}
-
 void Renderer::BeginFrame(ID3D12GraphicsCommandList* commandList)
 {
 	commandList_ = commandList;
 }
 
-void Renderer::Draw()
+void Renderer::Draw(Mesh& mesh)
 {
+     vertexBufferView_ = mesh.GetVertexBufferView();
   // ① RootSignatureを設定
       commandList_->SetGraphicsRootSignature(rootSignature_.Get());
   // ② PipelineStateを設定

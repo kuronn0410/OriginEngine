@@ -41,7 +41,7 @@ int WINAPI WinMain(
 		return -1;
     }
 
-    SceneManager sceneManager;
+    SceneManager sceneManager(graphics);
 
     SceneChangeRequest sceneRequest(sceneManager);
 

@@ -5,11 +5,19 @@
 #include "include/Scenes/SceneChangeRequest.h"
 #include "include/Renderer/Renderer.h"
 #include <Windows.h>//GetAsyncKeyState
+#include <cstdlib>
+
+bool TitleScene::Initialize(Graphics& graphics)
+{
+	mesh_.CreateVertexBuffer(*graphics.GetDevice(), vertices_, _countof(vertices_));
+	// 仮実装
+	return true;
+}
 
 void TitleScene::Render(Renderer& renderer)
 {
     //Color color{ 1.0f, 1.0f, 0.0f, 1.0f };
-    renderer.Draw();
+    renderer.Draw(mesh_);
 }
 
 void TitleScene::Update()

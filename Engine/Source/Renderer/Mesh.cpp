@@ -1,0 +1,69 @@
+#include "Include/Renderer/Mesh.h"
+#include <d3d12.h>
+#include <climits>
+#include <cstring>
+#include "Include/Renderer/Vertex.h"
+#include <wrl/client.h>
+#include <Windows.h>
+
+
+bool Mesh::CreateVertexBuffer(ID3D12Device& device, const Vertex* vertices, UINT vertexCount)
+{
+    //① Vertex構造体を用意
+    // ② 必要なバッファサイズを計算
+    const UINT vertexBufferSize = sizeof(Vertex) * vertexCount;
+
+    // ③ VertexBuffer用のResourceを生成
+    D3D12_HEAP_PROPERTIES heapProperties = {};
+    heapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;
+
+    D3D12_RESOURCE_DESC resourceDesc = {};
+    resourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+    resourceDesc.Width = vertexBufferSize;
+    resourceDesc.Height = 1;
+    resourceDesc.DepthOrArraySize = 1;
+    resourceDesc.MipLevels = 1;
+    resourceDesc.SampleDesc.Count = 1;
+    resourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+
+    D3D12_RESOURCE_STATES initialState = D3D12_RESOURCE_STATE_GENERIC_READ;
+
+    HRESULT hr = device.CreateCommittedResource(
+        &heapProperties,
+        D3D12_HEAP_FLAG_NONE,
+        &resourceDesc,
+        initialState,
+        nullptr,
+        IID_PPV_ARGS(vertexBuffer_.GetAddressOf())
+    );
+    if (FAILED(hr))
+    {
+        return false;
+    }
+
+    // ④ Map
+    void* mappedData = nullptr;
+
+    hr = vertexBuffer_->Map(
+        0,
+        nullptr,
+        &mappedData
+    );
+
+    if (FAILED(hr))
+    {
+        return false;
+    }
+
+    // ⑤ verticesをコピー
+    //std::memcpy(mappedData, vertices, sizeof(Vertex) * vertexCount);
+    std::memcpy(mappedData, vertices, vertexBufferSize);
+    // ⑥ Unmap
+    vertexBuffer_->Unmap(0, nullptr);
+
+    // ⑦ VertexBufferView
+    vertexBufferView_.BufferLocation = vertexBuffer_->GetGPUVirtualAddress();
+    vertexBufferView_.SizeInBytes = vertexBufferSize;
+    vertexBufferView_.StrideInBytes = sizeof(Vertex);
+    return true;
+}

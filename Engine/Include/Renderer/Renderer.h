@@ -2,14 +2,9 @@
 #include <d3d12.h>
 #include <wrl/client.h>
 #include <dxcapi.h>
+#include "Vertex.h"
 
-struct Vertex
-{
-    float x;
-    float y;
-    float z;
-};
-
+class Mesh;
 class ShaderCompiler;
 
 class Renderer
@@ -17,7 +12,7 @@ class Renderer
 public:
 	bool Initialize(ShaderCompiler& shaderCompiler, ID3D12Device& device);
 	void BeginFrame(ID3D12GraphicsCommandList* commandList);
-	void Draw();
+	void Draw(Mesh& mesh);
 	
 private:
 	bool CreateRootSignature(ID3D12Device& device);

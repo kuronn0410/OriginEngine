@@ -6,6 +6,7 @@
 void SceneManager::ChangeScene(std::unique_ptr<Scene> scene)
 {
     currentScene_ = std::move(scene);
+	currentScene_->Initialize(graphics_);
 }
 
 void SceneManager::Update()
