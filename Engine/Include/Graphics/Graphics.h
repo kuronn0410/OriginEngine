@@ -15,12 +15,13 @@ class Graphics
 public:
 	bool Initialize(HWND hwnd);
 	void Render(const Color& clearColor);// 1フレームの描画
-	void BeginFrame(const Color& clearColor);
+	void BeginFrame(const Color& clearColor, HWND hwnd);
 	void EndFrame();
 	bool Update();
 	bool Finalize();
 	/*----取得関数------*/
 	ID3D12GraphicsCommandList* GetCommandList() const { return commandList_.Get(); }
+	ID3D12Device* GetDevice() const { return device_.Get(); }
 private:
 	bool CreateFactory();//オブジェクトの生成の入り口
 	bool CreateAdapter();//使えるGPUを探す

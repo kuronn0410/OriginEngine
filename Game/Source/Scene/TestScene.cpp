@@ -10,7 +10,7 @@
 
 void TestScene::Render(Renderer& renderer)
 {
-    Color color{ 0.2f, 0.4f, 0.8f, 1.0f };
+    //Color color{ 0.2f, 0.4f, 0.8f, 1.0f };
     renderer.Draw();
 }
 

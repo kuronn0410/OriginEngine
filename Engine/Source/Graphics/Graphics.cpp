@@ -65,14 +65,7 @@ bool Graphics::Initialize(HWND hwnd)
 	return true;
 }
 
-void Graphics::Render(const Color& clearColor)
-{
-	BeginFrame(clearColor);
-
-	EndFrame();
-}
-
-void Graphics::BeginFrame(const Color& clearColor)
+void Graphics::BeginFrame(const Color& clearColor, HWND hwnd)
 {
 	// ① 現在のBackBuffer(描画する場所)番号取得
 	frameIndex_ = swapChain_->GetCurrentBackBufferIndex();
@@ -109,6 +102,43 @@ void Graphics::BeginFrame(const Color& clearColor)
 		FALSE,
 		nullptr
 	);
+	// ⑥ 描画先設定
+	commandList_->OMSetRenderTargets(
+		1,
+		&rtvHandle,
+		FALSE,
+		nullptr
+	);
+
+	// Viewport設定
+	RECT rect{};
+	GetClientRect(hwnd, &rect);
+
+	D3D12_VIEWPORT viewport = {};
+	viewport.TopLeftX = 0.0f;
+	viewport.TopLeftY = 0.0f;
+	viewport.Width = static_cast<float>(rect.right - rect.left);
+	viewport.Height = static_cast<float>(rect.bottom - rect.top);
+	viewport.MinDepth = 0.0f;
+	viewport.MaxDepth = 1.0f;
+
+	commandList_->RSSetViewports(
+		1,
+		&viewport
+	);
+
+	// ScissorRect設定
+	D3D12_RECT scissorRect = {};
+	scissorRect.left = 0;
+	scissorRect.top = 0;
+	scissorRect.right = rect.right - rect.left;
+	scissorRect.bottom = rect.bottom - rect.top;
+
+	commandList_->RSSetScissorRects(
+		1,
+		&scissorRect
+	);
+
 	// ⑦ 単色クリア
 	float color[4] =
 	{

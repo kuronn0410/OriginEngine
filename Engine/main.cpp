@@ -36,7 +36,7 @@ int WINAPI WinMain(
 		return -1;
 	}
 	Renderer renderer;
-    if (!renderer.Initialize(shaderCompiler))
+    if (!renderer.Initialize(shaderCompiler, *graphics.GetDevice()))
     {
 		return -1;
     }
@@ -65,7 +65,7 @@ int WINAPI WinMain(
         {
             sceneManager.Update();
 
-			graphics.BeginFrame(Color(0.0f, 0.0f, 0.0f, 1.0f));
+			graphics.BeginFrame(Color(0.0f, 0.0f, 0.0f, 1.0f), window.GetHwnd());
             renderer.BeginFrame(graphics.GetCommandList());
 			sceneManager.Render(renderer);
 			graphics.EndFrame();
