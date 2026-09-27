@@ -9,7 +9,7 @@
 
 bool Mesh::CreateVertexBuffer(ID3D12Device& device, const Vertex* vertices, UINT vertexCount)
 {
-    //① Vertex構造体を用意
+    //① Vertex構造体を引数
     // ② 必要なバッファサイズを計算
     const UINT vertexBufferSize = sizeof(Vertex) * vertexCount;
 

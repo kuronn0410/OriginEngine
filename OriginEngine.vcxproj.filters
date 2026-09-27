@@ -117,6 +117,9 @@
     <None Include="Engine\docs\Graphics\graphics-initialize.md" />
     <None Include="Engine\docs\Scene\Scene.md" />
     <None Include="Engine\docs\EngineStartupFlow.md" />
+    <None Include="Engine\docs\Renderer\mesh.md" />
+    <None Include="Engine\docs\Renderer\renderer.md" />
+    <None Include="Engine\docs\Renderer\rendering-flow.md" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\Shader\BasicVS.hlsl" />

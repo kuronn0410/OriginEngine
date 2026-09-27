@@ -198,6 +198,18 @@
       <SubType>
       </SubType>
     </None>
+    <None Include="Engine\docs\Renderer\mesh.md">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="Engine\docs\Renderer\renderer.md">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="Engine\docs\Renderer\rendering-flow.md">
+      <SubType>
+      </SubType>
+    </None>
     <None Include="Engine\docs\Scene\Scene.md">
       <SubType>
       </SubType>

@@ -122,7 +122,6 @@ bool Renderer::CreatePipelineState(
         D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA;
     inputElementDesc[0].InstanceDataStepRate = 0;
 
-
     psoDesc.InputLayout.pInputElementDescs = inputElementDesc;
     psoDesc.InputLayout.NumElements = _countof(inputElementDesc);
 
@@ -132,7 +131,6 @@ bool Renderer::CreatePipelineState(
     psoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_BACK;
     psoDesc.RasterizerState.FrontCounterClockwise = FALSE;
     psoDesc.RasterizerState.DepthClipEnable = TRUE;
-
 
     // //⑥ Blend
 	D3D12_BLEND_DESC blendDesc = {};
