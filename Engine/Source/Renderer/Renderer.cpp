@@ -8,7 +8,6 @@
 #include <dxgiformat.h>
 #include <cstdlib>
 #include <climits>
-#include <cstring>
 #include "Include/Renderer/Mesh.h"
 //#include <d3dx12.h>
 
@@ -101,17 +100,7 @@ bool Renderer::CreatePipelineState(
     IDxcBlob& vertexShader, 
     IDxcBlob& pixelShader)
 {
-    D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc = {};
-
-    // ① RootSignature
-    psoDesc.pRootSignature = rootSignature_.Get();
-     //② VertexShader
-    psoDesc.VS.pShaderBytecode = vertexShader.GetBufferPointer();
-    psoDesc.VS.BytecodeLength = vertexShader.GetBufferSize();
-     //③ PixelShader
-	psoDesc.PS.pShaderBytecode = pixelShader.GetBufferPointer();
-	psoDesc.PS.BytecodeLength = pixelShader.GetBufferSize();
-     //④ InputLayout
+    /*---D3D12_GRAPHICS_PIPELINE_STATE_DESCの設定に必要な情報の設定---*/
     D3D12_INPUT_ELEMENT_DESC inputElementDesc[1] = {};
     inputElementDesc[0].SemanticName = "POSITION";
     inputElementDesc[0].SemanticIndex = 0;
@@ -122,25 +111,14 @@ bool Renderer::CreatePipelineState(
         D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA;
     inputElementDesc[0].InstanceDataStepRate = 0;
 
-    psoDesc.InputLayout.pInputElementDescs = inputElementDesc;
-    psoDesc.InputLayout.NumElements = _countof(inputElementDesc);
-
-    //⑤ Rasterizer
-    psoDesc.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;
-    //psoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_BACK;
-    psoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_BACK;
-    psoDesc.RasterizerState.FrontCounterClockwise = FALSE;
-    psoDesc.RasterizerState.DepthClipEnable = TRUE;
-
-    // //⑥ Blend
-	D3D12_BLEND_DESC blendDesc = {};
+    D3D12_BLEND_DESC blendDesc = {};
     blendDesc.AlphaToCoverageEnable = FALSE;
     blendDesc.IndependentBlendEnable = FALSE;
 
     blendDesc.RenderTarget[0].BlendEnable = FALSE;
     blendDesc.RenderTarget[0].RenderTargetWriteMask =
         D3D12_COLOR_WRITE_ENABLE_ALL;
-   
+
 
     D3D12_RENDER_TARGET_BLEND_DESC& rtBlend =
         blendDesc.RenderTarget[0];
@@ -160,22 +138,40 @@ bool Renderer::CreatePipelineState(
 
     rtBlend.RenderTargetWriteMask =
         D3D12_COLOR_WRITE_ENABLE_ALL;
-    psoDesc.BlendState = blendDesc;
 
-    // // ⑦ DepthStencil
-     D3D12_DEPTH_STENCIL_DESC depthStencilDesc = {};
-	depthStencilDesc.DepthEnable = FALSE;// 深度バッファを使った奥行き判定を行う場合はTRUE
+    D3D12_DEPTH_STENCIL_DESC depthStencilDesc = {};
+    depthStencilDesc.DepthEnable = FALSE;// 深度バッファを使った奥行き判定を行う場合はTRUE
     depthStencilDesc.StencilEnable = FALSE;
-    psoDesc.DepthStencilState = depthStencilDesc;
 
+    /*---D3D12_GRAPHICS_PIPELINE_STATE_DESCの設定---*/
+    D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc = {};
+    // ① RootSignature
+    psoDesc.pRootSignature = rootSignature_.Get();
+     //② VertexShader
+    psoDesc.VS.pShaderBytecode = vertexShader.GetBufferPointer();
+    psoDesc.VS.BytecodeLength = vertexShader.GetBufferSize();
+     //③ PixelShader
+	psoDesc.PS.pShaderBytecode = pixelShader.GetBufferPointer();
+	psoDesc.PS.BytecodeLength = pixelShader.GetBufferSize();
+     //④ InputLayout
+    psoDesc.InputLayout.pInputElementDescs = inputElementDesc;
+    psoDesc.InputLayout.NumElements = _countof(inputElementDesc);
+    //⑤ Rasterizer
+    psoDesc.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;
+    //psoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_BACK;
+    psoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_BACK;
+    psoDesc.RasterizerState.FrontCounterClockwise = FALSE;
+    psoDesc.RasterizerState.DepthClipEnable = TRUE;
+    // //⑥ Blend
+    psoDesc.BlendState = blendDesc;
+    // // ⑦ DepthStencil
+    psoDesc.DepthStencilState = depthStencilDesc;
     //// ⑧ PrimitiveTopology
     psoDesc.PrimitiveTopologyType =
         D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
-
     // ⑨ RenderTarget
     psoDesc.NumRenderTargets = 1;
     psoDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
-
     // ⑩ Sample
     psoDesc.SampleMask = UINT_MAX;
     psoDesc.SampleDesc.Count = 1;
@@ -202,7 +198,7 @@ void Renderer::BeginFrame(ID3D12GraphicsCommandList* commandList)
 
 void Renderer::Draw(Mesh& mesh)
 {
-     vertexBufferView_ = mesh.GetVertexBufferView();
+    D3D12_VERTEX_BUFFER_VIEW view = mesh.GetVertexBufferView();
   // ① RootSignatureを設定
       commandList_->SetGraphicsRootSignature(rootSignature_.Get());
   // ② PipelineStateを設定
@@ -212,7 +208,7 @@ void Renderer::Draw(Mesh& mesh)
       commandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
   // ④ VertexBufferViewを設定
-      commandList_->IASetVertexBuffers(0, 1, &vertexBufferView_);
+      commandList_->IASetVertexBuffers(0, 1, &view);
 
   // ⑤ DrawInstancedで描画
 	  commandList_->DrawInstanced(3, 1, 0, 0);  
