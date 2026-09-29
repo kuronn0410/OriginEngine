@@ -6,18 +6,23 @@
 #include "include/Renderer/Renderer.h"
 #include <Windows.h>//GetAsyncKeyState
 #include <cstdlib>
+#include "include/Scene/GameResources.h"
+#include "include/Renderer/MeshHandle.h"
 
 bool TitleScene::Initialize(Graphics& graphics)
 {
-	mesh_.CreateVertexBuffer(*graphics.GetDevice(), vertices_, _countof(vertices_));
+    MeshHandle meshHandle1_ = gameResources_->enemyMesh;
+    object_.SetTransform({ 0.0f, 0.0f, 0.0f });
+    object_.SetMeshHandle(meshHandle1_);
+
+
 	// 仮実装
 	return true;
 }
 
 void TitleScene::Render(Renderer& renderer)
 {
-    //Color color{ 1.0f, 1.0f, 0.0f, 1.0f };
-    renderer.Draw(mesh_);
+    renderer.Draw(object_);
 }
 
 void TitleScene::Update()

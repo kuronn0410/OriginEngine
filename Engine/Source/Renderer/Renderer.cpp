@@ -9,6 +9,10 @@
 #include <cstdlib>
 #include <climits>
 #include "Include/Renderer/Mesh.h"
+#include "Include/Renderer/MeshHandle.h"
+#include "Include/Renderer/Object.h"
+#include "Include/Renderer/ResourceManager.h"
+#include "Include/Renderer/WorldTransform.h"
 //#include <d3dx12.h>
 
 bool Renderer::Initialize(
@@ -43,14 +47,26 @@ bool Renderer::Initialize(
 		return false;
     }
 
+    if(!CreateWorldConstantBuffer(device))
+    {
+
+		return false;
+    }
+
 	return true;
 }
 
 bool Renderer::CreateRootSignature(ID3D12Device& device)
 {
+    D3D12_ROOT_PARAMETER rootParameter = {};
+	rootParameter.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	rootParameter.Descriptor.ShaderRegister = 0;
+	rootParameter.ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+
+
     D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc = {};
-    rootSignatureDesc.NumParameters = 0;
-    rootSignatureDesc.pParameters = nullptr;
+    rootSignatureDesc.NumParameters = 1;
+    rootSignatureDesc.pParameters = &rootParameter;
     rootSignatureDesc.NumStaticSamplers = 0;
     rootSignatureDesc.pStaticSamplers = nullptr;
     rootSignatureDesc.Flags =
@@ -191,19 +207,99 @@ bool Renderer::CreatePipelineState(
 	return true;
 }
 
+bool Renderer::CreateWorldConstantBuffer(ID3D12Device& device)
+{
+    // ① ConstantBufferに必要なサイズを計算
+   // ※256byte境界に揃える
+    constexpr UINT MaxObjects = 100;
+
+     alignedWorldTransformSize_ =
+        (sizeof(WorldTransform) + 255) & ~255;
+
+    UINT bufferSize =
+        alignedWorldTransformSize_ * MaxObjects;
+
+   // ② HEAP_PROPERTIESを設定
+   // CPUから毎フレーム書き込みたいのでUPLOAD
+    D3D12_HEAP_PROPERTIES heapProperties = {};
+    heapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;
+
+   // ③ RESOURCE_DESCを設定
+   // BUFFERとして作る
+    D3D12_RESOURCE_DESC resourceDesc = {};
+    resourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+    resourceDesc.Width = bufferSize;
+    resourceDesc.Height = 1;
+    resourceDesc.DepthOrArraySize = 1;
+    resourceDesc.MipLevels = 1;
+    resourceDesc.SampleDesc.Count = 1;
+    resourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+    D3D12_RESOURCE_STATES initialState = D3D12_RESOURCE_STATE_GENERIC_READ;
+
+   // ④ CreateCommittedResourceでResource生成
+    HRESULT hr = device.CreateCommittedResource(
+        &heapProperties,
+        D3D12_HEAP_FLAG_NONE,
+        &resourceDesc,
+        initialState,
+        nullptr,
+        IID_PPV_ARGS(worldConstantBuffer_.GetAddressOf())
+    );
+    if (FAILED(hr))
+    {
+        return false;
+    }
+
+   // ⑤ MapしてCPUから書き込めるポインターを取得
+    void* mappedData = nullptr;
+    D3D12_RANGE readRange = { 0, 0 };
+    hr = worldConstantBuffer_->Map(
+        0,
+        &readRange,
+        &mappedData
+    );
+
+    if (FAILED(hr))
+    {
+        return false;
+    }
+
+	mappedWorldTransform_ = static_cast<WorldTransform*>(mappedData);
+
+	return true;
+}
+
 void Renderer::BeginFrame(ID3D12GraphicsCommandList* commandList)
 {
 	commandList_ = commandList;
+	drawCount_ = 0;
 }
 
-void Renderer::Draw(Mesh& mesh)
+void Renderer::Draw(const Object& object)
 {
-    D3D12_VERTEX_BUFFER_VIEW view = mesh.GetVertexBufferView();
+
+	const Mesh* mesh = resourceManager_->GetMesh(object.GetMeshHandle());
+    if (mesh == nullptr)
+    {
+        return;
+    }
+    D3D12_VERTEX_BUFFER_VIEW view = mesh->GetVertexBufferView();
+
+    UINT offset = drawCount_ * alignedWorldTransformSize_;
+    WorldTransform* current =
+        reinterpret_cast<WorldTransform*>(
+            reinterpret_cast<uint8_t*>(mappedWorldTransform_) + offset
+            );
+
+    current->world = object.GetWorldMatrix();
+    D3D12_GPU_VIRTUAL_ADDRESS gpuAddress =
+        worldConstantBuffer_->GetGPUVirtualAddress() + offset;
+
   // ① RootSignatureを設定
       commandList_->SetGraphicsRootSignature(rootSignature_.Get());
   // ② PipelineStateを設定
       commandList_->SetPipelineState(pipelineState_.Get());
-
+	  commandList_->SetGraphicsRootConstantBufferView(0, gpuAddress);
   // ③ PrimitiveTopologyを設定
       commandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
@@ -212,5 +308,6 @@ void Renderer::Draw(Mesh& mesh)
 
   // ⑤ DrawInstancedで描画
 	  commandList_->DrawInstanced(3, 1, 0, 0);  
+      ++drawCount_;
 }
 

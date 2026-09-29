@@ -8,7 +8,7 @@ class SceneChangeRequest;
 class ISceneFactory
 {
 public:
-	ISceneFactory(SceneChangeRequest& sceneRequest) :
+	ISceneFactory(SceneChangeRequest& sceneRequest):
 		sceneRequest_(sceneRequest)
 	{
 	}

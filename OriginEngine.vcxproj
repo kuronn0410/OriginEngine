@@ -144,8 +144,11 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Include\Math\MatrixMath.cpp" />
     <ClCompile Include="Engine\Source\Renderer\Mesh.cpp" />
+    <ClCompile Include="Engine\Source\Renderer\Object.cpp" />
     <ClCompile Include="Engine\Source\Renderer\Renderer.cpp" />
+    <ClCompile Include="Engine\Source\Renderer\ResourceManager.cpp" />
     <ClCompile Include="Engine\Source\Renderer\ShaderCompiler.cpp" />
     <ClCompile Include="Engine\Source\Scenes\SceneManager.cpp" />
     <ClCompile Include="Engine\main.cpp" />
@@ -161,10 +164,20 @@
   <ItemGroup>
     <ClInclude Include="Engine\Include\Graphics\Color.h" />
     <ClInclude Include="Engine\Include\Graphics\Graphics.h" />
+    <ClInclude Include="Engine\Include\Math\Matrix4x4.h" />
+    <ClInclude Include="Engine\Include\Math\MatrixMath.h" />
+    <ClInclude Include="Engine\Include\Math\Vector3.h" />
+    <ClInclude Include="Engine\Include\Renderer\IResourceRegistry.h" />
     <ClInclude Include="Engine\Include\Renderer\Mesh.h" />
+    <ClInclude Include="Engine\Include\Renderer\MeshHandle.h" />
+    <ClInclude Include="Engine\Include\Renderer\Object.h" />
     <ClInclude Include="Engine\Include\Renderer\Renderer.h" />
+    <ClInclude Include="Engine\Include\Renderer\ResourceManager.h" />
     <ClInclude Include="Engine\Include\Renderer\ShaderCompiler.h" />
+    <ClInclude Include="Engine\Include\Renderer\Transform.h" />
     <ClInclude Include="Engine\Include\Renderer\Vertex.h" />
+    <ClInclude Include="Engine\Include\Renderer\MeshData.h" />
+    <ClInclude Include="Engine\Include\Renderer\WorldTransform.h" />
     <ClInclude Include="Engine\Include\Scenes\ISceneFactory.h" />
     <ClInclude Include="Engine\Include\Scenes\Scene.h" />
     <ClInclude Include="Engine\Include\Scenes\SceneManager.h" />
@@ -172,6 +185,7 @@
     <ClInclude Include="Engine\Include\Window\Window.h" />
     <ClInclude Include="Engine\Include\Scenes\SceneChangeRequest.h" />
     <ClInclude Include="Game\GameMain.h" />
+    <ClInclude Include="Game\Include\Scene\GameResources.h" />
     <ClInclude Include="Game\Include\Scene\GameSceneFactory.h" />
     <ClInclude Include="Game\Include\Scene\GameSceneType.h" />
     <ClInclude Include="Game\Include\Scene\TestScene.h" />

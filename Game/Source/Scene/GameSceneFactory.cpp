@@ -13,11 +13,11 @@ std::unique_ptr<Scene> GameSceneFactory::CreateScene(SceneType type)
     switch (type)
     {
     case GameSceneType::Test:
-		scene = std::make_unique<TestScene>(sceneRequest_);
+		scene = std::make_unique<TestScene>(sceneRequest_, gameResources_);
         break;
 
     case GameSceneType::Title:
-		scene = std::make_unique<TitleScene>(sceneRequest_);
+		scene = std::make_unique<TitleScene>(sceneRequest_, gameResources_);
         break;
 
     case GameSceneType::Game:

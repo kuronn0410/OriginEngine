@@ -1,15 +1,16 @@
 #include "Include/Renderer/Mesh.h"
 #include <d3d12.h>
-#include <climits>
 #include <cstring>
 #include "Include/Renderer/Vertex.h"
 #include <wrl/client.h>
 #include <Windows.h>
+#include "include/Renderer/MeshData.h"
 
-
-bool Mesh::CreateVertexBuffer(ID3D12Device& device, const Vertex* vertices, UINT vertexCount)
+bool Mesh::CreateVertexBuffer(ID3D12Device& device,MeshData meshData)
 {
-    //① Vertex構造体を引数
+	//①受け取ったMeshDataをから必要なデータを取得
+    const Vertex* vertices = meshData.vertices.data();//保持するか考える
+    UINT vertexCount = static_cast<UINT>(meshData.vertices.size());
     // ② 必要なバッファサイズを計算
     const UINT vertexBufferSize = sizeof(Vertex) * vertexCount;
 

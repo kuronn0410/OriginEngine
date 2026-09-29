@@ -7,6 +7,7 @@
 #include "include/Renderer/ShaderCompiler.h"
 #include "include/Graphics/Color.h"
 #include "GameMain.h"
+#include "Include/Renderer/ResourceManager.h"
 #include <sal.h>
 
 int WINAPI WinMain(
@@ -40,16 +41,18 @@ int WINAPI WinMain(
     {
 		return -1;
     }
-
+    ResourceManager resourceManager(*graphics.GetDevice());
     SceneManager sceneManager(graphics);
 
     SceneChangeRequest sceneRequest(sceneManager);
 
     GameMain gameMain;
-    if (!gameMain.Initialize(sceneRequest))
+    if (!gameMain.Initialize(sceneRequest, resourceManager))
     {
         return -1;
     }
+
+    renderer.SetResourceManager(resourceManager);
 
 	// メッセージループ用
     MSG msg = {};

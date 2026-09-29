@@ -2,25 +2,24 @@
 #include "include/Scenes/Scene.h"
 #include "include/Renderer/Mesh.h"
 #include "include/Renderer/Vertex.h"
+#include "include/Renderer/Object.h"
 class SceneChangeRequest;
 class Renderer;
 class Graphics;
+class GameResources;
 
 class TitleScene : public Scene
 {
 public:
-    TitleScene(SceneChangeRequest& sceneRequest) :
-        Scene(sceneRequest)
+    TitleScene(SceneChangeRequest& sceneRequest,GameResources* gameResources) :
+        Scene(sceneRequest),
+        gameResources_(gameResources)
     {
     }
     bool Initialize(Graphics& graphics);
     void Update() override;
     void Render(Renderer& renderer) override;
 private:
-	Mesh mesh_;
-	Vertex vertices_[3] = {
-		{ 0.0f, 0.5f, 0.0f },   // 上の頂点
-		{ 0.5f, -0.5f, 0.0f },  // 右下の頂点
-		{ -0.5f, -0.5f, 0.0f }  // 左下の頂点
-	};// 三角形の頂点座標
+	Object object_;
+	GameResources* gameResources_ = nullptr;
 };
