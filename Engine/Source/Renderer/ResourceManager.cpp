@@ -13,7 +13,7 @@ MeshHandle ResourceManager::RegisterMesh(
 
 	auto mesh = std::make_unique<Mesh>();
 
-	if (!mesh->CreateVertexBuffer(device_, meshData))
+	if (!mesh->CreateBuffer(device_, meshData))
 	{
 		// 登録失敗
 		return MeshHandle{};

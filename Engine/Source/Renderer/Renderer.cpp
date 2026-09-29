@@ -7,9 +7,9 @@
 #include <dxcapi.h>
 #include <dxgiformat.h>
 #include <cstdlib>
+#include <cstdint>
 #include <climits>
 #include "Include/Renderer/Mesh.h"
-#include "Include/Renderer/MeshHandle.h"
 #include "Include/Renderer/Object.h"
 #include "Include/Renderer/ResourceManager.h"
 #include "Include/Renderer/WorldTransform.h"
@@ -277,14 +277,15 @@ void Renderer::BeginFrame(ID3D12GraphicsCommandList* commandList)
 
 void Renderer::Draw(const Object& object)
 {
-
 	const Mesh* mesh = resourceManager_->GetMesh(object.GetMeshHandle());
     if (mesh == nullptr)
     {
         return;
     }
     D3D12_VERTEX_BUFFER_VIEW view = mesh->GetVertexBufferView();
-
+	UINT vertexCount = mesh->GetVertexCount();
+    D3D12_INDEX_BUFFER_VIEW indexView = mesh->GetIndexBufferView();
+    UINT indexCount = mesh->GetIndexCount();
     UINT offset = drawCount_ * alignedWorldTransformSize_;
     WorldTransform* current =
         reinterpret_cast<WorldTransform*>(
@@ -305,9 +306,15 @@ void Renderer::Draw(const Object& object)
 
   // ④ VertexBufferViewを設定
       commandList_->IASetVertexBuffers(0, 1, &view);
-
-  // ⑤ DrawInstancedで描画
-	  commandList_->DrawInstanced(3, 1, 0, 0);  
+      commandList_->IASetIndexBuffer(&indexView);
+  // ⑤ DrawIndexedInstancedで描画
+      commandList_->DrawIndexedInstanced(
+          indexCount,
+          1,
+          0,
+          0,
+          0
+      );
       ++drawCount_;
 }
 

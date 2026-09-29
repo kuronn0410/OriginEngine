@@ -14,15 +14,24 @@ bool GameMain::Initialize(SceneChangeRequest& sceneRequest, ResourceManager& res
     /*---Meshの初期化---*/
     
     meshData1_.vertices = {
-    	{ 0.0f, 0.5f, 0.0f },   // 上の頂点
+    	{ 0.0f, 0.5f, 0.0f }, // 上の頂点
     	{ 0.5f, -0.5f, 0.0f },  // 右下の頂点
     	{ -0.5f, -0.5f, 0.0f }  // 左下の頂点
     };// 三角形の頂点座標
+    meshData1_.indices = {
+        0, 1, 2
+    };
     meshData2_.vertices = {
-        { 0.0f,  0.8f, 0.0f },   // 上
-        { 0.8f, -0.3f, 0.0f },   // 右下
-        {-0.3f, -0.6f, 0.0f }    // 左下
+        { { -0.5f,  0.5f, 0.0f } }, // 0 左上
+        { {  0.5f,  0.5f, 0.0f } }, // 1 右上
+        { {  0.5f, -0.5f, 0.0f } }, // 2 右下
+        { { -0.5f, -0.5f, 0.0f } }  // 3 左下
     };// 三角形の頂点座標
+
+    meshData2_.indices = {
+        0, 1, 2,
+        0, 2, 3
+    };
 
     gameResources_.playerMesh = resourceManager.RegisterMesh(meshData1_);
     gameResources_.enemyMesh = resourceManager.RegisterMesh(meshData2_);

@@ -23,11 +23,6 @@ public:
     void Update() override;
     void Render(Renderer& renderer) override;
 private:
-	//Mesh mesh_;
-	//Mesh mesh1_;
-
- //   MeshData meshData_;
- //   MeshData meshData1_;
 	Object object1_;
 	Object object2_;
 	GameResources* gameResources_ = nullptr;
