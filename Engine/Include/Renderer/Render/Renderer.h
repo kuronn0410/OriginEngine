@@ -3,6 +3,7 @@
 #include <wrl/client.h>
 #include <dxcapi.h>
 #include "include/Renderer/Render/WorldTransform.h"
+#include "include/Renderer/Camera/Camera.h"
 #include <cstdint>
 #include <Windows.h>
 
@@ -10,6 +11,7 @@ class Mesh;
 class ShaderCompiler;
 class Object;
 class ResourceManager;
+class Camera;
 
 class Renderer
 {
@@ -20,6 +22,10 @@ public:
 	void  SetResourceManager(ResourceManager& resourceManager)
 	{
 		resourceManager_ = &resourceManager;
+	}
+	void SetCamera(const Camera& camera)
+	{
+		camera_ = &camera;
 	}
 private:
 	bool CreateRootSignature(ID3D12Device& device);
@@ -38,4 +44,7 @@ private:
 	WorldTransform* mappedWorldTransform_ = nullptr;
 	uint32_t drawCount_ = 0;
 	UINT alignedWorldTransformSize_ = 0;
+
+	// カメラの参照を保持するためのポインタ
+	const Camera* camera_ = nullptr;
 };

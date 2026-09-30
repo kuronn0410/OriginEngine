@@ -1,6 +1,7 @@
 #pragma once
 #include "include/Scenes/Scene.h"
 #include "include/Renderer/Object/Object.h"
+#include "include/Renderer/Camera/Camera.h"
 
 class SceneChangeRequest;
 class Renderer;
@@ -22,5 +23,6 @@ public:
 private:
 	Object object1_;
 	Object object2_;
+	Camera camera_;
 	GameResources* gameResources_ = nullptr;
 };

@@ -1,6 +1,6 @@
-#include "Include/Renderer/Renderer.h"
+#include "Include/Renderer/Render/Renderer.h"
 #include <d3d12.h>
-#include "Include/Renderer/ShaderCompiler.h"
+#include "Include/Renderer/Render/ShaderCompiler.h"
 #include <wrl/client.h>
 #include <d3dcommon.h>
 #include <Windows.h>
@@ -9,10 +9,10 @@
 #include <cstdlib>
 #include <cstdint>
 #include <climits>
-#include "Include/Renderer/Mesh.h"
-#include "Include/Renderer/Object.h"
-#include "Include/Renderer/ResourceManager.h"
-#include "Include/Renderer/WorldTransform.h"
+#include "Include/Renderer/Mesh/Mesh.h"
+#include "Include/Renderer/Object/Object.h"
+#include "Include/Renderer/Resource/ResourceManager.h"
+#include "Include/Renderer/Render/WorldTransform.h"
 //#include <d3dx12.h>
 
 bool Renderer::Initialize(
@@ -287,6 +287,7 @@ void Renderer::Draw(const Object& object)
     D3D12_INDEX_BUFFER_VIEW indexView = mesh->GetIndexBufferView();
     UINT indexCount = mesh->GetIndexCount();
     UINT offset = drawCount_ * alignedWorldTransformSize_;
+
     WorldTransform* current =
         reinterpret_cast<WorldTransform*>(
             reinterpret_cast<uint8_t*>(mappedWorldTransform_) + offset

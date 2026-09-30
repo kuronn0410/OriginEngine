@@ -169,6 +169,7 @@
     <ClInclude Include="Engine\Include\Math\Matrix4x4.h" />
     <ClInclude Include="Engine\Include\Math\MatrixMath.h" />
     <ClInclude Include="Engine\Include\Math\Vector3.h" />
+    <ClInclude Include="Engine\Include\Renderer\Camera\CameraTransform.h" />
     <ClInclude Include="Engine\Include\Renderer\Resource\IResourceRegistry.h" />
     <ClInclude Include="Engine\Include\Renderer\Mesh\Mesh.h" />
     <ClInclude Include="Engine\Include\Renderer\Mesh\MeshHandle.h" />

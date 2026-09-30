@@ -86,6 +86,11 @@ Matrix4x4 MakeRotateZMatrix(float angle)
 }   
 
 /*
+   列1　列2　列3　列4
+行1[行1.列1]　[行1.列2]　[行1.列3]　[行1.列4]
+行2[行2.列1]　[行2.列2]　[行2.列3]　[行2.列4]
+行3[行3.列1]　[行3.列2]　[行3.列3]　[行3.列4]
+行4[行4.列1]　[行4.列2]　[行4.列3]　[行4.列4]
 Translate
 [           ][          ][          ][       ]
 [           ][          ][          ][       ]
@@ -102,6 +107,39 @@ Rotate
 [       ][       ][       ][       ]
 [       ][       ][       ][       ]
 */
+
+Matrix4x4 MakeInverseMatrix(const Matrix4x4& matrix)
+{
+    Matrix4x4 invers = MakeIdentityMatrix();//単一行列
+	Matrix4x4 useMatrix = matrix;//コピー
+    for(int i = 0; i < 4; i++)//行
+    {
+        float reciprocal = 1.0f / useMatrix.m[i][i];
+        for (int j = 0; j < 4; j++)//列
+        {
+			invers.m[i][j]*= reciprocal;
+            useMatrix.m[i][j]*= reciprocal;
+        }
+
+		for (int k = 0; k < 4; k++)//列
+        {
+            if(i == k)
+            { 
+				continue;
+            }
+            
+			float factor = useMatrix.m[k][i];
+			useMatrix.m[k][i] = 0.0f;
+            for (int l = 0; l < 4; l++)//行（）
+            {
+                useMatrix.m[k][l] -= factor * useMatrix.m[i][l];
+                invers.m[k][l] -= factor * invers.m[i][l];
+            }
+        }
+    }
+
+    return invers;
+}
 
 Matrix4x4 Multiply(
     const Matrix4x4& matrix1,

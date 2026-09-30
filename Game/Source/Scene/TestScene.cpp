@@ -29,12 +29,20 @@ bool TestScene::Initialize(Graphics& graphics)
         });
     object2_.SetMeshHandle(meshHandle2_);
 
+	camera_.SetTransform({
+		{ 0.0f, 0.0f, -5.0f },
+		{ 1.0f, 1.0f, 1.0f }
+		});
+
     // 仮実装
     return true;
 }
 
 void TestScene::Render(Renderer& renderer)
 {
+   renderer.SetCamera(camera_);
+
+
    renderer.Draw(object1_);
    renderer.Draw(object2_);
 }

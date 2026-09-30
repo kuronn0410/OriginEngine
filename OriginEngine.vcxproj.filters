@@ -155,6 +155,9 @@
     <ClInclude Include="Engine\Include\Renderer\Camera\Camera.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Include\Renderer\Camera\CameraTransform.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\docs\window-system.md" />
