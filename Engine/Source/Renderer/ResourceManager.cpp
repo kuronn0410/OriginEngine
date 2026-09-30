@@ -1,7 +1,7 @@
-#include "Include/Renderer/ResourceManager.h"
-#include "Include/Renderer/MeshHandle.h"
-#include "Include/Renderer/MeshData.h"
-#include "Include/Renderer/Mesh.h"
+#include "Include/Renderer/Resource/ResourceManager.h"
+#include "Include/Renderer/Mesh/MeshHandle.h"
+#include "Include/Renderer/Mesh/MeshData.h"
+#include "Include/Renderer/Mesh/Mesh.h"
 #include <memory>
 #include <cstdint>
 #include <utility>

@@ -1,13 +1,11 @@
 #include "include/Scene/TitleScene.h"
-#include "include/Graphics/Color.h"
 #include "include/Graphics/Graphics.h"
 #include "include/Scene/GameSceneType.h"
 #include "include/Scenes/SceneChangeRequest.h"
-#include "include/Renderer/Renderer.h"
+#include "include/Renderer/Render/Renderer.h"
 #include <Windows.h>//GetAsyncKeyState
-#include <cstdlib>
 #include "include/Scene/GameResources.h"
-#include "include/Renderer/MeshHandle.h"
+#include "include/Renderer/Mesh/MeshHandle.h"
 
 bool TitleScene::Initialize(Graphics& graphics)
 {

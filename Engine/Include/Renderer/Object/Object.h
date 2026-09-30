@@ -1,6 +1,6 @@
 #pragma once
-#include "MeshHandle.h"
-#include "Transform.h"
+#include "include/Renderer/Mesh/MeshHandle.h"
+#include "include/Renderer/Object/Transform.h"
 #include "include/Math/Matrix4x4.h"
 class Object
 {
@@ -14,6 +14,7 @@ public:
     Transform& GetTransform();
     const Transform& GetTransform() const;
 	Matrix4x4 GetWorldMatrix() const;
+
 private:
     MeshHandle meshHandle_;
     Transform transform_;

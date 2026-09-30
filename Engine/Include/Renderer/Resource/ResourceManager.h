@@ -1,8 +1,8 @@
 #pragma once
 #include "IResourceRegistry.h"
-#include "MeshData.h"
-#include "MeshHandle.h" 
-#include "Mesh.h"
+#include "include/Renderer/Mesh/MeshData.h"
+#include "include/Renderer/Mesh/MeshHandle.h" 
+#include "include/Renderer/Mesh/Mesh.h"
 #include <vector>
 #include <memory>
 #include <D3D12.h>

@@ -5,18 +5,28 @@
 #include "include/Scenes/SceneChangeRequest.h"
 #include "include/Graphics/Graphics.h"
 #include "include/Scene/GameSceneType.h"
-#include "include/Renderer/Renderer.h"
-#include "include/Renderer/MeshHandle.h"
+#include "include/Renderer/Render/Renderer.h"
+#include "include/Renderer/Mesh/MeshHandle.h"
 #include "include/Scene/GameResources.h"
 
 bool TestScene::Initialize(Graphics& graphics)
 {
 	MeshHandle meshHandle1_ = gameResources_->playerMesh;
-	object1_.SetTransform({ 0.7f, 0.0f, 0.0f });
+    object1_.SetTransform({
+        { 0.0f, 0.0f, 0.0f },
+        { 0.0f, 0.0f, 0.0f },
+        { 1.0f, 1.0f, 1.0f }
+    });
+
+    float z = object1_.GetTransform().rotation.z;
 	object1_.SetMeshHandle(meshHandle1_);
 
     MeshHandle meshHandle2_ = gameResources_->enemyMesh;
-    object2_.SetTransform({ 0.5f, 0.0f, 0.0f });
+    object2_.SetTransform({ 
+        { -0.8f, 0.3f, 0.0f },
+        { 0.0f, 0.0f, 0.0f },
+        { 0.5f, 0.3f, 1.0f } 
+        });
     object2_.SetMeshHandle(meshHandle2_);
 
     // 仮実装
@@ -31,6 +41,16 @@ void TestScene::Render(Renderer& renderer)
 
 void TestScene::Update()
 {
+
+    object1_.GetTransform().rotation.y += 0.5f;
+    object2_.GetTransform().rotation.y += 0.5f;
+
+	//object1_.GetTransform().rotation.z += 0.5f;
+	//object2_.GetTransform().rotation.z += 0.5f;
+
+	//object1_.GetTransform().scale.x += 0.01f;
+	//object2_.GetTransform().scale.x += 0.01f;
+
     if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
     {
         object2_.GetTransform().position.x += 0.01f;

@@ -145,6 +145,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Include\Math\MatrixMath.cpp" />
+    <ClCompile Include="Engine\Source\Renderer\Camera\Camera.cpp" />
     <ClCompile Include="Engine\Source\Renderer\Mesh.cpp" />
     <ClCompile Include="Engine\Source\Renderer\Object.cpp" />
     <ClCompile Include="Engine\Source\Renderer\Renderer.cpp" />
@@ -162,22 +163,23 @@
     <ClCompile Include="Game\Source\Scene\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Include\Renderer\Camera\Camera.h" />
     <ClInclude Include="Engine\Include\Graphics\Color.h" />
     <ClInclude Include="Engine\Include\Graphics\Graphics.h" />
     <ClInclude Include="Engine\Include\Math\Matrix4x4.h" />
     <ClInclude Include="Engine\Include\Math\MatrixMath.h" />
     <ClInclude Include="Engine\Include\Math\Vector3.h" />
-    <ClInclude Include="Engine\Include\Renderer\IResourceRegistry.h" />
-    <ClInclude Include="Engine\Include\Renderer\Mesh.h" />
-    <ClInclude Include="Engine\Include\Renderer\MeshHandle.h" />
-    <ClInclude Include="Engine\Include\Renderer\Object.h" />
-    <ClInclude Include="Engine\Include\Renderer\Renderer.h" />
-    <ClInclude Include="Engine\Include\Renderer\ResourceManager.h" />
-    <ClInclude Include="Engine\Include\Renderer\ShaderCompiler.h" />
-    <ClInclude Include="Engine\Include\Renderer\Transform.h" />
-    <ClInclude Include="Engine\Include\Renderer\Vertex.h" />
-    <ClInclude Include="Engine\Include\Renderer\MeshData.h" />
-    <ClInclude Include="Engine\Include\Renderer\WorldTransform.h" />
+    <ClInclude Include="Engine\Include\Renderer\Resource\IResourceRegistry.h" />
+    <ClInclude Include="Engine\Include\Renderer\Mesh\Mesh.h" />
+    <ClInclude Include="Engine\Include\Renderer\Mesh\MeshHandle.h" />
+    <ClInclude Include="Engine\Include\Renderer\Object\Object.h" />
+    <ClInclude Include="Engine\Include\Renderer\Render\Renderer.h" />
+    <ClInclude Include="Engine\Include\Renderer\Resource\ResourceManager.h" />
+    <ClInclude Include="Engine\Include\Renderer\Render\ShaderCompiler.h" />
+    <ClInclude Include="Engine\Include\Renderer\Object\Transform.h" />
+    <ClInclude Include="Engine\Include\Renderer\Mesh\Vertex.h" />
+    <ClInclude Include="Engine\Include\Renderer\Mesh\MeshData.h" />
+    <ClInclude Include="Engine\Include\Renderer\Render\WorldTransform.h" />
     <ClInclude Include="Engine\Include\Scenes\ISceneFactory.h" />
     <ClInclude Include="Engine\Include\Scenes\Scene.h" />
     <ClInclude Include="Engine\Include\Scenes\SceneManager.h" />

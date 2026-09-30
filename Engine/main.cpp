@@ -3,11 +3,11 @@
 #include "Include/Window/Window.h"
 #include "Include/Scenes/SceneManager.h"
 #include "include/Scenes/SceneChangeRequest.h"
-#include "include/Renderer/Renderer.h"
-#include "include/Renderer/ShaderCompiler.h"
+#include "include/Renderer/Render/Renderer.h"
+#include "include/Renderer/Render/ShaderCompiler.h"
 #include "include/Graphics/Color.h"
 #include "GameMain.h"
-#include "Include/Renderer/ResourceManager.h"
+#include "Include/Renderer/Resource/ResourceManager.h"
 #include <sal.h>
 
 int WINAPI WinMain(

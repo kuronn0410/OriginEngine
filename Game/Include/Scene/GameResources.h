@@ -1,5 +1,5 @@
 #pragma once
-#include "include/Renderer/MeshHandle.h"
+#include "include/Renderer/Mesh/MeshHandle.h"
 struct GameResources
 {
     MeshHandle playerMesh;

@@ -1,10 +1,10 @@
-#include "Include/Renderer/Mesh.h"
+#include "Include/Renderer/Mesh/Mesh.h"
 #include <d3d12.h>
 #include <cstring>
-#include "Include/Renderer/Vertex.h"
+#include "Include/Renderer/Mesh/Vertex.h"
 #include <wrl/client.h>
 #include <Windows.h>
-#include "include/Renderer/MeshData.h"
+#include "include/Renderer/Mesh/MeshData.h"
 #include <dxgiformat.h>
 
 

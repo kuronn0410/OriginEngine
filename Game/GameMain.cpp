@@ -6,7 +6,7 @@
 #include <utility>
 #include "include/Scene/GameResources.h"
 
-#include "include/Renderer/ResourceManager.h"
+#include "include/Renderer/Resource/ResourceManager.h"
 
 
 bool GameMain::Initialize(SceneChangeRequest& sceneRequest, ResourceManager& resourceManager)

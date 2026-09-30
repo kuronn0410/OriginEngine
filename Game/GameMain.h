@@ -3,7 +3,7 @@
 #include "include/Scene/GameSceneFactory.h"
 #include "include/Scenes/ISceneFactory.h"
 #include "include/Scene/GameResources.h"
-#include "include/Renderer/MeshData.h"
+#include "include/Renderer/Mesh/MeshData.h"
 class SceneChangeRequest;
 class ResourceManager;
 

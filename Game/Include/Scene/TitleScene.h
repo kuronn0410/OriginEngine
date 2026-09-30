@@ -1,8 +1,6 @@
 #pragma once
 #include "include/Scenes/Scene.h"
-#include "include/Renderer/Mesh.h"
-#include "include/Renderer/Vertex.h"
-#include "include/Renderer/Object.h"
+#include "include/Renderer/Object/Object.h"
 class SceneChangeRequest;
 class Renderer;
 class Graphics;

@@ -1,7 +1,7 @@
 #pragma once
 #include <d3d12.h>
 #include <wrl/client.h>
-#include "include/Renderer/MeshData.h"
+#include "include/Renderer/Mesh/MeshData.h"
 #include <Windows.h>
 
 class Mesh

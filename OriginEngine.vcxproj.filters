@@ -63,6 +63,9 @@
     <ClCompile Include="Engine\Source\Renderer\ResourceManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Source\Renderer\Camera\Camera.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Include\Window\Window.h">
@@ -104,22 +107,22 @@
     <ClInclude Include="Game\Include\Scene\GameSceneType.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Renderer\Renderer.h">
+    <ClInclude Include="Engine\Include\Renderer\Render\Renderer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Renderer\ShaderCompiler.h">
+    <ClInclude Include="Engine\Include\Renderer\Render\ShaderCompiler.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Renderer\Mesh.h">
+    <ClInclude Include="Engine\Include\Renderer\Mesh\Mesh.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Renderer\Vertex.h">
+    <ClInclude Include="Engine\Include\Renderer\Mesh\Vertex.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Include\Math\Vector3.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Renderer\MeshData.h">
+    <ClInclude Include="Engine\Include\Renderer\Mesh\MeshData.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Include\Math\Matrix4x4.h">
@@ -128,25 +131,28 @@
     <ClInclude Include="Engine\Include\Math\MatrixMath.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Renderer\IResourceRegistry.h">
+    <ClInclude Include="Engine\Include\Renderer\Resource\IResourceRegistry.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Renderer\ResourceManager.h">
+    <ClInclude Include="Engine\Include\Renderer\Resource\ResourceManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Renderer\MeshHandle.h">
+    <ClInclude Include="Engine\Include\Renderer\Mesh\MeshHandle.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Renderer\Object.h">
+    <ClInclude Include="Engine\Include\Renderer\Object\Object.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Renderer\Transform.h">
+    <ClInclude Include="Engine\Include\Renderer\Object\Transform.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Game\Include\Scene\GameResources.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Include\Renderer\WorldTransform.h">
+    <ClInclude Include="Engine\Include\Renderer\Render\WorldTransform.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Include\Renderer\Camera\Camera.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

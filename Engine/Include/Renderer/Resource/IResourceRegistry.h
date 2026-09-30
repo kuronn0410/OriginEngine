@@ -1,6 +1,6 @@
 #pragma once
-#include "MeshHandle.h"
-#include "MeshData.h"
+#include "include/Renderer/Mesh/MeshHandle.h"
+#include "include/Renderer/Mesh/MeshData.h"
 class IResourceRegistry
 {
 public:

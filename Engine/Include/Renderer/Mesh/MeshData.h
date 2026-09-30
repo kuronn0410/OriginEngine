@@ -1,6 +1,5 @@
 #pragma once
-#include "include/Math/Vector3.h"
-#include "include/Renderer/Vertex.h"
+#include "include/Renderer/Mesh/Vertex.h"
 #include <vector>
 #include <cstdint>
 /// <summary>
