@@ -12,7 +12,7 @@
 bool TestScene::Initialize(Graphics& graphics)
 {
 	/*------Objectの初期化------*/
-	MeshHandle meshHandle1_ = gameResources_->treeMesh;
+	MeshHandle meshHandle1_ = gameResources_->playerMesh;
     object1_.SetTransform({
 		{ 0.0f, -3.0f, 0.0f },//P
 		{ 0.0f, 0.0f, 0.0f },//R
@@ -22,10 +22,10 @@ bool TestScene::Initialize(Graphics& graphics)
     float z = object1_.GetTransform().rotation.z;
 	object1_.SetMeshHandle(meshHandle1_);
 
-    MeshHandle meshHandle2_ = gameResources_->enemyMesh;
+    MeshHandle meshHandle2_ = gameResources_->treeMesh;
     object2_.SetTransform({ 
-        { 0.0f, -3.0f, 0.8f },
-        { 0.0f, 0.0f, 0.0f },
+        { 0.0f, -0.9f, 0.8f },
+        { 0.0f, -10.0f, 0.0f },
         { 1.0f, 1.0f, 1.0f } 
         });
     object2_.SetMeshHandle(meshHandle2_);

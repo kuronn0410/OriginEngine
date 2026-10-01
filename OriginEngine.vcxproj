@@ -164,6 +164,7 @@
     <ClCompile Include="Game\Source\Scene\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Include\Math\Vector2.h" />
     <ClInclude Include="Engine\Include\Renderer\Camera\Camera.h" />
     <ClInclude Include="Engine\Include\Graphics\Color.h" />
     <ClInclude Include="Engine\Include\Graphics\Graphics.h" />
@@ -173,6 +174,7 @@
     <ClInclude Include="Engine\Include\Renderer\Camera\CameraTransform.h" />
     <ClInclude Include="Engine\Include\Renderer\Camera\ProjectionSettings.h" />
     <ClInclude Include="Engine\Include\Renderer\Model\ObjLoader.h" />
+    <ClInclude Include="Engine\Include\Renderer\Model\ObjVertexIndex.h" />
     <ClInclude Include="Engine\Include\Renderer\Resource\IResourceRegistry.h" />
     <ClInclude Include="Engine\Include\Renderer\Mesh\Mesh.h" />
     <ClInclude Include="Engine\Include\Renderer\Mesh\MeshHandle.h" />
@@ -254,7 +256,7 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
   </ItemGroup>
-    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
 </Project>

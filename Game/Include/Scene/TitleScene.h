@@ -1,6 +1,7 @@
 #pragma once
 #include "include/Scenes/Scene.h"
 #include "include/Renderer/Object/Object.h"
+#include "include/Renderer/Camera/Camera.h"
 class SceneChangeRequest;
 class Renderer;
 class Graphics;
@@ -19,5 +20,6 @@ public:
     void Render(Renderer& renderer) override;
 private:
 	Object object_;
+    Camera camera_;
 	GameResources* gameResources_ = nullptr;
 };

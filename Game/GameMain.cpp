@@ -35,9 +35,10 @@ bool GameMain::Initialize(SceneChangeRequest& sceneRequest, ResourceManager& res
         0, 2, 3
     };
 
-	gameResources_.treeMesh = resourceManager.RegisterMesh(meshData3_);
-    gameResources_.playerMesh = resourceManager.RegisterMesh(meshData1_);
-    gameResources_.enemyMesh = resourceManager.RegisterMesh(meshData2_);
+
+	gameResources_.playerMesh = resourceManager.RegisterMesh(meshData3_);
+    gameResources_.enemyMesh = resourceManager.RegisterMesh(meshData1_);
+    gameResources_.treeMesh = resourceManager.RegisterMesh(meshData2_);
     /*-----------------*/
 
     sceneFactory_ = std::make_unique<GameSceneFactory>(sceneRequest,&gameResources_);
