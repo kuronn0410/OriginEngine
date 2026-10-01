@@ -17,5 +17,6 @@ private:
 
 	MeshData meshData1_;
 	MeshData meshData2_;
+	MeshData meshData3_;
 	GameResources gameResources_;
 };

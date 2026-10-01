@@ -147,6 +147,7 @@
     <ClCompile Include="Engine\Include\Math\MatrixMath.cpp" />
     <ClCompile Include="Engine\Source\Renderer\Camera\Camera.cpp" />
     <ClCompile Include="Engine\Source\Renderer\Mesh.cpp" />
+    <ClCompile Include="Engine\Source\Renderer\Model\ObjLoader.cpp" />
     <ClCompile Include="Engine\Source\Renderer\Object.cpp" />
     <ClCompile Include="Engine\Source\Renderer\Renderer.cpp" />
     <ClCompile Include="Engine\Source\Renderer\ResourceManager.cpp" />
@@ -170,6 +171,8 @@
     <ClInclude Include="Engine\Include\Math\MatrixMath.h" />
     <ClInclude Include="Engine\Include\Math\Vector3.h" />
     <ClInclude Include="Engine\Include\Renderer\Camera\CameraTransform.h" />
+    <ClInclude Include="Engine\Include\Renderer\Camera\ProjectionSettings.h" />
+    <ClInclude Include="Engine\Include\Renderer\Model\ObjLoader.h" />
     <ClInclude Include="Engine\Include\Renderer\Resource\IResourceRegistry.h" />
     <ClInclude Include="Engine\Include\Renderer\Mesh\Mesh.h" />
     <ClInclude Include="Engine\Include\Renderer\Mesh\MeshHandle.h" />
@@ -251,7 +254,7 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
   </ItemGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
 </Project>

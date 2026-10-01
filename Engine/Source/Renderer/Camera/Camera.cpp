@@ -10,8 +10,25 @@ void Camera::SetTransform(const CameraTransform& transform)
 
 Matrix4x4 Camera::GetViewMatrix() const
 {
-    Matrix4x4 cameraWorld =
+    Matrix4x4 rotationMatrix =
+        MakeRotateMatrix(transform_.rotation);
+
+    Matrix4x4 translationMatrix =
         MakeTranslateMatrix(transform_.position);
 
+    Matrix4x4 cameraWorld =
+        Multiply(rotationMatrix, translationMatrix);
+
+
     return MakeInverseMatrix(cameraWorld);
+}
+
+Matrix4x4 Camera::GetProjectionMatrix() const
+{
+	return MakePerspectiveFovMatrix(
+		projectionSettings_.fov,
+		projectionSettings_.aspectRatio,
+		projectionSettings_.nearPlane,
+		projectionSettings_.farPlane
+	);
 }

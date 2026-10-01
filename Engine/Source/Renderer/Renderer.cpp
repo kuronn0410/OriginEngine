@@ -277,6 +277,10 @@ void Renderer::BeginFrame(ID3D12GraphicsCommandList* commandList)
 
 void Renderer::Draw(const Object& object)
 {
+    if (camera_ == nullptr)
+    {
+        return;
+    }
 	const Mesh* mesh = resourceManager_->GetMesh(object.GetMeshHandle());
     if (mesh == nullptr)
     {
@@ -294,6 +298,10 @@ void Renderer::Draw(const Object& object)
             );
 
     current->world = object.GetWorldMatrix();
+	current->view = camera_->GetViewMatrix();
+	current->projection = camera_->GetProjectionMatrix();
+
+
     D3D12_GPU_VIRTUAL_ADDRESS gpuAddress =
         worldConstantBuffer_->GetGPUVirtualAddress() + offset;
 

@@ -11,11 +11,12 @@
 
 bool TestScene::Initialize(Graphics& graphics)
 {
-	MeshHandle meshHandle1_ = gameResources_->playerMesh;
+	/*------Objectの初期化------*/
+	MeshHandle meshHandle1_ = gameResources_->treeMesh;
     object1_.SetTransform({
-        { 0.0f, 0.0f, 0.0f },
-        { 0.0f, 0.0f, 0.0f },
-        { 1.0f, 1.0f, 1.0f }
+		{ 0.0f, -3.0f, 0.0f },//P
+		{ 0.0f, 0.0f, 0.0f },//R
+        { 0.5f, 0.5f, 0.5f }//S
     });
 
     float z = object1_.GetTransform().rotation.z;
@@ -23,15 +24,23 @@ bool TestScene::Initialize(Graphics& graphics)
 
     MeshHandle meshHandle2_ = gameResources_->enemyMesh;
     object2_.SetTransform({ 
-        { -0.8f, 0.3f, 0.0f },
+        { 0.0f, -3.0f, 0.8f },
         { 0.0f, 0.0f, 0.0f },
-        { 0.5f, 0.3f, 1.0f } 
+        { 1.0f, 1.0f, 1.0f } 
         });
     object2_.SetMeshHandle(meshHandle2_);
 
+	/*--------Cameraの初期化----------*/
 	camera_.SetTransform({
 		{ 0.0f, 0.0f, -5.0f },
-		{ 1.0f, 1.0f, 1.0f }
+		{ 0.0f, 0.0f, 0.0f }//縦、横
+		});
+
+	camera_.SetProjectionSettings({
+		60.0f,//fov
+		1280.0f / 720.0f,//aspectRatio
+		0.1f,//nearPlane
+		100.0f//farPlane
 		});
 
     // 仮実装
@@ -49,34 +58,29 @@ void TestScene::Render(Renderer& renderer)
 
 void TestScene::Update()
 {
-
-    object1_.GetTransform().rotation.y += 0.5f;
-    object2_.GetTransform().rotation.y += 0.5f;
-
-	//object1_.GetTransform().rotation.z += 0.5f;
-	//object2_.GetTransform().rotation.z += 0.5f;
-
-	//object1_.GetTransform().scale.x += 0.01f;
-	//object2_.GetTransform().scale.x += 0.01f;
-
     if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
     {
-        object2_.GetTransform().position.x += 0.01f;
+        object1_.GetTransform().position.x += 0.01f;
     }
 
     if (GetAsyncKeyState(VK_LEFT) & 0x8000)
     {
-        object2_.GetTransform().position.x -= 0.01f;
+        object1_.GetTransform().position.x -= 0.01f;
     }
 
     if (GetAsyncKeyState(VK_UP) & 0x8000)
     {
-        object1_.GetTransform().position.y += 0.01f;
+        object1_.GetTransform().position.z += 0.01f;
     }
 
     if (GetAsyncKeyState(VK_DOWN) & 0x8000)
     {
-        object1_.GetTransform().position.y -= 0.01f;
+        object1_.GetTransform().position.z -= 0.01f;
+    }
+
+    if (GetAsyncKeyState(VK_SPACE) & 0x8000)
+    {
+        object1_.GetTransform().rotation.y += 0.5f;
     }
 
     if (GetAsyncKeyState('1') & 0x8000)

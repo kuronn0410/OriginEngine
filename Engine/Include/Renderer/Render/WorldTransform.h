@@ -4,4 +4,6 @@
 struct WorldTransform
 {
     Matrix4x4 world;
+    Matrix4x4 view;
+    Matrix4x4 projection;
 };

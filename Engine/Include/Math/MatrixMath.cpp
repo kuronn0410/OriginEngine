@@ -108,6 +108,29 @@ Rotate
 [       ][       ][       ][       ]
 */
 
+Matrix4x4 MakePerspectiveFovMatrix(
+    float fov,
+    float aspectRatio,
+    float nearPlane,
+    float farPlane
+)
+{
+    Matrix4x4 matrix{};
+    float radian =
+        fov * 3.14159265358979323846f / 180.0f;
+
+    float f = 1.0f / tanf(radian / 2.0f);
+
+    matrix.m[0][0] = f / aspectRatio;
+    matrix.m[1][1] = f;
+    matrix.m[2][2] = farPlane / (farPlane - nearPlane);
+    matrix.m[2][3] = 1.0f;
+    matrix.m[3][2] =
+        (-nearPlane * farPlane) / (farPlane - nearPlane);
+
+    return matrix;
+}
+
 Matrix4x4 MakeInverseMatrix(const Matrix4x4& matrix)
 {
     Matrix4x4 invers = MakeIdentityMatrix();//単一行列
