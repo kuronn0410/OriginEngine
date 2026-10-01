@@ -117,7 +117,7 @@ bool Renderer::CreatePipelineState(
     IDxcBlob& pixelShader)
 {
     /*---D3D12_GRAPHICS_PIPELINE_STATE_DESCの設定に必要な情報の設定---*/
-    D3D12_INPUT_ELEMENT_DESC inputElementDesc[1] = {};
+    D3D12_INPUT_ELEMENT_DESC inputElementDesc[3] = {};
     inputElementDesc[0].SemanticName = "POSITION";
     inputElementDesc[0].SemanticIndex = 0;
     inputElementDesc[0].Format = DXGI_FORMAT_R32G32B32_FLOAT;
@@ -126,6 +126,24 @@ bool Renderer::CreatePipelineState(
     inputElementDesc[0].InputSlotClass =
         D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA;
     inputElementDesc[0].InstanceDataStepRate = 0;
+
+    inputElementDesc[1].SemanticName = "TEXCOORD";
+    inputElementDesc[1].SemanticIndex = 0;
+    inputElementDesc[1].Format = DXGI_FORMAT_R32G32_FLOAT;
+    inputElementDesc[1].InputSlot = 0;
+    inputElementDesc[1].AlignedByteOffset = 12;
+    inputElementDesc[1].InputSlotClass =
+        D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA;
+    inputElementDesc[1].InstanceDataStepRate = 0;
+
+    inputElementDesc[2].SemanticName = "NORMAL";
+    inputElementDesc[2].SemanticIndex = 0;
+    inputElementDesc[2].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+    inputElementDesc[2].InputSlot = 0;
+    inputElementDesc[2].AlignedByteOffset = 20;
+    inputElementDesc[2].InputSlotClass =
+        D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA;
+    inputElementDesc[2].InstanceDataStepRate = 0;
 
     D3D12_BLEND_DESC blendDesc = {};
     blendDesc.AlphaToCoverageEnable = FALSE;

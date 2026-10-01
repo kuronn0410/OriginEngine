@@ -1,11 +1,15 @@
 struct VSInput
 {
     float3 position : POSITION;
+    float2 uv : TEXCOORD0;  
+    float3 normal : NORMAL;
 };
 
 struct VSOutput
 {
     float4 position : SV_POSITION;
+    float2 uv : TEXCOORD0;
+    float3 normal : NORMAL; 
 };
 
 cbuffer Transform : register(b0)
@@ -26,6 +30,9 @@ VSOutput main(VSInput input)
     position = mul(position, projection);
     
     output.position = position;
+    
+    output.uv = input.uv;
+    output.normal = input.normal;
 
     return output;
 }

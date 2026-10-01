@@ -13,7 +13,7 @@ bool GameMain::Initialize(SceneChangeRequest& sceneRequest, ResourceManager& res
 {
     /*---Meshの初期化---*/
 	ObjLoader objLoader;
-	meshData3_ = objLoader.Load("Assets/Resource/Try.obj");
+	meshData3_ = objLoader.Load("Assets/Resource/Try1.obj");
 
     meshData1_.vertices = {
     	{ 0.0f, 0.5f, 0.0f }, // 上の頂点
