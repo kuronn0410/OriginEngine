@@ -13,6 +13,7 @@ bool TitleScene::Initialize(Graphics& graphics)
     //1
     RenderObject renderObject1;
     renderObject1.mesh = gameResources_->playerMesh;
+    renderObject1.texture = gameResources_->backgroundTexture;
     renderObject1.transform = {
     { 0.0f, -3.0f, 0.0f },//P
     { 0.0f, 0.0f, 0.0f },//R

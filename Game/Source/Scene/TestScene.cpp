@@ -17,7 +17,7 @@ bool TestScene::Initialize(Graphics& graphics)
     renderObject1.texture = gameResources_->backgroundTexture;
     renderObject1.transform ={
 	{ 0.0f, -3.0f, 0.0f },//P
-	{ 0.0f, 0.0f, 0.0f },//R
+	{ 0.0f, 90.0f, 0.0f },//R
 	{ 0.5f, 0.5f, 0.5f }//S
 	};
     object1_.SetRenderObject(renderObject1);
