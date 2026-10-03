@@ -23,6 +23,7 @@ public:
 private:
 	Object object1_;
 	Object object2_;
+	Object object3_;
 	Camera camera_;
 	GameResources* gameResources_ = nullptr;
 };

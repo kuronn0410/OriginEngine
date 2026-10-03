@@ -15,6 +15,8 @@ class Graphics
 public:
 	bool Initialize(HWND hwnd);
 	void Render(const Color& clearColor);// 1フレームの描画
+	bool BeginInitializationCommands();
+	bool EndInitializationCommands();
 	void BeginFrame(const Color& clearColor, HWND hwnd);
 	void EndFrame();
 	bool Update();

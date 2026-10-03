@@ -31,6 +31,11 @@ int WINAPI WinMain(
         return -1;
     }
 
+    if (!graphics.BeginInitializationCommands())
+    {
+        return -1;
+    }
+
     ShaderCompiler shaderCompiler;
 	if (!shaderCompiler.Initialize())
 	{
@@ -60,7 +65,10 @@ int WINAPI WinMain(
     }
 
     renderer.SetResourceManager(resourceManager);
-
+    if (!graphics.EndInitializationCommands())
+    {
+        return -1;
+    }
 	// メッセージループ用
     MSG msg = {};
 

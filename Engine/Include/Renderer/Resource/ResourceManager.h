@@ -59,6 +59,12 @@ public:
 		return nullptr;
 	}
 
+	ID3D12DescriptorHeap* GetSRVHeap() const
+	{
+		return &srvHeap_;
+	}
+
+
 private:
     // MeshDataを反映して生成されたMeshを所有
     std::vector<std::unique_ptr<Mesh>> meshes_;

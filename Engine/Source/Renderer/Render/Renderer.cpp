@@ -58,17 +58,48 @@ bool Renderer::Initialize(
 
 bool Renderer::CreateRootSignature(ID3D12Device& device)
 {
-    D3D12_ROOT_PARAMETER rootParameter = {};
-	rootParameter.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
-	rootParameter.Descriptor.ShaderRegister = 0;
-	rootParameter.ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+    D3D12_DESCRIPTOR_RANGE range{};
+    range.RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+    range.NumDescriptors = 1;
+    range.BaseShaderRegister = 0; // t0
+    range.RegisterSpace = 0;
+    range.OffsetInDescriptorsFromTableStart =
+        D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+    D3D12_ROOT_DESCRIPTOR_TABLE table{};
+    table.NumDescriptorRanges = 1;
+    table.pDescriptorRanges = &range;
 
+    D3D12_ROOT_PARAMETER rootParameters[2] = {};
+	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	rootParameters[0].Descriptor.ShaderRegister = 0;
+    rootParameters[0].Descriptor.RegisterSpace = 0;
+	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+
+
+    rootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+	rootParameters[1].DescriptorTable = table;
+    rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+
+    D3D12_STATIC_SAMPLER_DESC samplerDesc{};
+    samplerDesc.Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;//ぼかし
+    samplerDesc.AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+    samplerDesc.AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+    samplerDesc.AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+    samplerDesc.MipLODBias = 0.0f;
+    samplerDesc.MaxAnisotropy = 1;
+    samplerDesc.ComparisonFunc = D3D12_COMPARISON_FUNC_ALWAYS;
+    samplerDesc.BorderColor = D3D12_STATIC_BORDER_COLOR_TRANSPARENT_BLACK;
+    samplerDesc.MinLOD = 0.0f;
+    samplerDesc.MaxLOD = D3D12_FLOAT32_MAX;
+    samplerDesc.ShaderRegister = 0; // s0
+    samplerDesc.RegisterSpace = 0;
+    samplerDesc.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 
     D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc = {};
-    rootSignatureDesc.NumParameters = 1;
-    rootSignatureDesc.pParameters = &rootParameter;
-    rootSignatureDesc.NumStaticSamplers = 0;
-    rootSignatureDesc.pStaticSamplers = nullptr;
+    rootSignatureDesc.NumParameters = 2;
+    rootSignatureDesc.pParameters = rootParameters;
+	rootSignatureDesc.NumStaticSamplers = 1;//画像のサンプラーを使う場合はここに設定する
+    rootSignatureDesc.pStaticSamplers = &samplerDesc;
     rootSignatureDesc.Flags =
         D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
@@ -295,19 +326,37 @@ void Renderer::BeginFrame(ID3D12GraphicsCommandList* commandList)
 
 void Renderer::Draw(const Object& object)
 {
+    /*----Objectから情報を取得----*/
+	const RenderObject& renderObject = object.GetRenderObject();
     if (camera_ == nullptr)
     {
         return;
     }
-	const Mesh* mesh = resourceManager_->GetMesh(object.GetMeshHandle());
+    //Meshの情報を取得
+	const Mesh* mesh = resourceManager_->GetMesh(renderObject.mesh);
     if (mesh == nullptr)
     {
         return;
     }
     D3D12_VERTEX_BUFFER_VIEW view = mesh->GetVertexBufferView();
-	UINT vertexCount = mesh->GetVertexCount();
+    UINT vertexCount = mesh->GetVertexCount();
     D3D12_INDEX_BUFFER_VIEW indexView = mesh->GetIndexBufferView();
     UINT indexCount = mesh->GetIndexCount();
+
+	//Textureの情報を取得
+	const Texture* texture = resourceManager_->GetTexture(renderObject.texture);
+    if (texture == nullptr)
+    {
+        return;
+    }
+
+    ID3D12DescriptorHeap* heaps[] =
+    {
+        resourceManager_->GetSRVHeap()
+    };
+
+    
+    
     UINT offset = drawCount_ * alignedWorldTransformSize_;
 
     WorldTransform* current =
@@ -323,18 +372,16 @@ void Renderer::Draw(const Object& object)
     D3D12_GPU_VIRTUAL_ADDRESS gpuAddress =
         worldConstantBuffer_->GetGPUVirtualAddress() + offset;
 
-  // ① RootSignatureを設定
+	// コマンドリストの設定
+      commandList_->SetDescriptorHeaps(1,heaps);
       commandList_->SetGraphicsRootSignature(rootSignature_.Get());
-  // ② PipelineStateを設定
       commandList_->SetPipelineState(pipelineState_.Get());
 	  commandList_->SetGraphicsRootConstantBufferView(0, gpuAddress);
-  // ③ PrimitiveTopologyを設定
+      commandList_->SetGraphicsRootDescriptorTable(1,texture->GetGPUHandle());
       commandList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-  // ④ VertexBufferViewを設定
       commandList_->IASetVertexBuffers(0, 1, &view);
       commandList_->IASetIndexBuffer(&indexView);
-  // ⑤ DrawIndexedInstancedで描画
+      //DrawIndexedInstancedで描画
       commandList_->DrawIndexedInstanced(
           indexCount,
           1,

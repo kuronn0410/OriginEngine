@@ -5,9 +5,11 @@ struct VSOutput
     float3 normal : NORMAL;
 };
 
+Texture2D texture0 : register(t0);
+SamplerState sampler0 : register(s0);
 
 float4 main(VSOutput input) : SV_TARGET
 {
-    return float4(input.uv.x, input.uv.y, 0.0f, 1.0f);
+    return texture0.Sample(sampler0, input.uv);
     //return float4(input.normal.x, input.normal.y, input.normal.z, 1.0f);
 }

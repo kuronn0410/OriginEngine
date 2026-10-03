@@ -45,7 +45,12 @@ bool Texture::CreateTextureResource(
 	resourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
 	resourceDesc.Width = data.width;
 	resourceDesc.Height = data.height;
+	resourceDesc.DepthOrArraySize = 1;
+	resourceDesc.MipLevels = 1;
 	resourceDesc.Format = data.format;
+	resourceDesc.SampleDesc.Count = 1;
+	resourceDesc.Layout = D3D12_TEXTURE_LAYOUT_UNKNOWN;
+	resourceDesc.Flags = D3D12_RESOURCE_FLAG_NONE;
 
 	HRESULT hr = device.CreateCommittedResource(
 		&heapProperties,
@@ -92,6 +97,7 @@ bool Texture::CreateUploadBuffer(
    // UPLOAD Heap を作る
 	D3D12_HEAP_PROPERTIES heapProperties = {};
 	heapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;
+
    // BUFFER用の D3D12_RESOURCE_DESC を作る
 	D3D12_RESOURCE_DESC resourceDesc = {};
 	resourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;

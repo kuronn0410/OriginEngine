@@ -8,4 +8,5 @@ struct GameResources
     MeshHandle treeMesh;
 
 	TextureHandle backgroundTexture;
+	TextureHandle baseTexture;
 };

@@ -68,6 +68,78 @@ bool Graphics::Initialize(HWND hwnd)
 
 	return true;
 }
+bool Graphics::BeginInitializationCommands()
+{
+	HRESULT hr = commandAllocator_->Reset();
+	if (FAILED(hr))
+	{
+		return false;
+	}
+
+	hr = commandList_->Reset(
+		commandAllocator_.Get(),
+		nullptr
+	);
+
+	if (FAILED(hr))
+	{
+		return false;
+	}
+
+	return true;
+}
+bool Graphics::EndInitializationCommands()
+{
+	 //⑨ CommandList Close
+	HRESULT cmhr = commandList_->Close();
+
+	if (FAILED(cmhr))
+	{
+		return false;
+	}
+	// ⑩ ExecuteCommandLists
+	ID3D12CommandList* commandLists[] =
+	{
+		commandList_.Get()
+	};
+
+	commandQueue_->ExecuteCommandLists(
+		1,
+		commandLists
+	);
+
+	++fenceValue_;
+
+	HRESULT hr = commandQueue_->Signal(
+		fence_.Get(),
+		fenceValue_
+	);
+
+	if (FAILED(hr))
+	{
+		return false;
+	}
+
+	if (fence_->GetCompletedValue() < fenceValue_)//GPUがまだ今回の処理を終えていないなら待つ
+	{
+		hr = fence_->SetEventOnCompletion(
+			fenceValue_,
+			fenceEvent_
+		);
+
+		if (FAILED(hr))
+		{
+			return false;
+		}
+
+		WaitForSingleObject(
+			fenceEvent_,
+			INFINITE
+		);
+	}
+
+	return true;
+}
 
 void Graphics::BeginFrame(const Color& clearColor, HWND hwnd)
 {

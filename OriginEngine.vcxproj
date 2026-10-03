@@ -179,6 +179,7 @@
     <ClInclude Include="Engine\Include\Renderer\Camera\ProjectionSettings.h" />
     <ClInclude Include="Engine\Include\Renderer\Model\ObjLoader.h" />
     <ClInclude Include="Engine\Include\Renderer\Model\ObjVertexIndex.h" />
+    <ClInclude Include="Engine\Include\Renderer\Object\RenderObject.h" />
     <ClInclude Include="Engine\Include\Renderer\Resource\IResourceRegistry.h" />
     <ClInclude Include="Engine\Include\Renderer\Mesh\Mesh.h" />
     <ClInclude Include="Engine\Include\Renderer\Mesh\MeshHandle.h" />

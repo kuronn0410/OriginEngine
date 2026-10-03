@@ -1,21 +1,22 @@
 #pragma once
 #include "include/Renderer/Mesh/MeshHandle.h"
 #include "include/Renderer/Object/Transform.h"
+
+#include "include/Renderer/Texture/TextureHandle.h"
 #include "include/Math/Matrix4x4.h"
+#include "include/Renderer/Object/RenderObject.h"
+
 class Object
 {
 public:
     /*初期化*/
-    void SetMeshHandle(MeshHandle meshHandle);
-    void SetTransform(const Transform& transform);
+    void SetRenderObject(const RenderObject& renderObject);
 
     /*取得*/
-    const MeshHandle& GetMeshHandle() const;
-    Transform& GetTransform();
-    const Transform& GetTransform() const;
 	Matrix4x4 GetWorldMatrix() const;
-
+    
+	const RenderObject& GetRenderObject()const;
+	RenderObject& GetRenderObject();
 private:
-    MeshHandle meshHandle_;
-    Transform transform_;
+    RenderObject renderObject_;
 };

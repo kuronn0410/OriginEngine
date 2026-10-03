@@ -200,6 +200,9 @@
     <ClInclude Include="Engine\Include\Renderer\Texture\TextureUploadData.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Include\Renderer\Object\RenderObject.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\docs\window-system.md" />

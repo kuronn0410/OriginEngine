@@ -6,18 +6,19 @@
 #include <Windows.h>//GetAsyncKeyState
 #include "include/Scene/GameResources.h"
 #include "include/Renderer/Mesh/MeshHandle.h"
+#include "include/Renderer/Object/RenderObject.h"
 
 bool TitleScene::Initialize(Graphics& graphics)
 {
-    MeshHandle meshHandle1_ = gameResources_->playerMesh;
-    object_.SetTransform({
-        { 0.0f, -3.0f, 0.0f },//P
-        { 0.0f, 0.0f, 0.0f },//R
-        { 0.5f, 0.5f, 0.5f }//S
-        });
-
-    float z = object_.GetTransform().rotation.z;
-    object_.SetMeshHandle(meshHandle1_);
+    //1
+    RenderObject renderObject1;
+    renderObject1.mesh = gameResources_->playerMesh;
+    renderObject1.transform = {
+    { 0.0f, -3.0f, 0.0f },//P
+    { 0.0f, 0.0f, 0.0f },//R
+    { 0.5f, 0.5f, 0.5f }//S
+    };
+    object_.SetRenderObject(renderObject1);
 
 
     /*--------Cameraの初期化----------*/
@@ -39,6 +40,7 @@ bool TitleScene::Initialize(Graphics& graphics)
 void TitleScene::Render(Renderer& renderer)
 {
 	renderer.SetCamera(camera_);
+
     renderer.Draw(object_);
 }
 

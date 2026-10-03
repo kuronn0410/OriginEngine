@@ -4,37 +4,41 @@
 #include "include/Renderer/Mesh/MeshHandle.h"
 #include "include/Renderer/Object/Transform.h"
 
-void Object::SetTransform(const Transform& transform)
+//const MeshHandle& Object::GetMeshHandle() const
+//{
+//    return renderObject_.mesh;
+//}
+//
+//Transform& Object::GetTransform()
+//{
+//    return renderObject_.transform;
+//}
+//
+//const Transform& Object::GetTransform() const
+//{
+//    return renderObject_.transform;
+//}
+
+void Object::SetRenderObject(const RenderObject& renderObject)
 {
-    transform_ = transform;
+	renderObject_ = renderObject;
 }
 
-void Object::SetMeshHandle(MeshHandle meshHandle)
+const RenderObject& Object::GetRenderObject() const
 {
-    meshHandle_ = meshHandle;
+	return renderObject_;
 }
 
-const MeshHandle& Object::GetMeshHandle() const
+RenderObject& Object::GetRenderObject()
 {
-    return meshHandle_;
+	return renderObject_;
 }
-
-Transform& Object::GetTransform()
-{
-    return transform_;
-}
-
-const Transform& Object::GetTransform() const
-{
-    return transform_;
-}
-
 Matrix4x4 Object::GetWorldMatrix() const
 {
 
-	Matrix4x4 translationMatrix = MakeTranslateMatrix(transform_.position);
-	Matrix4x4 scaleMatrix = MakeScaleMatrix(transform_.scale);
-	Matrix4x4 rotationMatrix = MakeRotateMatrix(transform_.rotation);
+	Matrix4x4 translationMatrix = MakeTranslateMatrix(renderObject_.transform.position);
+	Matrix4x4 scaleMatrix = MakeScaleMatrix(renderObject_.transform.scale);
+	Matrix4x4 rotationMatrix = MakeRotateMatrix(renderObject_.transform.rotation);
     Matrix4x4 world = Multiply(scaleMatrix, rotationMatrix);
 	world = Multiply(world, translationMatrix);
 	return world;

@@ -29,6 +29,7 @@ bool GameMain::Initialize(SceneChangeRequest& sceneRequest, ResourceManager& res
     };
 
 	gameResources_.backgroundTexture = resourceManager.RegisterTexture("Assets/Resource/Try.png");
+	gameResources_.baseTexture = resourceManager.RegisterTexture("Assets/Resource/Try1.png");
 	gameResources_.playerMesh = resourceManager.RegisterMesh(meshData3_);
     gameResources_.enemyMesh = resourceManager.RegisterMesh(meshData1_);
     gameResources_.treeMesh = resourceManager.RegisterMesh(meshData2_);
