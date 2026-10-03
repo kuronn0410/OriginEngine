@@ -17,7 +17,7 @@ private:
 	bool CreateVertexBuffer(ID3D12Device& device, const MeshData& meshData);
 	bool CreateIndexBuffer(ID3D12Device& device, const MeshData& meshData);
 	Microsoft::WRL::ComPtr<ID3D12Resource> vertexBuffer_;
-	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_;
+	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_{};
 
 	Microsoft::WRL::ComPtr<ID3D12Resource> indexBuffer_;
 	D3D12_INDEX_BUFFER_VIEW indexBufferView_{};

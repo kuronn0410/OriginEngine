@@ -41,7 +41,14 @@ int WINAPI WinMain(
     {
 		return -1;
     }
-    ResourceManager resourceManager(*graphics.GetDevice());
+    ResourceManager resourceManager(
+        *graphics.GetDevice(),
+		*graphics.GetCommandList(),
+		*graphics.GetSRVHeap(),
+		graphics.GetSRVDescriptorSize(),
+		graphics.GetMaxSRVCount()
+    );
+
     SceneManager sceneManager(graphics);
 
     SceneChangeRequest sceneRequest(sceneManager);

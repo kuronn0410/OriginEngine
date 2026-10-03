@@ -15,14 +15,7 @@ bool GameMain::Initialize(SceneChangeRequest& sceneRequest, ResourceManager& res
 	ObjLoader objLoader;
 	meshData3_ = objLoader.Load("Assets/Resource/Try1.obj");
 
-    meshData1_.vertices = {
-    	{ 0.0f, 0.5f, 0.0f }, // 上の頂点
-    	{ 0.5f, -0.5f, 0.0f },  // 右下の頂点
-    	{ -0.5f, -0.5f, 0.0f }  // 左下の頂点
-    };// 三角形の頂点座標
-    meshData1_.indices = {
-        0, 1, 2
-    };
+    meshData1_ = objLoader.Load("Assets/Resource/Try.obj");
     meshData2_.vertices = {
         { { -0.5f,  0.5f, 0.0f } }, // 0 左上
         { {  0.5f,  0.5f, 0.0f } }, // 1 右上
@@ -35,7 +28,7 @@ bool GameMain::Initialize(SceneChangeRequest& sceneRequest, ResourceManager& res
         0, 2, 3
     };
 
-
+	gameResources_.backgroundTexture = resourceManager.RegisterTexture("Assets/Resource/Try.png");
 	gameResources_.playerMesh = resourceManager.RegisterMesh(meshData3_);
     gameResources_.enemyMesh = resourceManager.RegisterMesh(meshData1_);
     gameResources_.treeMesh = resourceManager.RegisterMesh(meshData2_);

@@ -49,6 +49,10 @@ bool Graphics::Initialize(HWND hwnd)
 	{
 		return false;
 	}
+	if(!CreateSRVHeap())
+	{ 
+		return false;
+	}
 	if (!CreateCommandAllocator())
 	{
 		return false;
@@ -447,6 +451,33 @@ bool Graphics::CreateRenderTargets()
 	return true;
 }
 
+bool Graphics::CreateSRVHeap()
+{
+	D3D12_DESCRIPTOR_HEAP_DESC desc = {};
+
+	desc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+	desc.NumDescriptors = kMaxSrvCount;
+	desc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+	desc.NodeMask = 0;
+
+
+	HRESULT hr = device_->CreateDescriptorHeap(
+		&desc,
+		IID_PPV_ARGS(srvHeap_.GetAddressOf())
+	);
+
+	if (FAILED(hr))
+	{
+		return false;
+	}
+
+	srvDescriptorSize_ =
+		device_->GetDescriptorHandleIncrementSize(
+			D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV
+		);
+
+	return true;
+}
 bool Graphics::CreateCommandAllocator()
 {
 	HRESULT hr = device_->CreateCommandAllocator(

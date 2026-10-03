@@ -22,6 +22,9 @@ public:
 	/*----取得関数------*/
 	ID3D12GraphicsCommandList* GetCommandList() const { return commandList_.Get(); }
 	ID3D12Device* GetDevice() const { return device_.Get(); }
+	ID3D12DescriptorHeap* GetSRVHeap() const{return srvHeap_.Get();}
+	UINT GetSRVDescriptorSize() const{return srvDescriptorSize_;}
+	UINT GetMaxSRVCount() const { return kMaxSrvCount; }
 private:
 	bool CreateFactory();//オブジェクトの生成の入り口
 	bool CreateAdapter();//使えるGPUを探す
@@ -30,6 +33,7 @@ private:
 	bool CreateSwapChain(HWND hwnd); // 描画する画像（BackBuffer）と、画面に表示する画像を切り替える仕組み
 	bool CreateRTVHeap();//RTV(Render Target View「このBackBufferを描画先として使う」という指定)を置くための場所を作れるようにする
 	bool CreateRenderTargets();//SwapChain が持っている各 BackBuffer を取得して、RTV Heap の各スロットに RTV を作る
+	bool CreateSRVHeap();//SRV(Shader Resource View「このTextureをShaderで使う」という指定)を置くための場所を作れるようにする
 	bool CreateCommandAllocator();
 	bool CreateCommandList();
 	bool CreateFence();
@@ -43,6 +47,10 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> rtvHeap_;
 	static constexpr UINT kFrameCount = 2;
 	Microsoft::WRL::ComPtr<ID3D12Resource> renderTargets_[kFrameCount];
+	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> srvHeap_;//SRV用のHeap
+	static constexpr UINT kMaxSrvCount = 256;
+	
+	
 	Microsoft::WRL::ComPtr<ID3D12CommandAllocator> commandAllocator_;
 	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList_;
 	Microsoft::WRL::ComPtr<ID3D12Fence> fence_;
@@ -54,4 +62,5 @@ private:
 	UINT frameIndex_ = 0;
 	UINT64 fenceValue_ = 0;
 	HANDLE fenceEvent_ = nullptr;
+	UINT srvDescriptorSize_ = 0;
 };

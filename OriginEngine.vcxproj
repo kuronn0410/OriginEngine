@@ -144,14 +144,17 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\External\stb\stb_image.cpp" />
     <ClCompile Include="Engine\Include\Math\MatrixMath.cpp" />
     <ClCompile Include="Engine\Source\Renderer\Camera\Camera.cpp" />
-    <ClCompile Include="Engine\Source\Renderer\Mesh.cpp" />
+    <ClCompile Include="Engine\Source\Renderer\Mesh\Mesh.cpp" />
     <ClCompile Include="Engine\Source\Renderer\Model\ObjLoader.cpp" />
-    <ClCompile Include="Engine\Source\Renderer\Object.cpp" />
-    <ClCompile Include="Engine\Source\Renderer\Renderer.cpp" />
-    <ClCompile Include="Engine\Source\Renderer\ResourceManager.cpp" />
-    <ClCompile Include="Engine\Source\Renderer\ShaderCompiler.cpp" />
+    <ClCompile Include="Engine\Source\Renderer\Object\Object.cpp" />
+    <ClCompile Include="Engine\Source\Renderer\Render\Renderer.cpp" />
+    <ClCompile Include="Engine\Source\Renderer\Resource\ResourceManager.cpp" />
+    <ClCompile Include="Engine\Source\Renderer\Render\ShaderCompiler.cpp" />
+    <ClCompile Include="Engine\Source\Renderer\Texture\Texture.cpp" />
+    <ClCompile Include="Engine\Source\Renderer\Texture\TextureLoader.cpp" />
     <ClCompile Include="Engine\Source\Scenes\SceneManager.cpp" />
     <ClCompile Include="Engine\main.cpp" />
     <ClCompile Include="Engine\Source\Graphics\Graphics.cpp" />
@@ -164,6 +167,7 @@
     <ClCompile Include="Game\Source\Scene\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\External\stb\stb_image.h" />
     <ClInclude Include="Engine\Include\Math\Vector2.h" />
     <ClInclude Include="Engine\Include\Renderer\Camera\Camera.h" />
     <ClInclude Include="Engine\Include\Graphics\Color.h" />
@@ -186,6 +190,11 @@
     <ClInclude Include="Engine\Include\Renderer\Mesh\Vertex.h" />
     <ClInclude Include="Engine\Include\Renderer\Mesh\MeshData.h" />
     <ClInclude Include="Engine\Include\Renderer\Render\WorldTransform.h" />
+    <ClInclude Include="Engine\Include\Renderer\Texture\Texture.h" />
+    <ClInclude Include="Engine\Include\Renderer\Texture\TextureData.h" />
+    <ClInclude Include="Engine\Include\Renderer\Texture\TextureHandle.h" />
+    <ClInclude Include="Engine\Include\Renderer\Texture\TextureLoader.h" />
+    <ClInclude Include="Engine\Include\Renderer\Texture\TextureUploadData.h" />
     <ClInclude Include="Engine\Include\Scenes\ISceneFactory.h" />
     <ClInclude Include="Engine\Include\Scenes\Scene.h" />
     <ClInclude Include="Engine\Include\Scenes\SceneManager.h" />
