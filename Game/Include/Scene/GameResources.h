@@ -6,7 +6,9 @@ struct GameResources
     MeshHandle playerMesh;
     MeshHandle enemyMesh;
     MeshHandle treeMesh;
+	MeshHandle CubeMesh;
 
 	TextureHandle backgroundTexture;
 	TextureHandle baseTexture;
+	TextureHandle groundTexture;
 };

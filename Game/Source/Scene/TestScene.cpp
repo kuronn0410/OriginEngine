@@ -35,12 +35,12 @@ bool TestScene::Initialize(Graphics& graphics)
 
     //3
 	RenderObject renderObject3;
-	renderObject3.texture = gameResources_->baseTexture;
-    renderObject3.mesh = gameResources_->treeMesh;
+	renderObject3.texture = gameResources_->groundTexture;
+    renderObject3.mesh = gameResources_->CubeMesh;
 	renderObject3.transform = {
-		{ 0.0f, 0.0f, -0.5f },//P
+		{ 0.0f, -3.0f, -0.5f },//P
 		{ 0.0f, 0.0f, 0.0f },//R
-		{ 0.5f, 0.5f, 0.5f }//S
+		{ 10.5f, 0.2f, 10.5f }//S
 	};
 	object3_.SetRenderObject(renderObject3);
 
@@ -68,6 +68,7 @@ void TestScene::Render(Renderer& renderer)
 
    renderer.Draw(object1_);
    renderer.Draw(object2_);
+   renderer.Draw(object3_);
 }
 
 void TestScene::Update()
@@ -75,22 +76,22 @@ void TestScene::Update()
     /*----Object1の更新------*/
     if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
     {
-        object1_.GetRenderObject().transform.position.x += 0.01f;
+        object1_.GetRenderObject().transform.position.x += 0.03f;
     }
 
     if (GetAsyncKeyState(VK_LEFT) & 0x8000)
     {
-        object1_.GetRenderObject().transform.position.x -= 0.01f;
+        object1_.GetRenderObject().transform.position.x -= 0.03f;
     }
 
     if (GetAsyncKeyState(VK_UP) & 0x8000)
     {
-        object1_.GetRenderObject().transform.position.z += 0.01f;
+        object1_.GetRenderObject().transform.position.z += 0.03f;
     }
 
     if (GetAsyncKeyState(VK_DOWN) & 0x8000)
     {
-        object1_.GetRenderObject().transform.position.z -= 0.01f;
+        object1_.GetRenderObject().transform.position.z -= 0.03f;
     }
 
     if (GetAsyncKeyState(VK_SPACE) & 0x8000)
@@ -100,19 +101,19 @@ void TestScene::Update()
     ///*----Object2の更新------*/
     if (GetAsyncKeyState('W') & 0x8000)
     {
-        object2_.GetRenderObject().transform.position.z += 0.01f;
+        object2_.GetRenderObject().transform.position.z += 0.03f;
     }
     if (GetAsyncKeyState('S') & 0x8000)
     {
-        object2_.GetRenderObject().transform.position.z -= 0.01f;
+        object2_.GetRenderObject().transform.position.z -= 0.03f;
     }
     if (GetAsyncKeyState('A') & 0x8000)
     {
-        object2_.GetRenderObject().transform.position.x -= 0.01f;
+        object2_.GetRenderObject().transform.position.x -= 0.03f;
     }
     if (GetAsyncKeyState('D') & 0x8000)
     {
-        object2_.GetRenderObject().transform.position.x += 0.01f;
+        object2_.GetRenderObject().transform.position.x += 0.03f;
     }
 
     if (GetAsyncKeyState(VK_SHIFT) & 0x8000)

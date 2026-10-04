@@ -13,26 +13,18 @@ bool GameMain::Initialize(SceneChangeRequest& sceneRequest, ResourceManager& res
 {
     /*---Meshの初期化---*/
 	ObjLoader objLoader;
-	meshData3_ = objLoader.Load("Assets/Resource/Try1.obj");
-
     meshData1_ = objLoader.Load("Assets/Resource/Try.obj");
-    meshData2_.vertices = {
-        { { -0.5f,  0.5f, 0.0f } }, // 0 左上
-        { {  0.5f,  0.5f, 0.0f } }, // 1 右上
-        { {  0.5f, -0.5f, 0.0f } }, // 2 右下
-        { { -0.5f, -0.5f, 0.0f } }  // 3 左下
-    };// 三角形の頂点座標
+	meshData2_ = objLoader.Load("Assets/Resource/Cube.obj");
+    meshData3_ = objLoader.Load("Assets/Resource/Try1.obj");
+    gameResources_.playerMesh = resourceManager.RegisterMesh(meshData3_);
+    gameResources_.enemyMesh = resourceManager.RegisterMesh(meshData1_);
+    gameResources_.CubeMesh = resourceManager.RegisterMesh(meshData2_);
 
-    meshData2_.indices = {
-        0, 1, 2,
-        0, 2, 3
-    };
 
+    /*--Textureの初期化---*/
 	gameResources_.backgroundTexture = resourceManager.RegisterTexture("Assets/Resource/Try.png");
 	gameResources_.baseTexture = resourceManager.RegisterTexture("Assets/Resource/Try1.png");
-	gameResources_.playerMesh = resourceManager.RegisterMesh(meshData3_);
-    gameResources_.enemyMesh = resourceManager.RegisterMesh(meshData1_);
-    gameResources_.treeMesh = resourceManager.RegisterMesh(meshData2_);
+	gameResources_.groundTexture = resourceManager.RegisterTexture("Assets/Resource/ground.png");
     /*-----------------*/
 
     sceneFactory_ = std::make_unique<GameSceneFactory>(sceneRequest,&gameResources_);
