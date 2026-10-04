@@ -1,23 +1,7 @@
 #include "include/Renderer/Object/Object.h"
 #include "include/Math/MatrixMath.h"
 #include "include/Math/Matrix4x4.h"
-#include "include/Renderer/Mesh/MeshHandle.h"
 #include "include/Renderer/Object/Transform.h"
-
-//const MeshHandle& Object::GetMeshHandle() const
-//{
-//    return renderObject_.mesh;
-//}
-//
-//Transform& Object::GetTransform()
-//{
-//    return renderObject_.transform;
-//}
-//
-//const Transform& Object::GetTransform() const
-//{
-//    return renderObject_.transform;
-//}
 
 void Object::SetRenderObject(const RenderObject& renderObject)
 {

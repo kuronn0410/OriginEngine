@@ -205,7 +205,14 @@ bool Renderer::CreatePipelineState(
         D3D12_COLOR_WRITE_ENABLE_ALL;
 
     D3D12_DEPTH_STENCIL_DESC depthStencilDesc = {};
-    depthStencilDesc.DepthEnable = FALSE;// 深度バッファを使った奥行き判定を行う場合はTRUE
+
+    depthStencilDesc.DepthEnable = TRUE;
+    depthStencilDesc.DepthWriteMask =
+        D3D12_DEPTH_WRITE_MASK_ALL;
+
+    depthStencilDesc.DepthFunc =
+        D3D12_COMPARISON_FUNC_LESS;
+
     depthStencilDesc.StencilEnable = FALSE;
 
     /*---D3D12_GRAPHICS_PIPELINE_STATE_DESCの設定---*/
@@ -231,6 +238,7 @@ bool Renderer::CreatePipelineState(
     psoDesc.BlendState = blendDesc;
     // // ⑦ DepthStencil
     psoDesc.DepthStencilState = depthStencilDesc;
+    psoDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;
     //// ⑧ PrimitiveTopology
     psoDesc.PrimitiveTopologyType =
         D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;

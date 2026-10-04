@@ -36,9 +36,13 @@ private:
 	bool CreateRTVHeap();//RTV(Render Target View「このBackBufferを描画先として使う」という指定)を置くための場所を作れるようにする
 	bool CreateRenderTargets();//SwapChain が持っている各 BackBuffer を取得して、RTV Heap の各スロットに RTV を作る
 	bool CreateSRVHeap();//SRV(Shader Resource View「このTextureをShaderで使う」という指定)を置くための場所を作れるようにする
+	bool CreateDSVHeap();
+	bool CreateDepthBuffer();
+	
 	bool CreateCommandAllocator();
 	bool CreateCommandList();
 	bool CreateFence();
+	
 
 	/*---------初期化-----------*/
 	Microsoft::WRL::ComPtr<IDXGIFactory6> factory_;
@@ -51,6 +55,9 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12Resource> renderTargets_[kFrameCount];
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> srvHeap_;//SRV用のHeap
 	static constexpr UINT kMaxSrvCount = 256;
+
+	Microsoft::WRL::ComPtr<ID3D12Resource> depthBuffer_;
+	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> dsvHeap_;
 	
 	
 	Microsoft::WRL::ComPtr<ID3D12CommandAllocator> commandAllocator_;
