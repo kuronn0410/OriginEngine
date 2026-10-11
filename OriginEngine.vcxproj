@@ -144,6 +144,7 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Editor\Source\SceneCodeGenerator.cpp" />
     <ClCompile Include="Engine\External\stb\stb_image.cpp" />
     <ClCompile Include="Engine\Include\Math\MatrixMath.cpp" />
     <ClCompile Include="Engine\Source\Renderer\Camera\Camera.cpp" />
@@ -167,6 +168,7 @@
     <ClCompile Include="Game\Source\Scene\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Editor\Include\SceneCodeGenerator.h" />
     <ClInclude Include="Engine\External\stb\stb_image.h" />
     <ClInclude Include="Engine\Include\Math\Vector2.h" />
     <ClInclude Include="Engine\Include\Renderer\Camera\Camera.h" />
@@ -210,6 +212,10 @@
     <ClInclude Include="Game\Include\Scene\TitleScene.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="docs\README.md">
+      <SubType>
+      </SubType>
+    </None>
     <None Include="Engine\docs\EngineStartupFlow.md">
       <SubType>
       </SubType>
@@ -230,6 +236,18 @@
       <SubType>
       </SubType>
     </None>
+    <None Include="Engine\docs\Renderer\3d\3DModel.md">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="Engine\docs\Renderer\3d\3dRendering.md">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="Engine\docs\Renderer\3d\3DSpace.md">
+      <SubType>
+      </SubType>
+    </None>
     <None Include="Engine\docs\Renderer\mesh.md">
       <SubType>
       </SubType>
@@ -239,6 +257,10 @@
       </SubType>
     </None>
     <None Include="Engine\docs\Renderer\rendering-flow.md">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="Engine\docs\Renderer\Texture.md">
       <SubType>
       </SubType>
     </None>

@@ -35,7 +35,12 @@ bool Window::Initialize(HINSTANCE hInstance)
 
 	if (!RegisterClass(&windowClass))// ウィンドウクラスの登録、メッセージの処理をする関数をOSに登録する
 	{
-		return false;
+		DWORD error = GetLastError();
+		if (error  != ERROR_CLASS_ALREADY_EXISTS)
+		{
+			return false;
+		}
+		
 	}
 
 
@@ -57,7 +62,7 @@ bool Window::Initialize(HINSTANCE hInstance)
 	{
 		return false;
 	}
-	this->hwnd = createHwnd;
+	this->hwnd_ = createHwnd;
 	Show();
 	return true;
 }
@@ -78,5 +83,5 @@ LRESULT CALLBACK Window::WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 
 void Window::Show()
 {
-	ShowWindow(this->hwnd, SW_SHOW);
+	ShowWindow(this->hwnd_, SW_SHOW);
 }

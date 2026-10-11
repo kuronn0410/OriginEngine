@@ -24,6 +24,11 @@ private:
 	Object object1_;
 	Object object2_;
 	Object object3_;
+	Object wallobject1_;
+	Object wallobject2_;
+	Object wallobject3_;
+	Object wallobject4_;
+	Object wallobject5_;
 	Camera camera_;
 	GameResources* gameResources_ = nullptr;
 };

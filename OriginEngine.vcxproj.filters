@@ -78,6 +78,9 @@
     <ClCompile Include="Engine\External\stb\stb_image.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Editor\Source\SceneCodeGenerator.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Include\Window\Window.h">
@@ -203,6 +206,9 @@
     <ClInclude Include="Engine\Include\Renderer\Object\RenderObject.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Editor\Include\SceneCodeGenerator.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\docs\window-system.md" />
@@ -216,6 +222,11 @@
     <None Include="Engine\docs\Renderer\mesh.md" />
     <None Include="Engine\docs\Renderer\renderer.md" />
     <None Include="Engine\docs\Renderer\rendering-flow.md" />
+    <None Include="Engine\docs\Renderer\3d\3dRendering.md" />
+    <None Include="Engine\docs\Renderer\Texture.md" />
+    <None Include="Engine\docs\Renderer\3d\3DSpace.md" />
+    <None Include="Engine\docs\Renderer\3d\3DModel.md" />
+    <None Include="docs\README.md" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\Shader\BasicVS.hlsl" />

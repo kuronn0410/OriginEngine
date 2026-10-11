@@ -11,4 +11,6 @@ struct GameResources
 	TextureHandle backgroundTexture;
 	TextureHandle baseTexture;
 	TextureHandle groundTexture;
+	TextureHandle rockTexture;
+	TextureHandle clearTexture;
 };

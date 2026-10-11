@@ -17,16 +17,20 @@ int WINAPI WinMain(
     _In_ int nCmdShow
 )
 {
-    Window window;
-    if (!window.Initialize(hInstance))
+    Window gamewindow;
+    if (!gamewindow.Initialize(hInstance))
     {
         return -1;
     }
 
-    
+	Window editorwindow;
+    if(!editorwindow.Initialize(hInstance))
+    {
+        return -1;
+    }
 
     Graphics graphics;
-    if (!graphics.Initialize(window.GetHwnd()))
+    if (!graphics.Initialize(gamewindow.GetHwnd()))
     {
         return -1;
     }
@@ -83,7 +87,7 @@ int WINAPI WinMain(
         {
             sceneManager.Update();
 
-			graphics.BeginFrame(Color(0.0f, 0.0f, 0.0f, 1.0f), window.GetHwnd());
+			graphics.BeginFrame(Color(0.0f, 0.0f, 0.0f, 1.0f), gamewindow.GetHwnd());
             renderer.BeginFrame(graphics.GetCommandList());
 			sceneManager.Render(renderer);
 			graphics.EndFrame();

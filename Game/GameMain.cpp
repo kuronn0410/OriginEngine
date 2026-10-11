@@ -25,6 +25,9 @@ bool GameMain::Initialize(SceneChangeRequest& sceneRequest, ResourceManager& res
 	gameResources_.backgroundTexture = resourceManager.RegisterTexture("Assets/Resource/Try.png");
 	gameResources_.baseTexture = resourceManager.RegisterTexture("Assets/Resource/Try1.png");
 	gameResources_.groundTexture = resourceManager.RegisterTexture("Assets/Resource/ground.png");
+	gameResources_.rockTexture = resourceManager.RegisterTexture("Assets/Resource/rock.png");
+	gameResources_.clearTexture = resourceManager.RegisterTexture("Assets/Resource/clear.png");
+
     /*-----------------*/
 
     sceneFactory_ = std::make_unique<GameSceneFactory>(sceneRequest,&gameResources_);

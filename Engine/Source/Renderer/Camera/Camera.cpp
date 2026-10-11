@@ -19,7 +19,6 @@ Matrix4x4 Camera::GetViewMatrix() const
     Matrix4x4 cameraWorld =
         Multiply(rotationMatrix, translationMatrix);
 
-
     return MakeInverseMatrix(cameraWorld);
 }
 

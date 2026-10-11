@@ -5,7 +5,7 @@ class Window
 public:
 	bool Initialize(HINSTANCE hInstance);// ウィンドウの初期化
 	void Show();// ウィンドウの表示	
-	HWND GetHwnd() const { return hwnd; }
+	HWND GetHwnd() const { return hwnd_; }
 private:
 	static LRESULT CALLBACK WindowProc(
 		HWND hwnd, 
@@ -13,6 +13,6 @@ private:
 		WPARAM wParam, 
 		LPARAM lParam
 	);
-	HWND hwnd;
+	HWND hwnd_;
 
 };

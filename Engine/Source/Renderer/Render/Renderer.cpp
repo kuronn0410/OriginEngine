@@ -1,6 +1,3 @@
-#include "Include/Renderer/Render/Renderer.h"
-#include <d3d12.h>
-#include "Include/Renderer/Render/ShaderCompiler.h"
 #include <wrl/client.h>
 #include <d3dcommon.h>
 #include <Windows.h>
@@ -9,10 +6,15 @@
 #include <cstdlib>
 #include <cstdint>
 #include <climits>
+#include <d3d12.h>
+#include "Include/Renderer/Render/Renderer.h"
+#include "Include/Renderer/Render/ShaderCompiler.h"
 #include "Include/Renderer/Mesh/Mesh.h"
 #include "Include/Renderer/Object/Object.h"
 #include "Include/Renderer/Resource/ResourceManager.h"
 #include "Include/Renderer/Render/WorldTransform.h"
+#include "Include/Renderer/Object/RenderObject.h"
+#include "Include/Renderer/Texture/Texture.h"
 //#include <d3dx12.h>
 
 bool Renderer::Initialize(
@@ -367,7 +369,9 @@ void Renderer::Draw(const Object& object)
     
     UINT offset = drawCount_ * alignedWorldTransformSize_;
 
-    WorldTransform* current =
+
+	// WorldTransformの情報を更新
+    WorldTransform* current = 
         reinterpret_cast<WorldTransform*>(
             reinterpret_cast<uint8_t*>(mappedWorldTransform_) + offset
             );
@@ -375,7 +379,6 @@ void Renderer::Draw(const Object& object)
     current->world = object.GetWorldMatrix();
 	current->view = camera_->GetViewMatrix();
 	current->projection = camera_->GetProjectionMatrix();
-
 
     D3D12_GPU_VIRTUAL_ADDRESS gpuAddress =
         worldConstantBuffer_->GetGPUVirtualAddress() + offset;

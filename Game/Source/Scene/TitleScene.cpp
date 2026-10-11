@@ -13,12 +13,12 @@ bool TitleScene::Initialize(Graphics& graphics)
 {
     //1
     RenderObject renderObject1;
-    renderObject1.mesh = gameResources_->playerMesh;
-    renderObject1.texture = gameResources_->backgroundTexture;
+    renderObject1.mesh = gameResources_->CubeMesh;
+    renderObject1.texture = gameResources_->clearTexture;
     renderObject1.transform = {
-    { 0.0f, -3.0f, 0.0f },//P
-    { 0.0f, 0.0f, 0.0f },//R
-    { 0.5f, 0.5f, 0.5f }//S
+        { 0.0f, 0.0f, 10.5f },//P
+        { 0.0f, 180.0f, -90.0f },//R
+        { 0.9f, 16.0f, 1.5f }//S
     };
     object_.SetRenderObject(renderObject1);
 
@@ -48,9 +48,15 @@ void TitleScene::Render(Renderer& renderer)
 
 void TitleScene::Update()
 {
+    if (GetAsyncKeyState(VK_SPACE) & 0x8000)
+    {
+		camera_.GetTransform().position.z -= 0.1f;
+    }
+
     // ここに更新処理を書く
     if (GetAsyncKeyState('2') & 0x8000)
     {
         sceneRequest_.RequestChangeScene(GameSceneType::Test);
     }
+   
 }

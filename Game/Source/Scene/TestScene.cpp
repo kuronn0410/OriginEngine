@@ -44,6 +44,49 @@ bool TestScene::Initialize(Graphics& graphics)
 	};
 	object3_.SetRenderObject(renderObject3);
 
+	//4
+	RenderObject wallrenderObject;
+	wallrenderObject.texture = gameResources_->rockTexture;
+	wallrenderObject.mesh = gameResources_->CubeMesh;
+	wallrenderObject.transform = {
+		{ -4.0f, 0.0f, 0.5f },//P
+		{ 0.0f, 0.0f, 0.0f },//R
+		{ 0.2f, 5.0f, 1.0f }//S
+	};
+	wallobject1_.SetRenderObject(wallrenderObject);
+
+	//5
+    wallrenderObject.transform = {
+        { 4.0f, 0.0f, 0.5f },//P
+        { 0.0f, 0.0f, 0.0f },//R
+        { 0.2f, 5.0f, 1.0f }//S
+    };
+    wallobject2_.SetRenderObject(wallrenderObject);
+
+	//6
+	wallrenderObject.transform = {
+		{ 0.0f, 0.0f, 12.0f },//P
+		{ 0.0f, 0.0f, 0.0f },//R
+		{ 8.0f, 5.0f, 0.2f }//S
+	};
+	wallobject3_.SetRenderObject(wallrenderObject);
+
+	//7
+	wallrenderObject.transform = {
+		{ 25.0f, 0.0f, 6.0f },//P
+		{ 0.0f, 0.0f, 0.0f },//R
+		{ 4.0f, 5.0f, 0.2f }//S
+	};
+	wallobject4_.SetRenderObject(wallrenderObject);
+
+	//8
+	wallrenderObject.transform = {
+		{ -25.0f, 0.0f, 6.0f },//P
+		{ 0.0f, 0.0f, 0.0f },//R
+		{ 4.0f, 5.0f, 0.2f }//S
+	};
+	wallobject5_.SetRenderObject(wallrenderObject);
+
 	/*--------Cameraの初期化----------*/
 	camera_.SetTransform({
 		{ 0.0f, 0.0f, -5.0f },
@@ -65,60 +108,70 @@ void TestScene::Render(Renderer& renderer)
 {
    renderer.SetCamera(camera_);
 
-
    renderer.Draw(object1_);
    renderer.Draw(object2_);
    renderer.Draw(object3_);
+   renderer.Draw(wallobject1_);
+   renderer.Draw(wallobject2_);
+   renderer.Draw(wallobject3_);
+   renderer.Draw(wallobject4_);
+   renderer.Draw(wallobject5_);
 }
 
 void TestScene::Update()
 {
-    /*----Object1の更新------*/
+    /*----Cameraの更新------*/
     if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
     {
-        object1_.GetRenderObject().transform.position.x += 0.03f;
+		object1_.GetRenderObject().transform.rotation.y += 0.3f;
+		camera_.GetTransform().rotation.y += 0.3f;
     }
 
     if (GetAsyncKeyState(VK_LEFT) & 0x8000)
     {
-        object1_.GetRenderObject().transform.position.x -= 0.03f;
+		object1_.GetRenderObject().transform.rotation.y -= 0.3f;
+		camera_.GetTransform().rotation.y -= 0.3f;
     }
 
     if (GetAsyncKeyState(VK_UP) & 0x8000)
     {
-        object1_.GetRenderObject().transform.position.z += 0.03f;
+		camera_.GetTransform().position.y += 0.03f;
     }
 
     if (GetAsyncKeyState(VK_DOWN) & 0x8000)
     {
-        object1_.GetRenderObject().transform.position.z -= 0.03f;
+		camera_.GetTransform().position.y -= 0.03f;
     }
 
     if (GetAsyncKeyState(VK_SPACE) & 0x8000)
     {
-        object1_.GetRenderObject().transform.rotation.y += 0.5f;
+		camera_.GetTransform().rotation.x += 0.1f;
     }
-    ///*----Object2の更新------*/
+    if (GetAsyncKeyState(VK_SHIFT) & 0x8000)
+    {
+		camera_.GetTransform().rotation.x -= 0.1f;
+    }
+
+	//移動
     if (GetAsyncKeyState('W') & 0x8000)
     {
-        object2_.GetRenderObject().transform.position.z += 0.03f;
+		object1_.GetRenderObject().transform.position.z += 0.1f;
+		camera_.GetTransform().position.z += 0.1f;
     }
     if (GetAsyncKeyState('S') & 0x8000)
     {
-        object2_.GetRenderObject().transform.position.z -= 0.03f;
+        object1_.GetRenderObject().transform.position.z -= 0.1f;
+		camera_.GetTransform().position.z -= 0.1f;
     }
     if (GetAsyncKeyState('A') & 0x8000)
     {
-        object2_.GetRenderObject().transform.position.x -= 0.03f;
+		object1_.GetRenderObject().transform.position.x -= 0.1f;
+		camera_.GetTransform().position.x -= 0.1f;
     }
     if (GetAsyncKeyState('D') & 0x8000)
     {
-        object2_.GetRenderObject().transform.position.x += 0.03f;
-    }
-
-    if (GetAsyncKeyState(VK_SHIFT) & 0x8000)
-    {
-        object2_.GetRenderObject().transform.rotation.y += 0.5f;
+		object1_.GetRenderObject().transform.position.x += 0.1f;
+		camera_.GetTransform().position.x += 0.1f;
     }
 
     if (GetAsyncKeyState('1') & 0x8000)
