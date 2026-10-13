@@ -8,7 +8,11 @@
 #include "include/Graphics/Color.h"
 #include "GameMain.h"
 #include "Include/Renderer/Resource/ResourceManager.h"
+#include "Include/Window/WindowManager.h"
+#include "Include/Window/WindowDesc.h"
+#include "Include/Window/WindowHandle.h"
 #include <sal.h>
+#include <cstdint>
 
 int WINAPI WinMain(
     _In_ HINSTANCE hInstance,
@@ -17,20 +21,19 @@ int WINAPI WinMain(
     _In_ int nCmdShow
 )
 {
-    Window gamewindow;
-    if (!gamewindow.Initialize(hInstance))
-    {
-        return -1;
-    }
+	WindowManager windowManager;
+	
 
-	Window editorwindow;
-    if(!editorwindow.Initialize(hInstance))
-    {
-        return -1;
-    }
+	WindowHandle editorWindowHandl
+		= windowManager.Create(hInstance, WindowDesc{ L"Editor Window", 1280, 720, true });
+    WindowHandle gameWindowHandle
+        = windowManager.Create(hInstance, WindowDesc{ L"Game Window", 640, 360, false });
+    WindowHandle view3DWindow
+        = windowManager.Create(hInstance, WindowDesc{ L"3D View Window", 640, 360,false  });
+
 
     Graphics graphics;
-    if (!graphics.Initialize(gamewindow.GetHwnd()))
+    if (!graphics.Initialize(windowManager.GetHwnd(gameWindowHandle)))
     {
         return -1;
     }
@@ -76,23 +79,40 @@ int WINAPI WinMain(
 	// メッセージループ用
     MSG msg = {};
 
-    while (msg.message != WM_QUIT)
+    while (!windowManager.IsExitRequested())
     {
-        //TranslateMessage(&msg);
         if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
         {
-            DispatchMessage(&msg);//取得したメッセージを、そのウィンドウの WindowProc に送ります。
+            if (msg.message == WM_QUIT)
+            {
+                break;
+            }
+
+            TranslateMessage(&msg);
+            DispatchMessage(&msg);
         }
-        else
+
+        // ② WindowManagerのイベントを処理
+        windowManager.ProcessEvents();
+
+        // ③ 終了要求の確認
+        if (windowManager.IsExitRequested())
+        {
+            break;
+        }
+
+        //TranslateMessage(&msg);
+        if(windowManager.Exists(gameWindowHandle))
         {
             sceneManager.Update();
-
-			graphics.BeginFrame(Color(0.0f, 0.0f, 0.0f, 1.0f), gamewindow.GetHwnd());
+            graphics.BeginFrame(Color(0.0f, 0.0f, 0.0f, 1.0f), windowManager.GetHwnd(gameWindowHandle));
             renderer.BeginFrame(graphics.GetCommandList());
-			sceneManager.Render(renderer);
-			graphics.EndFrame();
-            //graphics.Render();
+            sceneManager.Render(renderer);
+            graphics.EndFrame();
         }
+        
+            //graphics.Render();
+        
     }
    
 

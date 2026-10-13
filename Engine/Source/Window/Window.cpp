@@ -1,31 +1,11 @@
 #include "Include/Window/Window.h"
+#include "Include/Window/WindowDesc.h"
+#include "Include/Window/WindowEvent.h"
+#include "Include/Window/WindowEventType.h"
+#include <Windows.h>
 
-/*
-WinMain
-↓
-WNDCLASSを作る
-↓
-RegisterClassで登録
-↓
-CreateWindow
-↓
-ShowWindow
-↓
-GetMessageで待つ
-↓
-WindowProcで処理
-↓
-×ボタン
-↓
-WM_DESTROY
-↓
-PostQuitMessage
-↓
-終了
-*/
 
-//WNDCLASS windowClass = {};
-bool Window::Initialize(HINSTANCE hInstance)
+bool Window::Initialize(HINSTANCE hInstance, const WindowDesc& desc)
 {
 	WNDCLASS windowClass = {};
 
@@ -36,26 +16,26 @@ bool Window::Initialize(HINSTANCE hInstance)
 	if (!RegisterClass(&windowClass))// ウィンドウクラスの登録、メッセージの処理をする関数をOSに登録する
 	{
 		DWORD error = GetLastError();
-		if (error  != ERROR_CLASS_ALREADY_EXISTS)
+		if (error != ERROR_CLASS_ALREADY_EXISTS)
 		{
 			return false;
 		}
-		
+
 	}
 
 
 	HWND createHwnd = CreateWindow(
 		L"MyWindow",
-		L"My Window",
+		desc.title.c_str(),
 		WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,
-		800,
-		600,
-	 nullptr,
-	 nullptr,
-	 hInstance,
-	 nullptr
+		desc.width,
+		desc.height,
+		nullptr,
+		nullptr,
+		hInstance,
+		this  // Windowインスタンスへのポインター
 	);
 
 	if (!createHwnd)
@@ -67,21 +47,100 @@ bool Window::Initialize(HINSTANCE hInstance)
 	return true;
 }
 
+bool Window::PollEvent(WindowEvent& event)
+{
+	// ① キューが空ならfalseを返す
+	if (events_.empty())
+	{
+		return false;
+	}
+	// ② キューの先頭のイベントをeventにコピー
+	event = events_.front();
+	// ③ キューから先頭イベントを削除
+	events_.pop();
+	// ④ trueを返す
+	return true;	
+}
 
 //メッセージ	
 LRESULT CALLBACK Window::WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
 	{
-	case WM_DESTROY:
-		PostQuitMessage(0);
+	case WM_NCCREATE:
+	{
+		// ① lParamからCREATESTRUCTW*を取得
+		auto* createStruct =
+			reinterpret_cast<CREATESTRUCTW*>(lParam);
+		// ② CREATESTRUCTWからWindow*を取得
+		Window* window =
+			static_cast<Window*>(createStruct->lpCreateParams);
+		// ③ GWLP_USERDATAにWindow*を登録
+		SetWindowLongPtrW(
+			hwnd,
+			GWLP_USERDATA,
+			reinterpret_cast<LONG_PTR>(window)
+		);
+		return TRUE;
+	}
+	case WM_CLOSE:
+	{
+		Window* window = reinterpret_cast<Window*>(
+			GetWindowLongPtrW(hwnd, GWLP_USERDATA)
+			);
+
+		if (window == nullptr)
+		{
+			return DefWindowProcW(hwnd, msg, wParam, lParam);
+		}
+
+		WindowEvent event;
+		event.type = WindowEventType::CloseRequested;
+
+		window->events_.push(event);
+
 		return 0;
 	}
-	return DefWindowProc(hwnd, msg, wParam, lParam);
+	case WM_DESTROY:
+		// ① GWLP_USERDATAからWindow*を取得
+		Window* window = reinterpret_cast<Window*>(
+			GetWindowLongPtrW(hwnd, GWLP_USERDATA)
+			);
+
+		// ② Windowが保持するhwnd_をnullptrにする
+		if (window)
+		{
+			window->hwnd_ = nullptr;
+		}
+
+		// ③ GWLP_USERDATAにnullptrを登録して関連付けを解除
+		SetWindowLongPtrW(hwnd, GWLP_USERDATA, 0);
+
+		// ④ DefWindowProcWに処理を渡す
+		return DefWindowProcW(hwnd, msg, wParam, lParam);
+		
+	}
+	return DefWindowProcW(hwnd, msg, wParam, lParam);
 }
 
 
 void Window::Show()
 {
 	ShowWindow(this->hwnd_, SW_SHOW);
+}
+
+bool Window::Destroy()
+{
+	if (hwnd_ == nullptr)
+	{
+		return false;
+	}
+
+	if (!::DestroyWindow(hwnd_))
+	{
+		return false;
+	}
+
+	hwnd_ = nullptr;
+	return true;
 }

@@ -162,6 +162,7 @@
     <ClCompile Include="Engine\Source\Scenes\Scene.cpp" />
     <ClCompile Include="Engine\Source\Window\Window.cpp" />
     <ClCompile Include="Engine\Source\Scenes\SceneChangeRequest.cpp" />
+    <ClCompile Include="Engine\Source\Window\WindowManager.cpp" />
     <ClCompile Include="Game\GameMain.cpp" />
     <ClCompile Include="Game\Source\Scene\GameSceneFactory.cpp" />
     <ClCompile Include="Game\Source\Scene\TestScene.cpp" />
@@ -204,6 +205,11 @@
     <ClInclude Include="Engine\Include\Scenes\SceneType.h" />
     <ClInclude Include="Engine\Include\Window\Window.h" />
     <ClInclude Include="Engine\Include\Scenes\SceneChangeRequest.h" />
+    <ClInclude Include="Engine\Include\Window\WindowDesc.h" />
+    <ClInclude Include="Engine\Include\Window\WindowEvent.h" />
+    <ClInclude Include="Engine\Include\Window\WindowEventType.h" />
+    <ClInclude Include="Engine\Include\Window\WindowHandle.h" />
+    <ClInclude Include="Engine\Include\Window\WindowManager.h" />
     <ClInclude Include="Game\GameMain.h" />
     <ClInclude Include="Game\Include\Scene\GameResources.h" />
     <ClInclude Include="Game\Include\Scene\GameSceneFactory.h" />
