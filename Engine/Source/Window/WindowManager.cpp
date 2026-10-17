@@ -11,11 +11,21 @@
 WindowHandle WindowManager::Create(HINSTANCE hInstance, const WindowDesc& desc)
 {
 	 auto window = std::make_unique<Window>();
-	 if (!window->Initialize(hInstance, desc))
+	 HWND parentHwnd = nullptr;
+	 if (desc.parent.IsValid())
+	 {
+		 // 親ウィンドウが指定されている
+		 parentHwnd = GetHwnd(desc.parent);
+
+	 }
+
+	 if (!window->Initialize(hInstance, desc, parentHwnd))
 	 {
 		 // 登録失敗
 		 return WindowHandle{};
 	 }
+
+	 
 
 	 windows_.push_back(std::move(window));
 	 WindowHandle handle{ static_cast<uint32_t>(windows_.size() - 1) };

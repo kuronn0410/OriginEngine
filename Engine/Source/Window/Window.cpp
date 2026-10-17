@@ -4,8 +4,10 @@
 #include "Include/Window/WindowEventType.h"
 #include <Windows.h>
 
-
-bool Window::Initialize(HINSTANCE hInstance, const WindowDesc& desc)
+bool Window::Initialize(
+	HINSTANCE hInstance, 
+	const WindowDesc& desc, 
+	HWND parentHwnd)
 {
 	WNDCLASS windowClass = {};
 
@@ -23,16 +25,19 @@ bool Window::Initialize(HINSTANCE hInstance, const WindowDesc& desc)
 
 	}
 
+	DWORD style = parentHwnd != nullptr
+		? WS_CHILD | WS_VISIBLE
+		: WS_OVERLAPPEDWINDOW;
 
 	HWND createHwnd = CreateWindow(
 		L"MyWindow",
 		desc.title.c_str(),
-		WS_OVERLAPPEDWINDOW,
-		CW_USEDEFAULT,
-		CW_USEDEFAULT,
+		style,
+		desc.x,
+		desc.y,
 		desc.width,
 		desc.height,
-		nullptr,
+		parentHwnd,
 		nullptr,
 		hInstance,
 		this  // Windowインスタンスへのポインター

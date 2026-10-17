@@ -7,7 +7,7 @@ class Window
 {
 public:
 	//bool Initialize(HINSTANCE hInstance);// ウィンドウの初期化
-	bool Initialize(HINSTANCE hInstance, const WindowDesc& desc);
+	bool Initialize(HINSTANCE hInstance, const WindowDesc& desc, HWND parentHwnd);
 	void Show();// ウィンドウの表示	
 	HWND GetHwnd() const { return hwnd_; }
 	bool PollEvent(WindowEvent& event);

@@ -26,11 +26,11 @@ int WINAPI WinMain(
 	
 
 	WindowHandle editorWindowHandle
-		= windowManager.Create(hInstance, WindowDesc{ L"Editor Window", 1280, 720, true });
+		= windowManager.Create(hInstance, WindowDesc{ L"Editor Window", CW_USEDEFAULT, CW_USEDEFAULT,1280, 720, true, {} });
     WindowHandle gameWindowHandle
-        = windowManager.Create(hInstance, WindowDesc{ L"Game Window", 640, 360, false });
-    WindowHandle view3DWindow
-        = windowManager.Create(hInstance, WindowDesc{ L"3D View Window", 640, 360,false  });
+        = windowManager.Create(hInstance, WindowDesc{ L"Game Window", 0 , 0 ,640, 350, false, editorWindowHandle });
+    WindowHandle view3DWindowHandle
+        = windowManager.Create(hInstance, WindowDesc{ L"3D View Window", 0 , 360 , 640, 350,false, editorWindowHandle });
 
 
     Graphics graphics;
@@ -54,6 +54,11 @@ int WINAPI WinMain(
     {
         return -1;
     }
+	if(!swapChainManager.Create(view3DWindowHandle, windowManager.GetHwnd(view3DWindowHandle)))
+	{
+		return -1;
+	}
+
 
     if (!graphics.BeginInitializationCommands())
     {
@@ -98,6 +103,26 @@ int WINAPI WinMain(
 
     while (!windowManager.IsExitRequested())
     {
+
+
+
+        //HWND hwnd = windowManager.GetHwnd(view3DWindow);
+
+        //RECT rect{};
+        //GetWindowRect(hwnd, &rect);
+
+        //POINT pos{ rect.left, rect.top };
+
+        //HWND parent = GetParent(hwnd);
+        //if (parent)
+        //{
+        //    ScreenToClient(parent, &pos);
+        //}
+
+        // ブレークポイントでpos.xとpos.yを確認
+
+
+
         if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
         {
             if (msg.message == WM_QUIT)
@@ -122,7 +147,7 @@ int WINAPI WinMain(
         if(windowManager.Exists(gameWindowHandle))
         {
             sceneManager.Update();
-            graphics.BeginFrame(Color(0.0f, 0.0f, 0.0f, 1.0f), windowManager.GetHwnd(gameWindowHandle), *swapChainManager.GetContext(gameWindowHandle));
+            graphics.BeginFrame(Color(0.0f, 0.8f, 1.0f, 1.0f), windowManager.GetHwnd(gameWindowHandle), *swapChainManager.GetContext(gameWindowHandle));
             renderer.BeginFrame(graphics.GetCommandList());
             sceneManager.Render(renderer);
             graphics.EndFrame(*swapChainManager.GetContext(gameWindowHandle));
@@ -133,12 +158,27 @@ int WINAPI WinMain(
             sceneManager.Update();
             graphics.BeginFrame(Color(0.0f, 0.0f, 0.0f, 1.0f), windowManager.GetHwnd(editorWindowHandle), *swapChainManager.GetContext(editorWindowHandle));
             renderer.BeginFrame(graphics.GetCommandList());
-            sceneManager.Render(renderer);
+            //sceneManager.Render(renderer);
             graphics.EndFrame(*swapChainManager.GetContext(editorWindowHandle));
+            
+        }
+
+        if (windowManager.Exists(view3DWindowHandle))
+        {
+            sceneManager.Update();
+            graphics.BeginFrame(Color(0.0f, 0.4f, 0.8f, 1.0f), windowManager.GetHwnd(view3DWindowHandle), *swapChainManager.GetContext(view3DWindowHandle));
+            renderer.BeginFrame(graphics.GetCommandList());
+            sceneManager.Render(renderer);
+            graphics.EndFrame(*swapChainManager.GetContext(view3DWindowHandle));
+
         }
         
             //graphics.Render();
         
+        
+
+
+
     }
    
 
