@@ -15,6 +15,7 @@ public:
     void ProcessEvents();
     bool IsExitRequested() const{ return exitRequested_; }
     bool Exists(WindowHandle handle) const;
+    void DestroyAll();
 private:
     bool DestroyWindow(WindowHandle handle);
     std::vector<std::unique_ptr<Window>> windows_;

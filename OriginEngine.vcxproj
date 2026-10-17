@@ -147,6 +147,8 @@
     <ClCompile Include="Editor\Source\SceneCodeGenerator.cpp" />
     <ClCompile Include="Engine\External\stb\stb_image.cpp" />
     <ClCompile Include="Engine\Include\Math\MatrixMath.cpp" />
+    <ClCompile Include="Engine\Source\Graphics\SwapChainContext.cpp" />
+    <ClCompile Include="Engine\Source\Graphics\SwapChainManager.cpp" />
     <ClCompile Include="Engine\Source\Renderer\Camera\Camera.cpp" />
     <ClCompile Include="Engine\Source\Renderer\Mesh\Mesh.cpp" />
     <ClCompile Include="Engine\Source\Renderer\Model\ObjLoader.cpp" />
@@ -171,6 +173,8 @@
   <ItemGroup>
     <ClInclude Include="Editor\Include\SceneCodeGenerator.h" />
     <ClInclude Include="Engine\External\stb\stb_image.h" />
+    <ClInclude Include="Engine\Include\Graphics\SwapChainContext.h" />
+    <ClInclude Include="Engine\Include\Graphics\SwapChainManager.h" />
     <ClInclude Include="Engine\Include\Math\Vector2.h" />
     <ClInclude Include="Engine\Include\Renderer\Camera\Camera.h" />
     <ClInclude Include="Engine\Include\Graphics\Color.h" />

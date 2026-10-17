@@ -11,6 +11,7 @@
 #include "Include/Window/WindowManager.h"
 #include "Include/Window/WindowDesc.h"
 #include "Include/Window/WindowHandle.h"
+#include "Include/Graphics/SwapChainManager.h"
 #include <sal.h>
 #include <cstdint>
 
@@ -24,7 +25,7 @@ int WINAPI WinMain(
 	WindowManager windowManager;
 	
 
-	WindowHandle editorWindowHandl
+	WindowHandle editorWindowHandle
 		= windowManager.Create(hInstance, WindowDesc{ L"Editor Window", 1280, 720, true });
     WindowHandle gameWindowHandle
         = windowManager.Create(hInstance, WindowDesc{ L"Game Window", 640, 360, false });
@@ -34,6 +35,22 @@ int WINAPI WinMain(
 
     Graphics graphics;
     if (!graphics.Initialize(windowManager.GetHwnd(gameWindowHandle)))
+    {
+        return -1;
+    }
+
+	SwapChainManager swapChainManager(
+		*graphics.GetFactory(),
+		*graphics.GetDevice(),
+		*graphics.GetCommandQueue()
+	);
+
+	if (!swapChainManager.Create(gameWindowHandle, windowManager.GetHwnd(gameWindowHandle)))
+	{
+		return -1;
+	}
+
+    if (!swapChainManager.Create(editorWindowHandle, windowManager.GetHwnd(editorWindowHandle)))
     {
         return -1;
     }
@@ -105,16 +122,27 @@ int WINAPI WinMain(
         if(windowManager.Exists(gameWindowHandle))
         {
             sceneManager.Update();
-            graphics.BeginFrame(Color(0.0f, 0.0f, 0.0f, 1.0f), windowManager.GetHwnd(gameWindowHandle));
+            graphics.BeginFrame(Color(0.0f, 0.0f, 0.0f, 1.0f), windowManager.GetHwnd(gameWindowHandle), *swapChainManager.GetContext(gameWindowHandle));
             renderer.BeginFrame(graphics.GetCommandList());
             sceneManager.Render(renderer);
-            graphics.EndFrame();
+            graphics.EndFrame(*swapChainManager.GetContext(gameWindowHandle));
+        }
+
+        if (windowManager.Exists(editorWindowHandle))
+        {
+            sceneManager.Update();
+            graphics.BeginFrame(Color(0.0f, 0.0f, 0.0f, 1.0f), windowManager.GetHwnd(editorWindowHandle), *swapChainManager.GetContext(editorWindowHandle));
+            renderer.BeginFrame(graphics.GetCommandList());
+            sceneManager.Render(renderer);
+            graphics.EndFrame(*swapChainManager.GetContext(editorWindowHandle));
         }
         
             //graphics.Render();
         
     }
    
+
+    windowManager.DestroyAll();
 
     return 0;
 }

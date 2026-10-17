@@ -6,6 +6,7 @@
 #include <dxgi.h>
 #include <dxgi1_5.h>
 #include "include/Graphics/Color.h"
+#include "include/Graphics/SwapChainContext.h"
 #include <Windows.h>
 
 
@@ -17,13 +18,15 @@ public:
 	void Render(const Color& clearColor);// 1フレームの描画
 	bool BeginInitializationCommands();
 	bool EndInitializationCommands();
-	void BeginFrame(const Color& clearColor, HWND hwnd);
-	void EndFrame();
+	void BeginFrame(const Color& clearColor, HWND hwnd, SwapChainContext& swapChainContext);
+	void EndFrame(SwapChainContext& swapChainContext);
 	bool Update();
 	bool Finalize();
 	/*----取得関数------*/
 	ID3D12GraphicsCommandList* GetCommandList() const { return commandList_.Get(); }
 	ID3D12Device* GetDevice() const { return device_.Get(); }
+	IDXGIFactory6* GetFactory() const { return factory_.Get(); }
+	ID3D12CommandQueue* GetCommandQueue() const { return commandQueue_.Get(); }
 	ID3D12DescriptorHeap* GetSRVHeap() const{return srvHeap_.Get();}
 	UINT GetSRVDescriptorSize() const{return srvDescriptorSize_;}
 	UINT GetMaxSRVCount() const { return kMaxSrvCount; }
@@ -32,13 +35,7 @@ private:
 	bool CreateAdapter();//使えるGPUを探す
 	bool CreateDevice();//GPUを使って、DirectX12の機能を使えるようにする
 	bool CreateCommandQueue(); //CPU側で作ったGPU命令を、GPUへ送るためのQueueの形式を決める
-	bool CreateSwapChain(HWND hwnd); // 描画する画像（BackBuffer）と、画面に表示する画像を切り替える仕組み
-	bool CreateRTVHeap();//RTV(Render Target View「このBackBufferを描画先として使う」という指定)を置くための場所を作れるようにする
-	bool CreateRenderTargets();//SwapChain が持っている各 BackBuffer を取得して、RTV Heap の各スロットに RTV を作る
 	bool CreateSRVHeap();//SRV(Shader Resource View「このTextureをShaderで使う」という指定)を置くための場所を作れるようにする
-	bool CreateDSVHeap();
-	bool CreateDepthBuffer();
-	
 	bool CreateCommandAllocator();
 	bool CreateCommandList();
 	bool CreateFence();
@@ -49,16 +46,9 @@ private:
 	Microsoft::WRL::ComPtr<IDXGIAdapter1> adapter_;
 	Microsoft::WRL::ComPtr<ID3D12Device> device_;
 	Microsoft::WRL::ComPtr<ID3D12CommandQueue> commandQueue_;
-	Microsoft::WRL::ComPtr<IDXGISwapChain4> swapChain_;
-	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> rtvHeap_;
 	static constexpr UINT kFrameCount = 2;
-	Microsoft::WRL::ComPtr<ID3D12Resource> renderTargets_[kFrameCount];
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> srvHeap_;//SRV用のHeap
 	static constexpr UINT kMaxSrvCount = 256;
-
-	Microsoft::WRL::ComPtr<ID3D12Resource> depthBuffer_;
-	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> dsvHeap_;
-	
 	
 	Microsoft::WRL::ComPtr<ID3D12CommandAllocator> commandAllocator_;
 	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList_;

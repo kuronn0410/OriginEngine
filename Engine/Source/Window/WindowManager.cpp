@@ -94,6 +94,24 @@ bool WindowManager::DestroyWindow(WindowHandle handle)
 	return true;
 }
 
+void WindowManager::DestroyAll()
+{
+	for (auto& window : windows_)
+	{
+		if(!window)
+		{
+			continue;
+		}
+
+		if (!window->Destroy())
+		{
+			// 失敗した場合はエラー処理
+			continue;
+		}
+		window.reset();
+	}
+}
+
 bool WindowManager::Exists(WindowHandle handle) const
 {
 	return windows_[handle.id] != nullptr;
