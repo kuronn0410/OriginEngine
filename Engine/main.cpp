@@ -12,6 +12,7 @@
 #include "Include/Window/WindowDesc.h"
 #include "Include/Window/WindowHandle.h"
 #include "Include/Graphics/SwapChainManager.h"
+#include "Include/Editor.h"
 #include <sal.h>
 #include <cstdint>
 
@@ -38,6 +39,8 @@ int WINAPI WinMain(
     {
         return -1;
     }
+
+	Editor editor(graphics);
 
 	SwapChainManager swapChainManager(
 		*graphics.GetFactory(),
@@ -103,25 +106,6 @@ int WINAPI WinMain(
 
     while (!windowManager.IsExitRequested())
     {
-
-
-
-        //HWND hwnd = windowManager.GetHwnd(view3DWindow);
-
-        //RECT rect{};
-        //GetWindowRect(hwnd, &rect);
-
-        //POINT pos{ rect.left, rect.top };
-
-        //HWND parent = GetParent(hwnd);
-        //if (parent)
-        //{
-        //    ScreenToClient(parent, &pos);
-        //}
-
-        // ブレークポイントでpos.xとpos.yを確認
-
-
 
         if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
         {

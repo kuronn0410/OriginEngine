@@ -144,6 +144,15 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Editor\External\imgui\backends\imgui_impl_dx12.cpp" />
+    <ClCompile Include="Editor\External\imgui\backends\imgui_impl_win32.cpp" />
+    <ClCompile Include="Editor\External\imgui\imgui.cpp" />
+    <ClCompile Include="Editor\External\imgui\imgui_demo.cpp" />
+    <ClCompile Include="Editor\External\imgui\imgui_draw.cpp" />
+    <ClCompile Include="Editor\External\imgui\imgui_tables.cpp" />
+    <ClCompile Include="Editor\External\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="Editor\Source\Editor.cpp" />
+    <ClCompile Include="Editor\Source\EditorUI\DesignSupportPanel.cpp" />
     <ClCompile Include="Editor\Source\SceneCodeGenerator.cpp" />
     <ClCompile Include="Engine\External\stb\stb_image.cpp" />
     <ClCompile Include="Engine\Include\Math\MatrixMath.cpp" />
@@ -171,6 +180,18 @@
     <ClCompile Include="Game\Source\Scene\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Editor\External\imgui\backends\imgui_impl_dx12.h" />
+    <ClInclude Include="Editor\External\imgui\backends\imgui_impl_win32.h" />
+    <ClInclude Include="Editor\External\imgui\imconfig.h" />
+    <ClInclude Include="Editor\External\imgui\imgui.h" />
+    <ClInclude Include="Editor\External\imgui\imgui_internal.h" />
+    <ClInclude Include="Editor\External\imgui\imstb_rectpack.h" />
+    <ClInclude Include="Editor\External\imgui\imstb_textedit.h" />
+    <ClInclude Include="Editor\External\imgui\imstb_truetype.h" />
+    <ClInclude Include="Editor\Include\EditorUI\DesignSupportPanel.h" />
+    <ClInclude Include="Editor\Include\Editor.h" />
+    <ClInclude Include="Editor\Include\EditorUI\IEditorPanel.h" />
+    <ClInclude Include="Editor\Include\ImGuiRenderer\ImGuiRenderer.h" />
     <ClInclude Include="Editor\Include\SceneCodeGenerator.h" />
     <ClInclude Include="Engine\External\stb\stb_image.h" />
     <ClInclude Include="Engine\Include\Graphics\SwapChainContext.h" />
