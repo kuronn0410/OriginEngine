@@ -8,7 +8,8 @@
 #include "include/Graphics/Color.h"
 #include "include/Graphics/SwapChainContext.h"
 #include <Windows.h>
-
+#include "include/Graphics/DescriptorAllocator.h"
+#include <optional>
 
 
 class Graphics
@@ -36,6 +37,7 @@ private:
 	bool CreateDevice();//GPUを使って、DirectX12の機能を使えるようにする
 	bool CreateCommandQueue(); //CPU側で作ったGPU命令を、GPUへ送るためのQueueの形式を決める
 	bool CreateSRVHeap();//SRV(Shader Resource View「このTextureをShaderで使う」という指定)を置くための場所を作れるようにする
+	bool CreateDescriptorAllocator();	
 	bool CreateCommandAllocator();
 	bool CreateCommandList();
 	bool CreateFence();
@@ -49,12 +51,10 @@ private:
 	static constexpr UINT kFrameCount = 2;
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> srvHeap_;//SRV用のHeap
 	static constexpr UINT kMaxSrvCount = 256;
-	
+	std::optional<DescriptorAllocator> descriptorAllocator_;//再構築はしないのでoptionalで管理
 	Microsoft::WRL::ComPtr<ID3D12CommandAllocator> commandAllocator_;
 	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList_;
 	Microsoft::WRL::ComPtr<ID3D12Fence> fence_;
-	
-
 	/*---------毎フレームの描画処理-----------*/
 	 // 描画補助
 	void WaitForGPU();

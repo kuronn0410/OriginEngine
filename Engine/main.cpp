@@ -16,6 +16,10 @@
 #include <sal.h>
 #include <cstdint>
 
+#include "Include/Graphics/DescriptorAllocation.h"
+#include "Include/Graphics/DescriptorAllocator.h"
+#include <cassert>
+
 int WINAPI WinMain(
     _In_ HINSTANCE hInstance,
     _In_opt_ HINSTANCE hPrevInstance,
@@ -23,6 +27,44 @@ int WINAPI WinMain(
     _In_ int nCmdShow
 )
 {
+
+
+    /*-----------------テスト-----------------------*/
+    //D3D12_CPU_DESCRIPTOR_HANDLE cpuStart{};
+    //D3D12_GPU_DESCRIPTOR_HANDLE gpuStart{};
+
+    //DescriptorAllocator allocator(
+    //    cpuStart,
+    //    gpuStart,
+    //    1,  // Descriptorサイズ（テスト用）
+    //    3   // 最大3個
+    //);
+
+    //auto a = allocator.Allocate(); // index 0
+    //auto b = allocator.Allocate(); // index 1
+    //auto c = allocator.Allocate(); // index 2
+    //auto d = allocator.Allocate(); // 無効
+
+    //allocator.Free(b.index);
+
+    //auto e = allocator.Allocate(); // index 1を再利用
+    //assert(a.index == 0);
+    //assert(b.index == 1);
+    //assert(c.index == 2);
+    //assert(!d.IsValid());
+    //assert(e.index == 1);
+    //allocator.Free(1);
+    //allocator.Free(1);  // 二重解放
+
+    //allocator.Free(100); // 範囲外
+
+    //auto f = allocator.Allocate();
+    //auto g = allocator.Allocate();
+
+    
+    /*----------------------------------------------------*/
+
+
 	WindowManager windowManager;
 	
 

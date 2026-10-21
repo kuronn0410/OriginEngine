@@ -40,7 +40,11 @@ bool Graphics::Initialize(HWND hwnd)
 	{ 
 		return false;
 	}
-	if (!CreateCommandAllocator())
+	if (!CreateDescriptorAllocator())
+	{
+
+	}
+	if(!CreateCommandAllocator())
 	{
 		return false;
 	}
@@ -55,6 +59,7 @@ bool Graphics::Initialize(HWND hwnd)
 
 	return true;
 }
+
 bool Graphics::BeginInitializationCommands()
 {
 	HRESULT hr = commandAllocator_->Reset();
@@ -434,6 +439,16 @@ bool Graphics::CreateSRVHeap()
 	return true;
 }
 
+bool Graphics::CreateDescriptorAllocator()
+{
+	descriptorAllocator_.emplace(
+		srvHeap_->GetCPUDescriptorHandleForHeapStart(),
+		srvHeap_->GetGPUDescriptorHandleForHeapStart(),
+		srvDescriptorSize_,
+		kMaxSrvCount
+	);
+	return true;
+}
 
 bool Graphics::CreateCommandAllocator()
 {
