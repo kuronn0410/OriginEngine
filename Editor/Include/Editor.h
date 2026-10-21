@@ -14,7 +14,11 @@ public:
         )
     {
     }
-    bool Initialize();
+    bool Initialize(
+        int numFramesInFlight,
+        DXGI_FORMAT rtvFormat,
+        //ウィンドウ側
+        HWND hwnd);
     void Update();
     void Draw();
     void Shutdown();

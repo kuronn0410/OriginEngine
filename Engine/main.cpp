@@ -31,12 +31,14 @@ int WINAPI WinMain(
 	WindowManager windowManager;
 	
 
-	WindowHandle editorWindowHandle
-		= windowManager.Create(hInstance, WindowDesc{ L"Editor Window", CW_USEDEFAULT, CW_USEDEFAULT,1280, 720, true, {} });
+	WindowHandle mainEditorWindowHandle
+		= windowManager.Create(hInstance, WindowDesc{ L"Editor Window", CW_USEDEFAULT, CW_USEDEFAULT,1600, 940, true, {} });
+    WindowHandle editorWindowHandle
+		= windowManager.Create(hInstance, WindowDesc{ L"Editor Window", 840, 20,730, 880, false, mainEditorWindowHandle });
     WindowHandle gameWindowHandle
-        = windowManager.Create(hInstance, WindowDesc{ L"Game Window", 0 , 0 ,640, 350, false, editorWindowHandle });
+        = windowManager.Create(hInstance, WindowDesc{ L"Game Window", 20, 20 ,800, 420, false, mainEditorWindowHandle });
     WindowHandle view3DWindowHandle
-        = windowManager.Create(hInstance, WindowDesc{ L"3D View Window", 0 , 360 , 640, 350,false, editorWindowHandle });
+        = windowManager.Create(hInstance, WindowDesc{ L"3D View Window", 20, 460, 800, 420,false, mainEditorWindowHandle });
 
 
     Graphics graphics;
@@ -45,7 +47,7 @@ int WINAPI WinMain(
         return -1;
     }
 
-	Editor editor(graphics);
+	
 
 	SwapChainManager swapChainManager(
 		*graphics.GetFactory(),
@@ -58,6 +60,10 @@ int WINAPI WinMain(
 		return -1;
 	}
 
+    if (!swapChainManager.Create(mainEditorWindowHandle, windowManager.GetHwnd(mainEditorWindowHandle)))
+    {
+        return -1;
+    }
     if (!swapChainManager.Create(editorWindowHandle, windowManager.GetHwnd(editorWindowHandle)))
     {
         return -1;
@@ -67,6 +73,15 @@ int WINAPI WinMain(
 		return -1;
 	}
 
+    Editor editor(graphics);
+    if(!editor.Initialize(
+		swapChainManager.GetBufferCount(editorWindowHandle),
+        swapChainManager.GetRTVFormat(editorWindowHandle),
+        windowManager.GetHwnd(editorWindowHandle)
+    ))
+    {
+        return -1;
+    }
 
     if (!graphics.BeginInitializationCommands())
     {
@@ -140,14 +155,23 @@ int WINAPI WinMain(
             graphics.EndFrame(*swapChainManager.GetContext(gameWindowHandle));
         }
 
+        if (windowManager.Exists(mainEditorWindowHandle))
+        {
+            sceneManager.Update();
+            graphics.BeginFrame(Color(0.65f, 0.65f, 0.65f, 1.0f), windowManager.GetHwnd(mainEditorWindowHandle), *swapChainManager.GetContext(mainEditorWindowHandle));
+            renderer.BeginFrame(graphics.GetCommandList(), graphics.GetSRVHeap());
+			//editor.Draw();
+            graphics.EndFrame(*swapChainManager.GetContext(mainEditorWindowHandle));
+            
+        }
+
         if (windowManager.Exists(editorWindowHandle))
         {
             sceneManager.Update();
             graphics.BeginFrame(Color(0.0f, 0.0f, 0.0f, 1.0f), windowManager.GetHwnd(editorWindowHandle), *swapChainManager.GetContext(editorWindowHandle));
             renderer.BeginFrame(graphics.GetCommandList(), graphics.GetSRVHeap());
-            //sceneManager.Render(renderer);
+            editor.Draw();
             graphics.EndFrame(*swapChainManager.GetContext(editorWindowHandle));
-            
         }
 
         if (windowManager.Exists(view3DWindowHandle))

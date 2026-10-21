@@ -3,15 +3,19 @@
 #include "Include/ImGuiRenderer/ImGuiRenderer.h"
 #include "External/imgui/imgui.h"
 
-bool Editor::Initialize()
+bool Editor::Initialize(
+	int numFramesInFlight,
+	DXGI_FORMAT rtvFormat,
+	//ウィンドウ側
+	HWND hwnd)
 {
-	//imguiRenderer_.Initialize(
-	//	graphics_.GetDevice(),
-	//	graphics_.GetCommandQueue(),
-	//	graphics_.GetNumFramesInFlight(),
-	//	graphics_.GetRtvFormat(),
-	//	graphics_.GetHwnd()
-	//);
+	imguiRenderer_.Initialize(
+		graphics_.GetDevice(),
+		graphics_.GetCommandQueue(),
+		numFramesInFlight,
+		rtvFormat,
+		hwnd
+	);
 	return true;
 }
 void Editor::Update()

@@ -22,6 +22,8 @@ public:
 	ID3D12DescriptorHeap* GetDSVHeap() const { return dsvHeap_.Get(); }
 	ID3D12Resource* GetRenderTarget(UINT index) const { return renderTargets_[index].Get(); }
 	ID3D12Resource* GetDepthBuffer() const { return depthBuffer_.Get(); }
+	DXGI_FORMAT GetRTVFormat() const;
+	UINT GetBufferCount() const;
 private :
 	bool CreateSwapChain(HWND hwnd, IDXGIFactory6& factory, ID3D12CommandQueue& commandQueue); // 描画する画像（BackBuffer）と、画面に表示する画像を切り替える仕組み
 	bool CreateRTVHeap(ID3D12Device& device);//RTV(Render Target View「このBackBufferを描画先として使う」という指定)を置くための場所を作れるようにする

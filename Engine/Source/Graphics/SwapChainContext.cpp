@@ -242,3 +242,29 @@ bool SwapChainContext::CreateDepthBuffer(ID3D12Device& device)
 
 	return true;
 }
+
+
+/*-----------------取得-----------------*/
+DXGI_FORMAT SwapChainContext::GetRTVFormat() const
+{
+	DXGI_SWAP_CHAIN_DESC1 desc{};
+
+	if (FAILED(swapChain_->GetDesc1(&desc)))
+	{
+		return DXGI_FORMAT_UNKNOWN;
+	}
+
+	return desc.Format;
+}
+
+UINT SwapChainContext::GetBufferCount() const
+{
+	DXGI_SWAP_CHAIN_DESC1 desc{};
+
+	if (FAILED(swapChain_->GetDesc1(&desc)))
+	{
+		return 0;
+	}
+
+	return desc.BufferCount;
+}

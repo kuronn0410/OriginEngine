@@ -27,6 +27,8 @@ public:
     );
 
     SwapChainContext* GetContext(WindowHandle handle);
+    DXGI_FORMAT GetRTVFormat(WindowHandle handle);
+    UINT GetBufferCount(WindowHandle handle);
 
     bool Destroy(WindowHandle handle);
 

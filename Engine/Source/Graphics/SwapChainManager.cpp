@@ -33,6 +33,25 @@ bool SwapChainManager::Create(
 	return true;
 };
 
+DXGI_FORMAT SwapChainManager::GetRTVFormat(WindowHandle handle) 
+{
+    auto context = GetContext(handle);
+    if (!context) {
+        return DXGI_FORMAT_UNKNOWN;
+    }
+    return context->GetRTVFormat();
+}
+
+UINT SwapChainManager::GetBufferCount(WindowHandle handle)
+{
+    auto context = GetContext(handle);
+    if (!context) {
+        return 0;
+    }
+    return context->GetBufferCount();
+}
+
+
 SwapChainContext* SwapChainManager::GetContext(WindowHandle handle)
 {
     auto it = contexts_.find(handle.id);
@@ -41,6 +60,8 @@ SwapChainContext* SwapChainManager::GetContext(WindowHandle handle)
     }
     return it->second.get();
 }
+
+
 
 bool SwapChainManager::Destroy(WindowHandle handle)
 {
