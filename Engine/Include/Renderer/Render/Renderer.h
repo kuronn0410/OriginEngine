@@ -17,7 +17,7 @@ class Renderer
 {
 public:
 	bool Initialize(ShaderCompiler& shaderCompiler, ID3D12Device& device);
-	void BeginFrame(ID3D12GraphicsCommandList* commandList);
+	void BeginFrame(ID3D12GraphicsCommandList* commandList, ID3D12DescriptorHeap* srvHeap);
 	void Draw(const Object& object);
 	void  SetResourceManager(ResourceManager& resourceManager)
 	{
@@ -38,6 +38,7 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12PipelineState> pipelineState_;
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature_;
 	ID3D12GraphicsCommandList* commandList_ = nullptr;
+	ID3D12DescriptorHeap* srvHeap_ = nullptr;
 	ResourceManager* resourceManager_ = nullptr;
 
 	Microsoft::WRL::ComPtr<ID3D12Resource> worldConstantBuffer_;

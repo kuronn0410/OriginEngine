@@ -31,6 +31,7 @@ public:
 	ID3D12DescriptorHeap* GetSRVHeap() const{return srvHeap_.Get();}
 	UINT GetSRVDescriptorSize() const{return srvDescriptorSize_;}
 	UINT GetMaxSRVCount() const { return kMaxSrvCount; }
+	DescriptorAllocator* GetDescriptorAllocator() { return &descriptorAllocator_.value(); }
 private:
 	bool CreateFactory();//オブジェクトの生成の入り口
 	bool CreateAdapter();//使えるGPUを探す

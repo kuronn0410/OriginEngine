@@ -28,43 +28,6 @@ int WINAPI WinMain(
 )
 {
 
-
-    /*-----------------テスト-----------------------*/
-    //D3D12_CPU_DESCRIPTOR_HANDLE cpuStart{};
-    //D3D12_GPU_DESCRIPTOR_HANDLE gpuStart{};
-
-    //DescriptorAllocator allocator(
-    //    cpuStart,
-    //    gpuStart,
-    //    1,  // Descriptorサイズ（テスト用）
-    //    3   // 最大3個
-    //);
-
-    //auto a = allocator.Allocate(); // index 0
-    //auto b = allocator.Allocate(); // index 1
-    //auto c = allocator.Allocate(); // index 2
-    //auto d = allocator.Allocate(); // 無効
-
-    //allocator.Free(b.index);
-
-    //auto e = allocator.Allocate(); // index 1を再利用
-    //assert(a.index == 0);
-    //assert(b.index == 1);
-    //assert(c.index == 2);
-    //assert(!d.IsValid());
-    //assert(e.index == 1);
-    //allocator.Free(1);
-    //allocator.Free(1);  // 二重解放
-
-    //allocator.Free(100); // 範囲外
-
-    //auto f = allocator.Allocate();
-    //auto g = allocator.Allocate();
-
-    
-    /*----------------------------------------------------*/
-
-
 	WindowManager windowManager;
 	
 
@@ -123,9 +86,7 @@ int WINAPI WinMain(
     ResourceManager resourceManager(
         *graphics.GetDevice(),
 		*graphics.GetCommandList(),
-		*graphics.GetSRVHeap(),
-		graphics.GetSRVDescriptorSize(),
-		graphics.GetMaxSRVCount()
+		*graphics.GetDescriptorAllocator()
     );
 
     SceneManager sceneManager(graphics);
@@ -174,7 +135,7 @@ int WINAPI WinMain(
         {
             sceneManager.Update();
             graphics.BeginFrame(Color(0.0f, 0.8f, 1.0f, 1.0f), windowManager.GetHwnd(gameWindowHandle), *swapChainManager.GetContext(gameWindowHandle));
-            renderer.BeginFrame(graphics.GetCommandList());
+            renderer.BeginFrame(graphics.GetCommandList(), graphics.GetSRVHeap());
             sceneManager.Render(renderer);
             graphics.EndFrame(*swapChainManager.GetContext(gameWindowHandle));
         }
@@ -183,7 +144,7 @@ int WINAPI WinMain(
         {
             sceneManager.Update();
             graphics.BeginFrame(Color(0.0f, 0.0f, 0.0f, 1.0f), windowManager.GetHwnd(editorWindowHandle), *swapChainManager.GetContext(editorWindowHandle));
-            renderer.BeginFrame(graphics.GetCommandList());
+            renderer.BeginFrame(graphics.GetCommandList(), graphics.GetSRVHeap());
             //sceneManager.Render(renderer);
             graphics.EndFrame(*swapChainManager.GetContext(editorWindowHandle));
             
@@ -193,7 +154,7 @@ int WINAPI WinMain(
         {
             sceneManager.Update();
             graphics.BeginFrame(Color(0.0f, 0.4f, 0.8f, 1.0f), windowManager.GetHwnd(view3DWindowHandle), *swapChainManager.GetContext(view3DWindowHandle));
-            renderer.BeginFrame(graphics.GetCommandList());
+            renderer.BeginFrame(graphics.GetCommandList(), graphics.GetSRVHeap());
             sceneManager.Render(renderer);
             graphics.EndFrame(*swapChainManager.GetContext(view3DWindowHandle));
 

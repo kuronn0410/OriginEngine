@@ -328,9 +328,11 @@ bool Renderer::CreateWorldConstantBuffer(ID3D12Device& device)
 	return true;
 }
 
-void Renderer::BeginFrame(ID3D12GraphicsCommandList* commandList)
+void Renderer::BeginFrame(ID3D12GraphicsCommandList* commandList, ID3D12DescriptorHeap* srvHeap)
 {
+
 	commandList_ = commandList;
+    srvHeap_ = srvHeap;
 	drawCount_ = 0;
 }
 
@@ -360,13 +362,7 @@ void Renderer::Draw(const Object& object)
         return;
     }
 
-    ID3D12DescriptorHeap* heaps[] =
-    {
-        resourceManager_->GetSRVHeap()
-    };
-
-    
-    
+   
     UINT offset = drawCount_ * alignedWorldTransformSize_;
 
 
@@ -384,7 +380,7 @@ void Renderer::Draw(const Object& object)
         worldConstantBuffer_->GetGPUVirtualAddress() + offset;
 
 	// コマンドリストの設定
-      commandList_->SetDescriptorHeaps(1,heaps);
+      commandList_->SetDescriptorHeaps(1,&srvHeap_);
       commandList_->SetGraphicsRootSignature(rootSignature_.Get());
       commandList_->SetPipelineState(pipelineState_.Get());
 	  commandList_->SetGraphicsRootConstantBufferView(0, gpuAddress);

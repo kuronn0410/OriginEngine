@@ -5,6 +5,8 @@
 #include "include/Renderer/Mesh/Mesh.h"
 #include "include/Renderer/Texture/TextureHandle.h" 
 #include "include/Renderer/Texture/Texture.h"
+#include "Include/Graphics/DescriptorAllocation.h"
+#include "Include/Graphics/DescriptorAllocator.h"
 #include <vector>
 #include <memory>
 #include <D3D12.h>
@@ -19,15 +21,12 @@ public:
 	ResourceManager(
 		ID3D12Device& device,
 		ID3D12GraphicsCommandList& commandList,
-		ID3D12DescriptorHeap& srvHeap,
-		UINT srvDescriptorSize,
-		UINT maxSrvCount): 
+		DescriptorAllocator& descriptorAllocator
+		): 
 
         device_(device),
         commandList_(commandList),
-        srvHeap_(srvHeap),
-        srvDescriptorSize_(srvDescriptorSize),
-        maxSrvCount_(maxSrvCount)
+		descriptorAllocator_(descriptorAllocator)
 
     {
     }
@@ -59,10 +58,10 @@ public:
 		return nullptr;
 	}
 
-	ID3D12DescriptorHeap* GetSRVHeap() const
-	{
-		return &srvHeap_;
-	}
+	//ID3D12DescriptorHeap* GetSRVHeap() const
+	//{
+	//	return &srvHeap_;
+	//}
 
 
 private:
@@ -73,7 +72,5 @@ private:
 
     ID3D12Device& device_;
 	ID3D12GraphicsCommandList& commandList_;
-	ID3D12DescriptorHeap& srvHeap_;
-	UINT srvDescriptorSize_;
-	UINT maxSrvCount_ = 256;
+	DescriptorAllocator& descriptorAllocator_;
 };

@@ -6,6 +6,7 @@
 #include "Include/Renderer/Texture/Texture.h"
 #include "Include/Renderer/Texture/TextureLoader.h"
 #include "Include/Renderer/Texture/TextureData.h"
+#include "Include/Graphics/DescriptorAllocation.h"
 #include <memory>
 #include <cstdint>
 #include <utility>
@@ -41,20 +42,13 @@ TextureHandle ResourceManager::RegisterTexture(
 	TextureData textureData = loader.Load(path);
 	auto texture = std::make_unique<Texture>();
 	uint32_t index = static_cast<uint32_t>(textures_.size());
+	
+	DescriptorAllocation descriptorAllocation = descriptorAllocator_.Allocate();
 
-	D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle =
-		srvHeap_.GetGPUDescriptorHandleForHeapStart();
-
-	gpuHandle.ptr +=
-		static_cast<UINT64>(index) * srvDescriptorSize_;
-
-	D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle =
-		srvHeap_.GetCPUDescriptorHandleForHeapStart();
-
-	cpuHandle.ptr +=
-		static_cast<SIZE_T>(index) * srvDescriptorSize_;
-
-	if (!texture->Initialize(device_, textureData, cpuHandle, gpuHandle, commandList_))
+	if (!texture->Initialize(device_, 
+		textureData, descriptorAllocation.cpuHandle, 
+		descriptorAllocation.gpuHandle, 
+		commandList_))
 	{
 		// 登録失敗
 		return TextureHandle{};
