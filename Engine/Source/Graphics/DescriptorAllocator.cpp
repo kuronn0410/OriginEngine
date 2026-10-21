@@ -34,8 +34,42 @@ DescriptorAllocation DescriptorAllocator::Allocate()
 	return allocation;
 }
 
+void DescriptorAllocator::Free(D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle)
+{
+	if (descriptorSize_ == 0)
+	{
+		return;
+	}
+
+	if (cpuHandle.ptr < cpuStart_.ptr)
+	{
+		return;
+	}
+
+	SIZE_T offset = cpuHandle.ptr - cpuStart_.ptr;
+
+	if (offset % descriptorSize_ != 0)
+	{
+		return;
+	}
+
+	SIZE_T index = offset / descriptorSize_;
+
+	if (index >= capacity_ || index >= nextIndex_)
+	{
+		return;
+	}
+
+	Free(static_cast<uint32_t>(index));
+}
+
+
+
+
 void DescriptorAllocator::Free(uint32_t index)
 {
+	
+
 	if(index >= capacity_)
 	{
 		return;

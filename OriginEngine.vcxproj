@@ -153,6 +153,7 @@
     <ClCompile Include="Editor\External\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Editor\Source\Editor.cpp" />
     <ClCompile Include="Editor\Source\EditorUI\DesignSupportPanel.cpp" />
+    <ClCompile Include="Editor\Source\ImGuiRenderer\ImGuiRenderer.cpp" />
     <ClCompile Include="Editor\Source\SceneCodeGenerator.cpp" />
     <ClCompile Include="Engine\External\stb\stb_image.cpp" />
     <ClCompile Include="Engine\Include\Math\MatrixMath.cpp" />

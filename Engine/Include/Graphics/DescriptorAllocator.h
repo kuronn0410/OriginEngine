@@ -21,6 +21,7 @@ public:
 	}
     DescriptorAllocation Allocate();
 
+    void Free(D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle);
     void Free(uint32_t index);
 private:
     D3D12_CPU_DESCRIPTOR_HANDLE cpuStart_{};
