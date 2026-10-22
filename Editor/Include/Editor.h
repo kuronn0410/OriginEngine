@@ -2,23 +2,27 @@
 #include "Include/EditorUI/DesignSupportPanel.h"
 #include "Include/ImGuiRenderer/ImGuiRenderer.h"
 #include  "Include/Graphics/Graphics.h"
+#include "Include/Window/WindowManager.h"
+#include "Include/Window/WindowHandle.h"
 class Graphics;
 class Editor
 {
 public:
-    explicit Editor(Graphics& graphics) :
+    explicit Editor(Graphics& graphics, WindowManager& windowManager) :
         graphics_(graphics),
         imguiRenderer_(
             *graphics.GetDescriptorAllocator(),
             *graphics.GetSRVHeap()
-        )
+
+        ),
+        windowManager_(windowManager)
     {
     }
     bool Initialize(
         int numFramesInFlight,
         DXGI_FORMAT rtvFormat,
         //ウィンドウ側
-        HWND hwnd);
+        WindowHandle windowHandle);
     void Update();
     void Draw();
     void Shutdown();
@@ -27,5 +31,6 @@ private:
     Graphics& graphics_;
     ImGuiRenderer imguiRenderer_;
     DesignSupportPanel designSupport_;
+    WindowManager& windowManager_;
 	
 };

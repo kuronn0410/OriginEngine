@@ -3,6 +3,7 @@
 #include "include/Window/WindowDesc.h"
 #include "Include/Window/WindowEvent.h"
 #include <queue>
+#include <functional>
 class Window
 {
 public:
@@ -12,6 +13,15 @@ public:
 	HWND GetHwnd() const { return hwnd_; }
 	bool PollEvent(WindowEvent& event);
 	bool Destroy();
+
+	using MessageHandler =
+		std::function<bool(HWND, UINT, WPARAM, LPARAM)>;
+
+	void SetMessageHandler(MessageHandler handler)
+	{
+		messageHandler_ = std::move(handler);
+	}
+
 private:
 	static LRESULT CALLBACK WindowProc(
 		HWND hwnd, 
@@ -21,5 +31,5 @@ private:
 	);
 	HWND hwnd_;
 	std::queue<WindowEvent> events_;
-	
+	MessageHandler messageHandler_;
 };

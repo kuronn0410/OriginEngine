@@ -70,9 +70,7 @@ bool Window::PollEvent(WindowEvent& event)
 //メッセージ	
 LRESULT CALLBACK Window::WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg)
-	{
-	case WM_NCCREATE:
+	if (msg == WM_NCCREATE)
 	{
 		// ① lParamからCREATESTRUCTW*を取得
 		auto* createStruct =
@@ -88,6 +86,21 @@ LRESULT CALLBACK Window::WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		);
 		return TRUE;
 	}
+
+	Window* window = reinterpret_cast<Window*>(
+		GetWindowLongPtrW(hwnd, GWLP_USERDATA)
+		);
+
+	// 登録されたコールバックを呼ぶ
+	if (window && window->messageHandler_)
+	{
+		window->messageHandler_(
+			hwnd, msg, wParam, lParam
+		);
+	}
+
+	switch (msg)
+	{
 	case WM_CLOSE:
 	{
 		Window* window = reinterpret_cast<Window*>(

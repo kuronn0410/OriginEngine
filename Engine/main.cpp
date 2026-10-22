@@ -73,11 +73,11 @@ int WINAPI WinMain(
 		return -1;
 	}
 
-    Editor editor(graphics);
+    Editor editor(graphics, windowManager);
     if(!editor.Initialize(
 		swapChainManager.GetBufferCount(editorWindowHandle),
         swapChainManager.GetRTVFormat(editorWindowHandle),
-        windowManager.GetHwnd(editorWindowHandle)
+        editorWindowHandle
     ))
     {
         return -1;

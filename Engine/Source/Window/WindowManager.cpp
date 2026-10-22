@@ -127,7 +127,34 @@ bool WindowManager::Exists(WindowHandle handle) const
 	return windows_[handle.id] != nullptr;
 }
 
+/*----------------設定-----------------*/
+bool WindowManager::SetMessageHandler(
+	WindowHandle handle, 
+	Window::MessageHandler handler
+)
+{
+	Window* window = GetWindow(handle);
+
+	if (!window)
+	{
+		return false;
+	}
+
+	window->SetMessageHandler(std::move(handler));
+
+	return true;
+}	
+/*----------------取得-----------------*/
 HWND WindowManager::GetHwnd(WindowHandle handle) const
 {
 	return windows_[handle.id]->GetHwnd();
+}
+
+Window* WindowManager::GetWindow(WindowHandle handle) const
+{
+	if (handle.id >= windows_.size())
+	{
+		return nullptr;
+	}
+	return windows_[handle.id].get();
 }

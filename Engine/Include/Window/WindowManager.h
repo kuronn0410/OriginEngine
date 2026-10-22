@@ -16,6 +16,8 @@ public:
     bool IsExitRequested() const{ return exitRequested_; }
     bool Exists(WindowHandle handle) const;
     void DestroyAll();
+    bool SetMessageHandler(WindowHandle handle, Window::MessageHandler handler);
+    Window* GetWindow(WindowHandle handle) const;
 private:
     bool DestroyWindow(WindowHandle handle);
     std::vector<std::unique_ptr<Window>> windows_;
