@@ -41,6 +41,10 @@ bool Editor::Initialize(
 		windowHandle_,
 		[](HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)-> bool
 		{
+			if (msg == WM_LBUTTONDOWN)
+			{
+				SetFocus(hwnd);
+			}
 			ImGui_ImplWin32_WndProcHandler(
 				hwnd, msg, wp, lp
 			);

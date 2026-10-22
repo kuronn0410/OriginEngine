@@ -7,4 +7,5 @@ public:
     void Draw() override;
 private:
     SceneCodeGenerator sceneCodeGenerator_;
+    char sceneName_[128] = {};
 };

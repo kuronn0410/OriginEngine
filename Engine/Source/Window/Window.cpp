@@ -91,6 +91,22 @@ LRESULT CALLBACK Window::WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		GetWindowLongPtrW(hwnd, GWLP_USERDATA)
 		);
 
+	if (msg == WM_CHAR)
+	{
+		wchar_t title[256] = {};
+		GetWindowTextW(hwnd, title, 256);
+
+		wchar_t buffer[512];
+		swprintf_s(
+			buffer,
+			L"WM_CHAR Window: %s, HWND: %p\n",
+			title,
+			static_cast<void*>(hwnd)
+		);
+
+		OutputDebugStringW(buffer);
+	}
+
 	// 登録されたコールバックを呼ぶ
 	if (window && window->messageHandler_)
 	{

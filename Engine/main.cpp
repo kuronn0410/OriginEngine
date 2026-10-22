@@ -40,7 +40,7 @@ int WINAPI WinMain(
     WindowHandle view3DWindowHandle
         = windowManager.Create(hInstance, WindowDesc{ L"3D View Window", 20, 460, 800, 420,false, mainEditorWindowHandle });
 
-
+    
     Graphics graphics;
     if (!graphics.Initialize(windowManager.GetHwnd(gameWindowHandle)))
     {

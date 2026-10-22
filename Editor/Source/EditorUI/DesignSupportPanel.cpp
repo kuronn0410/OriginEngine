@@ -11,17 +11,23 @@ void DesignSupportPanel::Draw()
 	);
 
 	ImGui::SetNextWindowSize(
-		ImVec2(500, 400),
+		ImVec2(350, 150),
 		ImGuiCond_Always
 	);
 	ImGui::Begin("OriginEngine Editor");
 
 	static int clickCount = 0;
 
-	if (ImGui::Button("Test Button", ImVec2(200, 50)))
+	ImGui::InputText(
+		"Scene",
+		sceneName_,
+		sizeof(sceneName_)
+	);
+
+	if (ImGui::Button("Generate Scene Code", ImVec2(200, 50)))
 	{
 		++clickCount;
-		sceneCodeGenerator_.SceneCodeGenerate("Test");
+		sceneCodeGenerator_.SceneCodeGenerate(sceneName_);
 	}
 
 	ImGui::Text("Click Count: %d", clickCount);
