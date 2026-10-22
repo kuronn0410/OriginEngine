@@ -1,11 +1,19 @@
 #include "Include/SceneCodeGenerator.h"
 
 #include <fstream>
+#include <string>
+using std::string;
 
-bool SceneCodeGenerator::SceneCodeGenerate()
+bool SceneCodeGenerator::SceneCodeGenerate(const string& filename)
 {
-	std::ofstream ofs("Test.txt");
+	std::ofstream ofs("Game/Generate/" + filename+ ".cpp");
+	std::ofstream ofsHeader("Game/Generate/" + filename + ".h");
+	
 	if (!ofs)
+	{
+		return false;
+	}
+	if(!ofsHeader)
 	{
 		return false;
 	}

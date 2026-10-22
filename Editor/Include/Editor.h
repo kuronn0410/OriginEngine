@@ -4,6 +4,9 @@
 #include  "Include/Graphics/Graphics.h"
 #include "Include/Window/WindowManager.h"
 #include "Include/Window/WindowHandle.h"
+#include <vector>
+#include "Include/EditorUI/IEditorPanel.h"
+
 class Graphics;
 class Editor
 {
@@ -30,7 +33,9 @@ public:
 private:
     Graphics& graphics_;
     ImGuiRenderer imguiRenderer_;
-    DesignSupportPanel designSupport_;
     WindowManager& windowManager_;
+	WindowHandle windowHandle_;
+
+	std::vector<std::unique_ptr<IEditorPanel>> panels_;
 	
 };

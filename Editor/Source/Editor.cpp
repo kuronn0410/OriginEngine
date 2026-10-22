@@ -4,7 +4,7 @@
 #include "External/imgui/imgui.h"
 
 #include <Windows.h>
-#include "External/imgui/backends/imgui_impl_win32.h"
+#include "Include/EditorUI/DesignSupportPanel.h"
 // 前方宣言
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(
 	HWND hWnd,
@@ -21,19 +21,24 @@ bool Editor::Initialize(
 	WindowHandle windowHandle)
 {
 	
+
+	DesignSupportPanel designSupportPanel;
+	panels_.push_back(std::make_unique<DesignSupportPanel>());
+
+	windowHandle_ = windowHandle;
 	// ImGuiRendererの初期化
 	imguiRenderer_.Initialize(
 		graphics_.GetDevice(),
 		graphics_.GetCommandQueue(),
 		numFramesInFlight,
 		rtvFormat,
-		windowManager_.GetHwnd(windowHandle)
+		windowManager_.GetHwnd(windowHandle_)
 	);
 
 
 	//メッセージハンドラを登録する
 	if (!windowManager_.SetMessageHandler(
-		windowHandle,
+		windowHandle_,
 		[](HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)-> bool
 		{
 			ImGui_ImplWin32_WndProcHandler(
@@ -56,30 +61,17 @@ void Editor::Draw()
 {
 	imguiRenderer_.BeginFrame();
 	// UIを構築
-	ImGui::SetNextWindowPos(
-		ImVec2(20, 20),
-		ImGuiCond_Always
-	);
-
-	ImGui::SetNextWindowSize(
-		ImVec2(500, 400),
-		ImGuiCond_Always
-	);
-	ImGui::Begin("OriginEngine Editor");
-
-	static int clickCount = 0;
-
-	if (ImGui::Button("Test Button", ImVec2(200, 50)))
-	{
-		++clickCount;
-	}
-
-	ImGui::Text("Click Count: %d", clickCount);
-
-	ImGui::End();
+	panels_[0]->Draw();
 	imguiRenderer_.Render(*graphics_.GetCommandList());
 }
 void Editor::Shutdown()
 {
+	// 1. Windowの入力コールバックを解除
+	windowManager_.SetMessageHandler(
+		windowHandle_,
+		{}
+	);
 
+	// 2. ImGuiの終了処理
+	imguiRenderer_.Shutdown();
 }
