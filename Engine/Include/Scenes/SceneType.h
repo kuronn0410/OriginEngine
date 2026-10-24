@@ -1,3 +1,6 @@
 #pragma once
 // Engine
-using SceneType = int;
+namespace Origin
+{
+	using SceneType = int;
+}

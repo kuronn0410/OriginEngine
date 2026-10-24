@@ -6,24 +6,26 @@
 #include "include/Scenes/SceneType.h"
 #include <memory>
 
-
-std::unique_ptr<Scene> GameSceneFactory::CreateScene(SceneType type)
+namespace Game
 {
-	std::unique_ptr<Scene> scene;
-    switch (type)
+    std::unique_ptr<Origin::Scene> GameSceneFactory::CreateScene(Origin::SceneType type)
     {
-    case GameSceneType::Test:
-		scene = std::make_unique<TestScene>(sceneRequest_, gameResources_);
-        break;
+        std::unique_ptr<Origin::Scene> scene;
+        switch (type)
+        {
+        case GameSceneType::Test:
+            scene = std::make_unique<TestScene>(sceneRequest_, gameResources_);
+            break;
 
-    case GameSceneType::Title:
-		scene = std::make_unique<TitleScene>(sceneRequest_, gameResources_);
-        break;
+        case GameSceneType::Title:
+            scene = std::make_unique<TitleScene>(sceneRequest_, gameResources_);
+            break;
 
-    case GameSceneType::Game:
-        // GameScene生成
-        break;
+        case GameSceneType::Game:
+            // GameScene生成
+            break;
+        }
+
+        return scene;
     }
-
-    return scene;
-}
+}   

@@ -5,17 +5,20 @@
 #include "include/Scenes/SceneManager.h"
 class Scene;
 
-
-class SceneChangeRequest
+namespace Origin
 {
-public:
-	// コンストラクタで SceneManager の参照を受け取る
-	SceneChangeRequest(SceneManager& sceneManager):
-		sceneManager_(sceneManager){}
-	void SetSceneFactory(std::unique_ptr<ISceneFactory> sceneFactory);
-	void RequestInitialScene(SceneType sceneType);
-	void RequestChangeScene(SceneType sceneType);
-private:
-	SceneManager& sceneManager_;
-	std::unique_ptr<ISceneFactory> sceneFactory_;
-};
+	class SceneChangeRequest
+	{
+	public:
+		// コンストラクタで SceneManager の参照を受け取る
+		SceneChangeRequest(Origin::SceneManager& sceneManager) :
+			sceneManager_(sceneManager) {
+		}
+		void SetSceneFactory(std::unique_ptr<Origin::ISceneFactory> sceneFactory);
+		void RequestInitialScene(Origin::SceneType sceneType);
+		void RequestChangeScene(Origin::SceneType sceneType);
+	private:
+		SceneManager& sceneManager_;
+		std::unique_ptr<ISceneFactory> sceneFactory_;
+	};
+}

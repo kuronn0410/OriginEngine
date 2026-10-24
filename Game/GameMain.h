@@ -4,19 +4,25 @@
 #include "include/Scenes/ISceneFactory.h"
 #include "include/Scene/GameResources.h"
 #include "include/Renderer/Mesh/MeshData.h"
-class SceneChangeRequest;
+namespace Origin
+{
+	class SceneChangeRequest;
+}
 class ResourceManager;
 
-class GameMain
+namespace Game
 {
-public:
-	bool Initialize(SceneChangeRequest& sceneRequest, ResourceManager& resourceManager);
-	void Finalize();
-private:
-	std::unique_ptr<ISceneFactory> sceneFactory_;
+	class GameMain
+	{
+	public:
+		bool Initialize(Origin::SceneChangeRequest& sceneRequest, ResourceManager& resourceManager);
+		void Finalize();
+	private:
+		std::unique_ptr<Origin::ISceneFactory> sceneFactory_;
 
-	MeshData meshData1_;
-	MeshData meshData2_;
-	MeshData meshData3_;
-	GameResources gameResources_;
-};
+		MeshData meshData1_;
+		MeshData meshData2_;
+		MeshData meshData3_;
+		GameResources gameResources_;
+	};
+}

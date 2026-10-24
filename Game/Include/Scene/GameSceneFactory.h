@@ -3,21 +3,27 @@
 #include <memory>
 #include "include/Scene/GameResources.h"
 
-
-class SceneChangeRequest;
-class ResourceManager;
-class Scene;
-
-class GameSceneFactory : public ISceneFactory
+namespace Origin
 {
-public:
-	GameSceneFactory(SceneChangeRequest& sceneRequest, GameResources* gameResources) :
-		ISceneFactory(sceneRequest),
-		gameResources_(gameResources)
-	{
-	}
+	class SceneChangeRequest;
+	class Scene;
+}
+class ResourceManager;
 
-private:
-	virtual std::unique_ptr<Scene> CreateScene(SceneType type) override;
-	GameResources* gameResources_ = nullptr;
-};
+namespace Game
+{
+
+	class GameSceneFactory : public Origin::ISceneFactory
+	{
+	public:
+		GameSceneFactory(Origin::SceneChangeRequest& sceneRequest, GameResources* gameResources) :
+			Origin::ISceneFactory(sceneRequest),
+			gameResources_(gameResources)
+		{
+		}
+
+	private:
+		virtual std::unique_ptr<Origin::Scene> CreateScene(Origin::SceneType type) override;
+		GameResources* gameResources_ = nullptr;
+	};
+}

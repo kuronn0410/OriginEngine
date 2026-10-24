@@ -3,8 +3,8 @@
 // Game
 namespace GameSceneType
 {
-    constexpr SceneType Test= 0;
-    constexpr SceneType Title = 1;
-    constexpr SceneType Game = 2;
+    constexpr Origin::SceneType Test= 0;
+    constexpr Origin::SceneType Title = 1;
+    constexpr Origin::SceneType Game = 2;
     
 }

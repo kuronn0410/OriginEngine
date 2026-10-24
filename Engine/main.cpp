@@ -104,11 +104,11 @@ int WINAPI WinMain(
 		*graphics.GetDescriptorAllocator()
     );
 
-    SceneManager sceneManager(graphics);
+    Origin::SceneManager sceneManager(graphics);
 
-    SceneChangeRequest sceneRequest(sceneManager);
+    Origin::SceneChangeRequest sceneRequest(sceneManager);
 
-    GameMain gameMain;
+    Game::GameMain gameMain;
     if (!gameMain.Initialize(sceneRequest, resourceManager))
     {
         return -1;

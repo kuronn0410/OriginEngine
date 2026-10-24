@@ -2,18 +2,24 @@
 #include <memory>
 #include "include/Scenes/SceneType.h"
 
-class Scene;
-class SceneChangeRequest;
-
-class ISceneFactory
+namespace Origin
 {
-public:
-	ISceneFactory(SceneChangeRequest& sceneRequest):
-		sceneRequest_(sceneRequest)
+	class SceneChangeRequest;
+	class Scene;
+}
+
+namespace Origin
+{
+	class ISceneFactory
 	{
-	}
-	virtual ~ISceneFactory() = default;
-	virtual std::unique_ptr<Scene> CreateScene(SceneType type) = 0;
-protected:
-	SceneChangeRequest& sceneRequest_;
-};
+	public:
+		ISceneFactory(SceneChangeRequest& sceneRequest) :
+			sceneRequest_(sceneRequest)
+		{
+		}
+		virtual ~ISceneFactory() = default;
+		virtual std::unique_ptr<Scene> CreateScene(SceneType type) = 0;
+	protected:
+		SceneChangeRequest& sceneRequest_;
+	};
+}

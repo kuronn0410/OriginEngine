@@ -3,24 +3,27 @@
 #include <utility>
 #include "include/Scenes/Scene.h"
 
-void SceneManager::ChangeScene(std::unique_ptr<Scene> scene)
+namespace Origin
 {
-    currentScene_ = std::move(scene);
-	currentScene_->Initialize(graphics_);
-}
-
-void SceneManager::Update()
-{
-    if (currentScene_)
+    void SceneManager::ChangeScene(std::unique_ptr<Scene> scene)
     {
-        currentScene_->Update();
+        currentScene_ = std::move(scene);
+        currentScene_->Initialize(graphics_);
     }
-}
 
-void SceneManager::Render(Renderer& renderer)
-{
-    if (currentScene_)
+    void SceneManager::Update()
     {
-        currentScene_->Render(renderer);
+        if (currentScene_)
+        {
+            currentScene_->Update();
+        }
+    }
+
+    void SceneManager::Render(Renderer& renderer)
+    {
+        if (currentScene_)
+        {
+            currentScene_->Render(renderer);
+        }
     }
 }

@@ -4,18 +4,21 @@
 #include <memory>
 class Renderer;
 
-class SceneManager
+namespace Origin
 {
-public:
-	SceneManager(Graphics& graphics) :
-		graphics_(graphics)
+	class SceneManager
 	{
-	}
-	void Update();
-	void ChangeScene(std::unique_ptr<Scene> scene);
-	void Render(Renderer& renderer);
-	
-private:
-    std::unique_ptr<Scene> currentScene_;
-	Graphics& graphics_;
-};
+	public:
+		SceneManager(Graphics& graphics) :
+			graphics_(graphics)
+		{
+		}
+		void Update();
+		void ChangeScene(std::unique_ptr<Scene> scene);
+		void Render(Renderer& renderer);
+
+	private:
+		std::unique_ptr<Scene> currentScene_;
+		Graphics& graphics_;
+	};
+}
