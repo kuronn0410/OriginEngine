@@ -5,8 +5,11 @@
 /// <summary>
 /// Meshの初期値をまとめた構造体
 /// </summary>
-struct MeshData
+namespace Origin
 {
-    std::vector<Vertex> vertices;
-    std::vector<uint32_t> indices;
-};
+    struct MeshData
+    {
+        std::vector<Vertex> vertices;
+        std::vector<uint32_t> indices;
+    };
+}

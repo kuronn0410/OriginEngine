@@ -3,11 +3,14 @@
 #include <dxgiformat.h>
 #include <vector>
 #include <cstddef>
-struct TextureData
+namespace Origin
 {
-    UINT width;
-    UINT height;
-    DXGI_FORMAT format;
+    struct TextureData
+    {
+        UINT width;
+        UINT height;
+        DXGI_FORMAT format;
 
-    std::vector<std::byte> pixels;
-};
+        std::vector<std::byte> pixels;
+    };
+}

@@ -7,16 +7,19 @@ IDxcUtils
 IDxcCompiler3
 IDxcBlob
 */
-class ShaderCompiler
+namespace Origin
 {
-public:
-	bool Initialize();
-	Microsoft::WRL::ComPtr<IDxcBlob> CompileFromFile(
-		const wchar_t* filePath,
-		const wchar_t* profile
-	);//HLSLをコンパイルして、DXILに変換する
-private:
-	Microsoft::WRL::ComPtr<IDxcUtils> dxcUtils_;
-	Microsoft::WRL::ComPtr<IDxcCompiler3> dxcCompiler_;
-	Microsoft::WRL::ComPtr<IDxcBlob> dxcBlob_;	
-};
+	class ShaderCompiler
+	{
+	public:
+		bool Initialize();
+		Microsoft::WRL::ComPtr<IDxcBlob> CompileFromFile(
+			const wchar_t* filePath,
+			const wchar_t* profile
+		);//HLSLをコンパイルして、DXILに変換する
+	private:
+		Microsoft::WRL::ComPtr<IDxcUtils> dxcUtils_;
+		Microsoft::WRL::ComPtr<IDxcCompiler3> dxcCompiler_;
+		Microsoft::WRL::ComPtr<IDxcBlob> dxcBlob_;
+	};
+}

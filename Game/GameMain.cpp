@@ -11,10 +11,10 @@
 
 namespace Game
 { 
-    bool GameMain::Initialize(Origin::SceneChangeRequest& sceneRequest, ResourceManager& resourceManager)
+    bool GameMain::Initialize(Origin::SceneChangeRequest& sceneRequest, Origin::ResourceManager& resourceManager)
     {
         /*---Meshの初期化---*/
-	    ObjLoader objLoader;
+	    Origin::ObjLoader objLoader;
         meshData1_ = objLoader.Load("Assets/Resource/Try.obj");
 	    meshData2_ = objLoader.Load("Assets/Resource/Cube.obj");
         meshData3_ = objLoader.Load("Assets/Resource/Try1.obj");

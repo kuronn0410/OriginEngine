@@ -11,10 +11,10 @@
 
 namespace Game
 { 
-    bool TitleScene::Initialize(Graphics& graphics)
+    bool TitleScene::Initialize(Origin::Graphics& graphics)
     {
         //1
-        RenderObject renderObject1;
+        Origin::RenderObject renderObject1;
         renderObject1.mesh = gameResources_->CubeMesh;
         renderObject1.texture = gameResources_->clearTexture;
         renderObject1.transform = {
@@ -41,7 +41,7 @@ namespace Game
 	    return true;
     }
 
-    void TitleScene::Render(Renderer& renderer)
+    void TitleScene::Render(Origin::Renderer& renderer)
     {
 	    renderer.SetCamera(camera_);
 

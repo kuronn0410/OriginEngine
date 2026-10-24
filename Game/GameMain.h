@@ -7,22 +7,23 @@
 namespace Origin
 {
 	class SceneChangeRequest;
+	class ResourceManager;
 }
-class ResourceManager;
+
 
 namespace Game
 {
 	class GameMain
 	{
 	public:
-		bool Initialize(Origin::SceneChangeRequest& sceneRequest, ResourceManager& resourceManager);
+		bool Initialize(Origin::SceneChangeRequest& sceneRequest, Origin::ResourceManager& resourceManager);
 		void Finalize();
 	private:
 		std::unique_ptr<Origin::ISceneFactory> sceneFactory_;
 
-		MeshData meshData1_;
-		MeshData meshData2_;
-		MeshData meshData3_;
+		Origin::MeshData meshData1_;
+		Origin::MeshData meshData2_;
+		Origin::MeshData meshData3_;
 		GameResources gameResources_;
 	};
 }

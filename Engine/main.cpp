@@ -28,20 +28,20 @@ int WINAPI WinMain(
 )
 {
 
-	WindowManager windowManager;
+	Origin::WindowManager windowManager;
 	
 
-	WindowHandle mainEditorWindowHandle
-		= windowManager.Create(hInstance, WindowDesc{ L"Editor Window", CW_USEDEFAULT, CW_USEDEFAULT,1600, 940, true, {} });
-    WindowHandle editorWindowHandle
-		= windowManager.Create(hInstance, WindowDesc{ L"Editor Window", 840, 20,730, 880, false, mainEditorWindowHandle });
-    WindowHandle gameWindowHandle
-        = windowManager.Create(hInstance, WindowDesc{ L"Game Window", 20, 20 ,800, 420, false, mainEditorWindowHandle });
-    WindowHandle view3DWindowHandle
-        = windowManager.Create(hInstance, WindowDesc{ L"3D View Window", 20, 460, 800, 420,false, mainEditorWindowHandle });
+	Origin::WindowHandle mainEditorWindowHandle
+		= windowManager.Create(hInstance, Origin::WindowDesc{ L"Editor Window", CW_USEDEFAULT, CW_USEDEFAULT,1600, 940, true, {} });
+    Origin::WindowHandle editorWindowHandle
+		= windowManager.Create(hInstance, Origin::WindowDesc{ L"Editor Window", 840, 20,730, 880, false, mainEditorWindowHandle });
+    Origin::WindowHandle gameWindowHandle
+        = windowManager.Create(hInstance, Origin::WindowDesc{ L"Game Window", 20, 20 ,800, 420, false, mainEditorWindowHandle });
+    Origin::WindowHandle view3DWindowHandle
+        = windowManager.Create(hInstance, Origin::WindowDesc{ L"3D View Window", 20, 460, 800, 420,false, mainEditorWindowHandle });
 
     
-    Graphics graphics;
+    Origin::Graphics graphics;
     if (!graphics.Initialize(windowManager.GetHwnd(gameWindowHandle)))
     {
         return -1;
@@ -49,7 +49,7 @@ int WINAPI WinMain(
 
 	
 
-	SwapChainManager swapChainManager(
+    Origin::SwapChainManager swapChainManager(
 		*graphics.GetFactory(),
 		*graphics.GetDevice(),
 		*graphics.GetCommandQueue()
@@ -73,7 +73,7 @@ int WINAPI WinMain(
 		return -1;
 	}
 
-    Editor editor(graphics, windowManager);
+    Origin::Editor editor(graphics, windowManager);
     if(!editor.Initialize(
 		swapChainManager.GetBufferCount(editorWindowHandle),
         swapChainManager.GetRTVFormat(editorWindowHandle),
@@ -88,17 +88,18 @@ int WINAPI WinMain(
         return -1;
     }
 
-    ShaderCompiler shaderCompiler;
+    Origin::ShaderCompiler shaderCompiler;
 	if (!shaderCompiler.Initialize())
 	{
 		return -1;
 	}
-	Renderer renderer;
+	Origin::Renderer renderer;
     if (!renderer.Initialize(shaderCompiler, *graphics.GetDevice()))
     {
 		return -1;
     }
-    ResourceManager resourceManager(
+    
+    Origin::ResourceManager resourceManager(
         *graphics.GetDevice(),
 		*graphics.GetCommandList(),
 		*graphics.GetDescriptorAllocator()
@@ -186,10 +187,6 @@ int WINAPI WinMain(
         
             //graphics.Render();
         
-        
-
-
-
     }
    
 

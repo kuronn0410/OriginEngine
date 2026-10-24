@@ -2,7 +2,11 @@
 #include "include/Scenes/Scene.h"
 #include "include/Graphics/Graphics.h"
 #include <memory>
-class Renderer;
+namespace Origin
+{
+	class Renderer;
+}
+
 
 namespace Origin
 {

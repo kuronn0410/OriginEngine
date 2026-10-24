@@ -1,11 +1,14 @@
 #pragma once
 #include <cstdint>
-struct WindowHandle
+namespace Origin
 {
-    uint32_t id = UINT32_MAX;
-
-    bool IsValid() const
+    struct WindowHandle
     {
-        return id != UINT32_MAX;
-    }
-};
+        uint32_t id = UINT32_MAX;
+
+        bool IsValid() const
+        {
+            return id != UINT32_MAX;
+        }
+    };
+}

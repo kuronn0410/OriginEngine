@@ -1,11 +1,14 @@
 #pragma once
 #include <cstdint>
-struct TextureHandle
+namespace Origin
 {
-    uint32_t id = UINT32_MAX;
-
-    bool IsValid() const
+    struct TextureHandle
     {
-        return id != UINT32_MAX;
-    }
-};
+        uint32_t id = UINT32_MAX;
+
+        bool IsValid() const
+        {
+            return id != UINT32_MAX;
+        }
+    };
+}

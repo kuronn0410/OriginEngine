@@ -1,7 +1,10 @@
 #pragma once
-struct Vector3
+namespace Origin
 {
-    float x;
-    float y;
-    float z;
-};
+    struct Vector3
+    {
+        float x;
+        float y;
+        float z;
+    };
+}

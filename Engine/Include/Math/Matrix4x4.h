@@ -1,5 +1,8 @@
 #pragma once
-struct Matrix4x4
+namespace Origin
 {
-    float m[4][4];
-};
+    struct Matrix4x4
+    {
+        float m[4][4];
+    };
+}

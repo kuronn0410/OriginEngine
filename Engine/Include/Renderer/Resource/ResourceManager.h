@@ -15,62 +15,65 @@
 /// <summary>
 /// リソースを管理するクラス
 /// </summary>
-class ResourceManager : public IResourceRegistry
+namespace Origin
 {
-public:
-	ResourceManager(
-		ID3D12Device& device,
-		ID3D12GraphicsCommandList& commandList,
-		DescriptorAllocator& descriptorAllocator
-		): 
-
-        device_(device),
-        commandList_(commandList),
-		descriptorAllocator_(descriptorAllocator)
-
-    {
-    }
-	/*-- メッシュ --*/
-    MeshHandle RegisterMesh(
-        const MeshData& meshData
-    ) override;
-
-	const Mesh* GetMesh(const MeshHandle& meshHandle) const
+	class ResourceManager : public IResourceRegistry
 	{
-		if (meshHandle.id < meshes_.size())
+	public:
+		ResourceManager(
+			ID3D12Device& device,
+			ID3D12GraphicsCommandList& commandList,
+			DescriptorAllocator& descriptorAllocator
+		) :
+
+			device_(device),
+			commandList_(commandList),
+			descriptorAllocator_(descriptorAllocator)
+
 		{
-			return meshes_[meshHandle.id].get();
 		}
-		return nullptr;
-	}
+		/*-- メッシュ --*/
+		MeshHandle RegisterMesh(
+			const MeshData& meshData
+		) override;
 
-	/*-- テクスチャ --*/
-	TextureHandle RegisterTexture(
-		const std::string& path
-	);
-
-	const Texture* GetTexture(const TextureHandle& textureHandle) const
-	{
-		if (textureHandle.id < textures_.size())
+		const Mesh* GetMesh(const MeshHandle& meshHandle) const
 		{
-			return textures_[textureHandle.id].get();
+			if (meshHandle.id < meshes_.size())
+			{
+				return meshes_[meshHandle.id].get();
+			}
+			return nullptr;
 		}
-		return nullptr;
-	}
 
-	//ID3D12DescriptorHeap* GetSRVHeap() const
-	//{
-	//	return &srvHeap_;
-	//}
+		/*-- テクスチャ --*/
+		TextureHandle RegisterTexture(
+			const std::string& path
+		);
+
+		const Texture* GetTexture(const TextureHandle& textureHandle) const
+		{
+			if (textureHandle.id < textures_.size())
+			{
+				return textures_[textureHandle.id].get();
+			}
+			return nullptr;
+		}
+
+		//ID3D12DescriptorHeap* GetSRVHeap() const
+		//{
+		//	return &srvHeap_;
+		//}
 
 
-private:
-    // MeshDataを反映して生成されたMeshを所有
-    std::vector<std::unique_ptr<Mesh>> meshes_;
-	std::vector<std::unique_ptr<Texture>> textures_;
+	private:
+		// MeshDataを反映して生成されたMeshを所有
+		std::vector<std::unique_ptr<Mesh>> meshes_;
+		std::vector<std::unique_ptr<Texture>> textures_;
 
 
-    ID3D12Device& device_;
-	ID3D12GraphicsCommandList& commandList_;
-	DescriptorAllocator& descriptorAllocator_;
-};
+		ID3D12Device& device_;
+		ID3D12GraphicsCommandList& commandList_;
+		DescriptorAllocator& descriptorAllocator_;
+	};
+}

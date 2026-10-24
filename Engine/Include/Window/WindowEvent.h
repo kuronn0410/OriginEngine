@@ -1,6 +1,9 @@
 #pragma once
 #include "Include/Window/WindowEventType.h"
-struct WindowEvent
+namespace Origin
 {
-    WindowEventType type;
-};
+    struct WindowEvent
+    {
+        WindowEventType type;
+    };
+}

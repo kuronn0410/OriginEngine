@@ -6,17 +6,20 @@
 #include "include/Math/Matrix4x4.h"
 #include "include/Renderer/Object/RenderObject.h"
 
-class Object
+namespace Origin
 {
-public:
-    /*初期化*/
-    void SetRenderObject(const RenderObject& renderObject);
+    class Object
+    {
+    public:
+        /*初期化*/
+        void SetRenderObject(const RenderObject& renderObject);
 
-    /*取得*/
-	Matrix4x4 GetWorldMatrix() const;
-    
-	const RenderObject& GetRenderObject()const;
-	RenderObject& GetRenderObject();
-private:
-    RenderObject renderObject_;
-};
+        /*取得*/
+        Matrix4x4 GetWorldMatrix() const;
+
+        const RenderObject& GetRenderObject()const;
+        RenderObject& GetRenderObject();
+    private:
+        RenderObject renderObject_;
+    };
+}

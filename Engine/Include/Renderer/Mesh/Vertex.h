@@ -4,9 +4,12 @@
 /// <summary>
 /// 一つの頂点の情報をまとめた構造体
 /// </summary>
-struct Vertex
+namespace Origin
 {
-    Vector3 position;
-    Vector2 uv;
-    Vector3 normal;
-};
+    struct Vertex
+    {
+        Vector3 position;
+        Vector2 uv;
+        Vector3 normal;
+    };
+}

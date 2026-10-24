@@ -10,11 +10,11 @@
 
 namespace Game
 { 
-	bool TestScene::Initialize(Graphics& graphics)
+	bool TestScene::Initialize(Origin::Graphics& graphics)
 	{
 		/*------Objectの初期化------*/
 		//1
-		RenderObject renderObject1;
+		Origin::RenderObject renderObject1;
 		renderObject1.mesh = gameResources_->playerMesh;
 		renderObject1.texture = gameResources_->backgroundTexture;
 		renderObject1.transform ={
@@ -25,7 +25,7 @@ namespace Game
 		object1_.SetRenderObject(renderObject1);
 
 		//2
-		RenderObject renderObject2;
+		Origin::RenderObject renderObject2;
 		renderObject2.mesh = gameResources_->playerMesh;
 		renderObject2.texture = gameResources_->baseTexture;
 		renderObject2.transform = {
@@ -36,7 +36,7 @@ namespace Game
 		object2_.SetRenderObject(renderObject2);
 
 		//3
-		RenderObject renderObject3;
+		Origin::RenderObject renderObject3;
 		renderObject3.texture = gameResources_->groundTexture;
 		renderObject3.mesh = gameResources_->CubeMesh;
 		renderObject3.transform = {
@@ -47,7 +47,7 @@ namespace Game
 		object3_.SetRenderObject(renderObject3);
 
 		//4
-		RenderObject wallrenderObject;
+		Origin::RenderObject wallrenderObject;
 		wallrenderObject.texture = gameResources_->rockTexture;
 		wallrenderObject.mesh = gameResources_->CubeMesh;
 		wallrenderObject.transform = {
@@ -106,7 +106,7 @@ namespace Game
 		return true;
 	}
 
-	void TestScene::Render(Renderer& renderer)
+	void TestScene::Render(Origin::Renderer& renderer)
 	{
 	   renderer.SetCamera(camera_);
 

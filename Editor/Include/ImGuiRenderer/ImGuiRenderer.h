@@ -4,37 +4,40 @@
 #include <dxgiformat.h>
 #include "Include/Graphics/DescriptorAllocator.h"
 
-class ImGuiRenderer
+namespace Origin
 {
-public:
-    ImGuiRenderer(
-        DescriptorAllocator& allocator,
-        ID3D12DescriptorHeap& srvHeap
-    )
-        : descriptorAllocator_(allocator),
-        srvHeap_(srvHeap)
+    class ImGuiRenderer
     {
-    }
-    bool Initialize(
-		//Graphics側
-        ID3D12Device* device,
-		ID3D12CommandQueue* commandQueue,
-		//スワップチェイン側
-		int numFramesInFlight,
-        DXGI_FORMAT rtvFormat,
-		//ウィンドウ側
-        HWND hwnd
-    );
+    public:
+        ImGuiRenderer(
+            DescriptorAllocator& allocator,
+            ID3D12DescriptorHeap& srvHeap
+        )
+            : descriptorAllocator_(allocator),
+            srvHeap_(srvHeap)
+        {
+        }
+        bool Initialize(
+            //Graphics側
+            ID3D12Device* device,
+            ID3D12CommandQueue* commandQueue,
+            //スワップチェイン側
+            int numFramesInFlight,
+            DXGI_FORMAT rtvFormat,
+            //ウィンドウ側
+            HWND hwnd
+        );
 
-    void BeginFrame();
+        void BeginFrame();
 
-    void Render(
-        ID3D12GraphicsCommandList& commandList
-        
-    );
+        void Render(
+            ID3D12GraphicsCommandList& commandList
 
-    void Shutdown();
-private:
-    DescriptorAllocator& descriptorAllocator_;
-	ID3D12DescriptorHeap& srvHeap_;
-};
+        );
+
+        void Shutdown();
+    private:
+        DescriptorAllocator& descriptorAllocator_;
+        ID3D12DescriptorHeap& srvHeap_;
+    };
+}

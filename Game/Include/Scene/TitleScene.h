@@ -6,9 +6,11 @@
 namespace Origin
 {
     class SceneChangeRequest;
+    class Renderer;
+    class Graphics;
 }
-class Renderer;
-class Graphics;
+
+
 
 namespace Game
 {
@@ -20,12 +22,12 @@ namespace Game
             gameResources_(gameResources)
         {
         }
-        bool Initialize(Graphics& graphics);
+        bool Initialize(Origin::Graphics& graphics);
         void Update() override;
-        void Render(Renderer& renderer) override;
+        void Render(Origin::Renderer& renderer) override;
     private:
-        Object object_;
-        Camera camera_;
+        Origin::Object object_;
+        Origin::Camera camera_;
         GameResources* gameResources_ = nullptr;
     };
 }

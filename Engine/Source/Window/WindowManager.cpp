@@ -8,153 +8,156 @@
 #include <cstdint>
 #include <utility>
 
-WindowHandle WindowManager::Create(HINSTANCE hInstance, const WindowDesc& desc)
+namespace Origin
 {
-	 auto window = std::make_unique<Window>();
-	 HWND parentHwnd = nullptr;
-	 if (desc.parent.IsValid())
-	 {
-		 // 親ウィンドウが指定されている
-		 parentHwnd = GetHwnd(desc.parent);
-
-	 }
-
-	 if (!window->Initialize(hInstance, desc, parentHwnd))
-	 {
-		 // 登録失敗
-		 return WindowHandle{};
-	 }
-
-	 
-
-	 windows_.push_back(std::move(window));
-	 WindowHandle handle{ static_cast<uint32_t>(windows_.size() - 1) };
-
-	 if (desc.isMainWindow)
-	 {
-		 mainWindowHandle_ = handle;
-	 }
-
-	 return handle;
-}
-
-
-
-void WindowManager::ProcessEvents()
-{
-	std::vector<WindowHandle> destroyTargets;
-	for (size_t i = 0; i < windows_.size(); ++i)
+	WindowHandle WindowManager::Create(HINSTANCE hInstance, const WindowDesc& desc)
 	{
-		auto& window = windows_[i];
+		auto window = std::make_unique<Window>();
+		HWND parentHwnd = nullptr;
+		if (desc.parent.IsValid())
+		{
+			// 親ウィンドウが指定されている
+			parentHwnd = GetHwnd(desc.parent);
 
-		// ① nullptrならスキップ
-		if(!window)
-		{
-			continue;
 		}
-		// ② WindowEventを用意
-		WindowEvent event;
-		WindowHandle handle{ static_cast<uint32_t>(i) };
-		
-		
-		// ③ PollEvent()でイベントを取り出す
-		while(window->PollEvent(event))
+
+		if (!window->Initialize(hInstance, desc, parentHwnd))
 		{
-			// ④ CloseRequestedなら破棄対象として記録
-			if (event.type == WindowEventType::CloseRequested)
+			// 登録失敗
+			return WindowHandle{};
+		}
+
+
+
+		windows_.push_back(std::move(window));
+		WindowHandle handle{ static_cast<uint32_t>(windows_.size() - 1) };
+
+		if (desc.isMainWindow)
+		{
+			mainWindowHandle_ = handle;
+		}
+
+		return handle;
+	}
+
+
+
+	void WindowManager::ProcessEvents()
+	{
+		std::vector<WindowHandle> destroyTargets;
+		for (size_t i = 0; i < windows_.size(); ++i)
+		{
+			auto& window = windows_[i];
+
+			// ① nullptrならスキップ
+			if (!window)
 			{
-				// 破棄対象として記録
-				if(handle.id == mainWindowHandle_.id)
+				continue;
+			}
+			// ② WindowEventを用意
+			WindowEvent event;
+			WindowHandle handle{ static_cast<uint32_t>(i) };
+
+
+			// ③ PollEvent()でイベントを取り出す
+			while (window->PollEvent(event))
+			{
+				// ④ CloseRequestedなら破棄対象として記録
+				if (event.type == WindowEventType::CloseRequested)
 				{
-					// メインウィンドウが閉じられた場合、アプリケーションを終了
-					exitRequested_ = true;
-				}
-				else
-				{
-					destroyTargets.push_back(handle);
+					// 破棄対象として記録
+					if (handle.id == mainWindowHandle_.id)
+					{
+						// メインウィンドウが閉じられた場合、アプリケーションを終了
+						exitRequested_ = true;
+					}
+					else
+					{
+						destroyTargets.push_back(handle);
+					}
 				}
 			}
 		}
-	}
-	
-	// 破棄対象のウィンドウを処理
-	for (const auto& handle : destroyTargets)
-	{
-		if(!DestroyWindow(handle))
+
+		// 破棄対象のウィンドウを処理
+		for (const auto& handle : destroyTargets)
 		{
-			// 失敗した場合はエラー処理
-			return;
+			if (!DestroyWindow(handle))
+			{
+				// 失敗した場合はエラー処理
+				return;
+			}
 		}
 	}
-}
 
-bool WindowManager::DestroyWindow(WindowHandle handle)
-{
-	if (handle.id >= windows_.size() ||
-		!windows_[handle.id])
+	bool WindowManager::DestroyWindow(WindowHandle handle)
 	{
-		return false;
-	}
-	if(!windows_[handle.id]->Destroy())
-	{
-		return false;
-	}
-
-	windows_[handle.id].reset();
-	return true;
-}
-
-void WindowManager::DestroyAll()
-{
-	for (auto& window : windows_)
-	{
-		if(!window)
+		if (handle.id >= windows_.size() ||
+			!windows_[handle.id])
 		{
-			continue;
+			return false;
+		}
+		if (!windows_[handle.id]->Destroy())
+		{
+			return false;
 		}
 
-		if (!window->Destroy())
+		windows_[handle.id].reset();
+		return true;
+	}
+
+	void WindowManager::DestroyAll()
+	{
+		for (auto& window : windows_)
 		{
-			// 失敗した場合はエラー処理
-			continue;
+			if (!window)
+			{
+				continue;
+			}
+
+			if (!window->Destroy())
+			{
+				// 失敗した場合はエラー処理
+				continue;
+			}
+			window.reset();
 		}
-		window.reset();
 	}
-}
 
-bool WindowManager::Exists(WindowHandle handle) const
-{
-	return windows_[handle.id] != nullptr;
-}
-
-/*----------------設定-----------------*/
-bool WindowManager::SetMessageHandler(
-	WindowHandle handle, 
-	Window::MessageHandler handler
-)
-{
-	Window* window = GetWindow(handle);
-
-	if (!window)
+	bool WindowManager::Exists(WindowHandle handle) const
 	{
-		return false;
+		return windows_[handle.id] != nullptr;
 	}
 
-	window->SetMessageHandler(std::move(handler));
-
-	return true;
-}	
-/*----------------取得-----------------*/
-HWND WindowManager::GetHwnd(WindowHandle handle) const
-{
-	return windows_[handle.id]->GetHwnd();
-}
-
-Window* WindowManager::GetWindow(WindowHandle handle) const
-{
-	if (handle.id >= windows_.size())
+	/*----------------設定-----------------*/
+	bool WindowManager::SetMessageHandler(
+		WindowHandle handle,
+		Window::MessageHandler handler
+	)
 	{
-		return nullptr;
+		Window* window = GetWindow(handle);
+
+		if (!window)
+		{
+			return false;
+		}
+
+		window->SetMessageHandler(std::move(handler));
+
+		return true;
 	}
-	return windows_[handle.id].get();
+	/*----------------取得-----------------*/
+	HWND WindowManager::GetHwnd(WindowHandle handle) const
+	{
+		return windows_[handle.id]->GetHwnd();
+	}
+
+	Window* WindowManager::GetWindow(WindowHandle handle) const
+	{
+		if (handle.id >= windows_.size())
+		{
+			return nullptr;
+		}
+		return windows_[handle.id].get();
+	}
 }

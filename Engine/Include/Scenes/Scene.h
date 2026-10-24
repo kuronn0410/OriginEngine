@@ -1,12 +1,14 @@
 #pragma once
 //class Graphics;
-class Renderer;
+
 namespace Origin
 {
 	class SceneChangeRequest;
+	class Renderer;
+	class Graphics;
 }
 
-class Graphics;
+
 
 namespace Origin
 {

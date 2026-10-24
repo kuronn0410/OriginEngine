@@ -7,35 +7,37 @@
 #include <vector>
 #include "Include/EditorUI/IEditorPanel.h"
 
-class Graphics;
-class Editor
+namespace Origin
 {
-public:
-    explicit Editor(Graphics& graphics, WindowManager& windowManager) :
-        graphics_(graphics),
-        imguiRenderer_(
-            *graphics.GetDescriptorAllocator(),
-            *graphics.GetSRVHeap()
-
-        ),
-        windowManager_(windowManager)
+    class Editor
     {
-    }
-    bool Initialize(
-        int numFramesInFlight,
-        DXGI_FORMAT rtvFormat,
-        //ウィンドウ側
-        WindowHandle windowHandle);
-    void Update();
-    void Draw();
-    void Shutdown();
+    public:
+        explicit Editor(Graphics& graphics, WindowManager& windowManager) :
+            graphics_(graphics),
+            imguiRenderer_(
+                *graphics.GetDescriptorAllocator(),
+                *graphics.GetSRVHeap()
 
-private:
-    Graphics& graphics_;
-    ImGuiRenderer imguiRenderer_;
-    WindowManager& windowManager_;
-	WindowHandle windowHandle_;
+            ),
+            windowManager_(windowManager)
+        {
+        }
+        bool Initialize(
+            int numFramesInFlight,
+            DXGI_FORMAT rtvFormat,
+            //ウィンドウ側
+            WindowHandle windowHandle);
+        void Update();
+        void Draw();
+        void Shutdown();
 
-	std::vector<std::unique_ptr<IEditorPanel>> panels_;
-	
-};
+    private:
+        Graphics& graphics_;
+        ImGuiRenderer imguiRenderer_;
+        WindowManager& windowManager_;
+        WindowHandle windowHandle_;
+
+        std::vector<std::unique_ptr<IEditorPanel>> panels_;
+
+    };
+}

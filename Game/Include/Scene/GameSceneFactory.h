@@ -8,7 +8,6 @@ namespace Origin
 	class SceneChangeRequest;
 	class Scene;
 }
-class ResourceManager;
 
 namespace Game
 {

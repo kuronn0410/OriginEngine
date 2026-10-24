@@ -3,12 +3,15 @@
 /// <summary>
 /// IDを保持するための構造体
 /// </summary>
-struct MeshHandle
+namespace Origin
 {
-    uint32_t id = UINT32_MAX;
-
-    bool IsValid() const
+    struct MeshHandle
     {
-        return id != UINT32_MAX;
-    }
-};
+        uint32_t id = UINT32_MAX;
+
+        bool IsValid() const
+        {
+            return id != UINT32_MAX;
+        }
+    };
+}

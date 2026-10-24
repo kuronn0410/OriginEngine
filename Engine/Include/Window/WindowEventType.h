@@ -1,7 +1,10 @@
 
 #pragma once
-enum class WindowEventType
+namespace Origin
 {
-    CloseRequested,
-    Resized
-};
+    enum class WindowEventType
+    {
+        CloseRequested,
+        Resized
+    };
+}
