@@ -13,7 +13,7 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(
 	LPARAM lParam
 );
 
-namespace Origin
+namespace Origin::Editor
 {
 	bool Editor::Initialize(
 		int numFramesInFlight,

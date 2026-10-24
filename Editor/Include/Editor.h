@@ -7,7 +7,7 @@
 #include <vector>
 #include "Include/EditorUI/IEditorPanel.h"
 
-namespace Origin
+namespace Origin::Editor
 {
     class Editor
     {

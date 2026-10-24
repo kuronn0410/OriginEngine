@@ -4,7 +4,7 @@
 #include <dxgiformat.h>
 #include "Include/Graphics/DescriptorAllocator.h"
 
-namespace Origin
+namespace Origin::Editor
 {
     class ImGuiRenderer
     {

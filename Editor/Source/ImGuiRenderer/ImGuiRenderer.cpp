@@ -6,7 +6,7 @@
 #include <Windows.h>
 #include <dxgiformat.h>
 
-namespace Origin
+namespace Origin::Editor
 {
     bool ImGuiRenderer::Initialize(
         ID3D12Device* device,

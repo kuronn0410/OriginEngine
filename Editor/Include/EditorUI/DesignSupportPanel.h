@@ -1,11 +1,14 @@
 #pragma once
 #include "Include/EditorUI/IEditorPanel.h"
 #include "Include/SceneCodeGenerator.h"
-class DesignSupportPanel : public IEditorPanel
+namespace Origin::Editor
 {
-public:
-    void Draw() override;
-private:
-    SceneCodeGenerator sceneCodeGenerator_;
-    char sceneName_[128] = {};
-};
+    class DesignSupportPanel : public IEditorPanel
+    {
+    public:
+        void Draw() override;
+    private:
+        SceneCodeGenerator sceneCodeGenerator_;
+        char sceneName_[128] = {};
+    };
+}

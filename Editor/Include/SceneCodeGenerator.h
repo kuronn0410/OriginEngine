@@ -1,11 +1,14 @@
 #pragma once
 #include <string>
 using std::string;
-class SceneCodeGenerator
+namespace Origin::Editor
 {
-public:
-	bool SceneCodeGenerate(const string& filename);
+	class SceneCodeGenerator
+	{
+	public:
+		bool SceneCodeGenerate(const string& filename);
 
-private:
-	
-};
+	private:
+
+	};
+}

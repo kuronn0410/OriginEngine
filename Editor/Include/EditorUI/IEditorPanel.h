@@ -1,10 +1,13 @@
 #pragma once
 #pragma once
 
-class IEditorPanel
+namespace Origin::Editor
 {
-public:
-    virtual ~IEditorPanel() = default;
+    class IEditorPanel
+    {
+    public:
+        virtual ~IEditorPanel() = default;
 
-    virtual void Draw() = 0;
-};
+        virtual void Draw() = 0;
+    };
+}

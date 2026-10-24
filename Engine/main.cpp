@@ -73,7 +73,7 @@ int WINAPI WinMain(
 		return -1;
 	}
 
-    Origin::Editor editor(graphics, windowManager);
+    Origin::Editor::Editor editor(graphics, windowManager);
     if(!editor.Initialize(
 		swapChainManager.GetBufferCount(editorWindowHandle),
         swapChainManager.GetRTVFormat(editorWindowHandle),
