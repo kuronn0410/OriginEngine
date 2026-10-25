@@ -4,6 +4,7 @@
 #include "include/Scenes/Scene.h"
 #include "include/Scene/GameSceneType.h"
 #include "include/Scenes/SceneType.h"
+//#include "Generate/Scenes/Sample/SampleScene.h"
 #include <memory>
 
 namespace Game
@@ -20,7 +21,9 @@ namespace Game
         case GameSceneType::Title:
             scene = std::make_unique<TitleScene>(sceneRequest_, gameResources_);
             break;
-
+		//case GameSceneType::Sample:
+		//	scene = std::make_unique<SampleScene>(sceneRequest_, gameResources_);
+		//	break;
         case GameSceneType::Game:
             // GameScene生成
             break;
