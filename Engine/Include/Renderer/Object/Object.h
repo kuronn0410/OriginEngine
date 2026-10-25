@@ -11,10 +11,9 @@ namespace Origin
     class Object
     {
     public:
-        /*初期化*/
         void SetRenderObject(const RenderObject& renderObject);
 
-        /*取得*/
+      
         Matrix4x4 GetWorldMatrix() const;
 
         const RenderObject& GetRenderObject()const;

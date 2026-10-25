@@ -1,6 +1,6 @@
 #pragma once
 #include <memory>
-#include "include/Scenes/SceneType.h"
+#include "Include/Scenes/SceneType.h"
 
 namespace Origin
 {

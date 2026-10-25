@@ -1,7 +1,7 @@
 #pragma once
-#include "include/Scenes/ISceneFactory.h"
+#include "Include/Scenes/ISceneFactory.h"
 #include <memory>
-#include "include/Scene/GameResources.h"
+#include "Include/Scene/GameResources.h"
 
 namespace Origin
 {

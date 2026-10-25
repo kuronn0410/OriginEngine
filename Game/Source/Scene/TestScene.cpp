@@ -178,7 +178,7 @@ namespace Game
 
 		if (GetAsyncKeyState('1') & 0x8000)
 		{
-			sceneRequest_.RequestChangeScene(GameSceneType::Sample);
+			sceneRequest_.RequestChangeScene(GameSceneType::Title);
 		}
 	}
 

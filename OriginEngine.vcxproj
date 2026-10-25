@@ -27,26 +27,26 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v145</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v145</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v145</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v145</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -170,16 +170,11 @@
     <ClCompile Include="Engine\Source\Renderer\Texture\Texture.cpp" />
     <ClCompile Include="Engine\Source\Renderer\Texture\TextureLoader.cpp" />
     <ClCompile Include="Engine\Source\Scenes\SceneManager.cpp" />
-    <ClCompile Include="Engine\main.cpp" />
     <ClCompile Include="Engine\Source\Graphics\Graphics.cpp" />
     <ClCompile Include="Engine\Source\Scenes\Scene.cpp" />
     <ClCompile Include="Engine\Source\Window\Window.cpp" />
     <ClCompile Include="Engine\Source\Scenes\SceneChangeRequest.cpp" />
     <ClCompile Include="Engine\Source\Window\WindowManager.cpp" />
-    <ClCompile Include="Game\GameMain.cpp" />
-    <ClCompile Include="Game\Source\Scene\GameSceneFactory.cpp" />
-    <ClCompile Include="Game\Source\Scene\TestScene.cpp" />
-    <ClCompile Include="Game\Source\Scene\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Editor\External\imgui\backends\imgui_impl_dx12.h" />
@@ -239,12 +234,6 @@
     <ClInclude Include="Engine\Include\Window\WindowEventType.h" />
     <ClInclude Include="Engine\Include\Window\WindowHandle.h" />
     <ClInclude Include="Engine\Include\Window\WindowManager.h" />
-    <ClInclude Include="Game\GameMain.h" />
-    <ClInclude Include="Game\Include\Scene\GameResources.h" />
-    <ClInclude Include="Game\Include\Scene\GameSceneFactory.h" />
-    <ClInclude Include="Game\Include\Scene\GameSceneType.h" />
-    <ClInclude Include="Game\Include\Scene\TestScene.h" />
-    <ClInclude Include="Game\Include\Scene\TitleScene.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="docs\README.md">

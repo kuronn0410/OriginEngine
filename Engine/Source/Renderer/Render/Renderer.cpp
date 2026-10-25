@@ -16,6 +16,8 @@
 #include "Include/Renderer/Object/RenderObject.h"
 #include "Include/Renderer/Texture/Texture.h"
 //#include <d3dx12.h>
+#include <filesystem>
+#include <iostream>
 
 namespace Origin
 {
@@ -24,6 +26,14 @@ namespace Origin
         ShaderCompiler& shaderCompiler,
         ID3D12Device& device)
     {
+        std::cout << std::filesystem::current_path() << std::endl;
+        
+        
+        bool found = std::filesystem::exists(
+            L"Engine/Shader/BasicVS.hlsl"
+        );
+
+
         // シェーダーのコンパイル
         auto vertexShader =
             shaderCompiler.CompileFromFile(
