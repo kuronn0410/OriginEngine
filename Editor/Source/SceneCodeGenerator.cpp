@@ -11,14 +11,14 @@ namespace Origin::Editor
 	{
 		// フォルダが存在しなければ生成
 		namespace fs = std::filesystem;
-		fs::create_directories("Game/Generate");
-		fs::create_directories("Game/Generate/Scenes");
-		fs::create_directories("Game/Generate/Scenes/" + filename);
+		fs::create_directories("Games/TestGame1/Game/Generate");
+		fs::create_directories("Games/TestGame1/Game/Generate/Scenes");
+		fs::create_directories("Games/TestGame1/Game/Generate/Scenes/" + filename);
 
 		std::string cppPath
-			= "Game/Generate/Scenes/" + filename + "/" + filename + "Scene.cpp";
+			= "Games/TestGame1/Game/Generate/Scenes/" + filename + "/" + filename + "Scene.cpp";
 		std::string hPath
-			= "Game/Generate/Scenes/" + filename + "/" + filename + "Scene.h";
+			= "Games/TestGame1/Game/Generate/Scenes/" + filename + "/" + filename + "Scene.h";
 
 		if (fs::exists(cppPath))
 		{
@@ -30,10 +30,10 @@ namespace Origin::Editor
 		}
 
 		std::ofstream ofs(
-			"Game/Generate/Scenes/" + filename + "/" + filename + "Scene.cpp"
+			"Games/TestGame1/Game/Generate/Scenes/" + filename + "/" + filename + "Scene.cpp"
 		);
 		std::ofstream ofsHeader(
-			"Game/Generate/Scenes/" + filename + "/" + filename + "Scene.h"
+			"Games/TestGame1/Game/Generate/Scenes/" + filename + "/" + filename + "Scene.h"
 		);
 
 		if (!ofs)

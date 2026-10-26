@@ -15,39 +15,39 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Game\GameMain.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Game\Source\Scene\GameSceneFactory.cpp">
+    <ClCompile Include="Game\GameMain.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Game\Source\Scene\TestScene.cpp">
+    <ClCompile Include="Game\Source\Scene\GameSceneFactory.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Game\Source\Scene\TitleScene.cpp">
+    <ClCompile Include="Game\Source\Scene\TestScene.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Engine\main.cpp">
+    <ClCompile Include="Game\Source\Scene\TitleScene.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Game\GameMain.h">
+    <ClInclude Include="Game\GameMain.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Game\Include\Scene\GameResources.h">
+    <ClInclude Include="Game\Include\Scene\GameResources.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Game\Include\Scene\GameSceneFactory.h">
+    <ClInclude Include="Game\Include\Scene\GameSceneFactory.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Game\Include\Scene\GameSceneType.h">
+    <ClInclude Include="Game\Include\Scene\GameSceneType.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Game\Include\Scene\TestScene.h">
+    <ClInclude Include="Game\Include\Scene\TestScene.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Game\Include\Scene\TitleScene.h">
+    <ClInclude Include="Game\Include\Scene\TitleScene.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
