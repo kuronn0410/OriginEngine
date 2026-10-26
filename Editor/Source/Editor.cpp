@@ -2,8 +2,11 @@
 #include "Include/Graphics/Graphics.h"
 #include "Include/ImGuiRenderer/ImGuiRenderer.h"
 #include "External/imgui/imgui.h"
-
+#include "Include/Window/WindowHandle.h"
+#include "Include/GameProject/ProjectManager.h"
 #include <Windows.h>
+#include <memory>
+#include <dxgiformat.h>
 #include "Include/EditorUI/DesignSupportPanel.h"
 // 前方宣言
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(
@@ -56,6 +59,30 @@ namespace Origin::Editor
 			imguiRenderer_.Shutdown();
 			return false;
 		}
+
+		//テスト
+		bool result = projectManager_.LoadProject(
+			L"C:/YY/ゲーム制作/DirectX/OriginEngine/OriginEngine/Games/TestGame1"
+		);
+
+
+		if (!result)
+		{
+			// 読み込み失敗
+			return false;
+		}
+
+		const GameProject* project =
+			projectManager_.GetCurrentProject();
+
+		if (project != nullptr)
+		{
+			// ブレークポイントを設定して内容を確認
+		}
+
+
+
+
 		return true;
 	}
 	void Editor::Update()

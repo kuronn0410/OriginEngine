@@ -6,6 +6,7 @@
 #include "Include/Window/WindowHandle.h"
 #include <vector>
 #include "Include/EditorUI/IEditorPanel.h"
+#include "Include/GameProject/ProjectManager.h"
 
 namespace Origin::Editor
 {
@@ -36,6 +37,7 @@ namespace Origin::Editor
         ImGuiRenderer imguiRenderer_;
         WindowManager& windowManager_;
         WindowHandle windowHandle_;
+        ProjectManager projectManager_;
 
         std::vector<std::unique_ptr<IEditorPanel>> panels_;
 

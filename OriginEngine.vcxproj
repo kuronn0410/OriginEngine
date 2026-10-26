@@ -153,6 +153,8 @@
     <ClCompile Include="Editor\External\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Editor\Source\Editor.cpp" />
     <ClCompile Include="Editor\Source\EditorUI\DesignSupportPanel.cpp" />
+    <ClCompile Include="Editor\Source\GameProject\GameProjectLoader.cpp" />
+    <ClCompile Include="Editor\Source\GameProject\ProjectManager.cpp" />
     <ClCompile Include="Editor\Source\ImGuiRenderer\ImGuiRenderer.cpp" />
     <ClCompile Include="Editor\Source\SceneCodeGenerator.cpp" />
     <ClCompile Include="Engine\External\stb\stb_image.cpp" />
@@ -188,6 +190,9 @@
     <ClInclude Include="Editor\Include\EditorUI\DesignSupportPanel.h" />
     <ClInclude Include="Editor\Include\Editor.h" />
     <ClInclude Include="Editor\Include\EditorUI\IEditorPanel.h" />
+    <ClInclude Include="Editor\Include\GameProject\GameProject.h" />
+    <ClInclude Include="Editor\Include\GameProject\GameProjectLoader.h" />
+    <ClInclude Include="Editor\Include\GameProject\ProjectManager.h" />
     <ClInclude Include="Editor\Include\ImGuiRenderer\ImGuiRenderer.h" />
     <ClInclude Include="Editor\Include\SceneCodeGenerator.h" />
     <ClInclude Include="Engine\External\stb\stb_image.h" />
