@@ -154,6 +154,7 @@
     <ClCompile Include="Editor\Source\Editor.cpp" />
     <ClCompile Include="Editor\Source\EditorUI\DesignSupportPanel.cpp" />
     <ClCompile Include="Editor\Source\EditorUI\EditorPanelManager.cpp" />
+    <ClCompile Include="Editor\Source\EditorUI\ImGuiDocking.cpp" />
     <ClCompile Include="Editor\Source\EditorUI\ProjectPanel.cpp" />
     <ClCompile Include="Editor\Source\GameProject\GameProjectLoader.cpp" />
     <ClCompile Include="Editor\Source\GameProject\ProjectManager.cpp" />
@@ -193,6 +194,7 @@
     <ClInclude Include="Editor\Include\Editor.h" />
     <ClInclude Include="Editor\Include\EditorUI\EditorPanelManager.h" />
     <ClInclude Include="Editor\Include\EditorUI\IEditorPanel.h" />
+    <ClInclude Include="Editor\Include\EditorUI\ImGuiDocking.h" />
     <ClInclude Include="Editor\Include\EditorUI\ProjectPanel.h" />
     <ClInclude Include="Editor\Include\GameProject\GameProject.h" />
     <ClInclude Include="Editor\Include\GameProject\GameProjectLoader.h" />
