@@ -2,9 +2,12 @@
 #include <filesystem>
 #include <string>
 
-struct GameProject
+namespace Origin::Editor
 {
-    std::string name;
-    std::filesystem::path rootPath;
-    std::filesystem::path projectFilePath;
-};
+    struct GameProject
+    {
+        std::string name;
+        std::filesystem::path rootPath;
+        std::filesystem::path projectFilePath;
+    };
+}

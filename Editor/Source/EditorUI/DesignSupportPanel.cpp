@@ -9,12 +9,12 @@ namespace Origin::Editor
 
 		ImGui::SetNextWindowPos(
 			ImVec2(20, 20),
-			ImGuiCond_Always
+			ImGuiCond_Once
 		);
 
 		ImGui::SetNextWindowSize(
-			ImVec2(350, 150),
-			ImGuiCond_Always
+			ImVec2(500, 400),
+			ImGuiCond_Once
 		);
 		ImGui::Begin("OriginEngine Editor");
 

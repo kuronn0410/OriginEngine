@@ -75,7 +75,8 @@ namespace Origin::Editor
                 allocator->Free(cpu);
             };
 
-
+        ImGuiIO& io = ImGui::GetIO();
+        io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
         // 5. DX12初期化情報の設定
         if (!ImGui_ImplDX12_Init(&init_info))

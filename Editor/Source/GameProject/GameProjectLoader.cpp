@@ -4,31 +4,34 @@
 #include <optional>
 #include "Include/GameProject/GameProject.h"
 
-std::optional<GameProject> GameProjectLoader::LoadProject(const std::filesystem::path& _directory)
+namespace Origin::Editor
 {
-
-	std::optional<GameProject> project= std::nullopt;
-	namespace fs = std::filesystem;
-	for (const auto& entry : fs::directory_iterator(_directory))
+	std::optional<GameProject> GameProjectLoader::LoadProject(const std::filesystem::path& _directory)
 	{
-		if (entry.is_regular_file())
+
+		std::optional<GameProject> project = std::nullopt;
+		namespace fs = std::filesystem;
+		for (const auto& entry : fs::directory_iterator(_directory))
 		{
-			if (entry.path().extension() == ".vcxproj")
+			if (entry.is_regular_file())
 			{
-				if (project.has_value())
+				if (entry.path().extension() == ".vcxproj")
 				{
-					return std::nullopt; // Multiple project files found, return nullopt
+					if (project.has_value())
+					{
+						return std::nullopt; // Multiple project files found, return nullopt
+					}
+					project.emplace(); //GameProjectのインスタンスを作成
+					project.value().name = entry.path().stem().string();
+					project.value().rootPath = _directory;
+					project.value().projectFilePath = entry.path();
 				}
-				project.emplace(); //GameProjectのインスタンスを作成
-				project.value().name = entry.path().stem().string();
-				project.value().rootPath = _directory;
-				project.value().projectFilePath = entry.path();
 			}
 		}
+		if (!project.has_value())
+		{
+			return std::nullopt; // No project file found, return nullopt
+		}
+		return project;
 	}
-	if(!project.has_value())
-	{
-		return std::nullopt; // No project file found, return nullopt
-	}
-	return project;
 }

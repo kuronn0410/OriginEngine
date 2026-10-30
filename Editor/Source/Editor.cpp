@@ -8,6 +8,7 @@
 #include <memory>
 #include <dxgiformat.h>
 #include "Include/EditorUI/DesignSupportPanel.h"
+#include "Include/EditorUI/ProjectPanel.h"
 // 前方宣言
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(
 	HWND hWnd,
@@ -25,9 +26,7 @@ namespace Origin::Editor
 		WindowHandle windowHandle)
 	{
 
-
-		DesignSupportPanel designSupportPanel;
-		panels_.push_back(std::make_unique<DesignSupportPanel>());
+		editorPanelManager_.Initialize();
 
 		windowHandle_ = windowHandle;
 		// ImGuiRendererの初期化
@@ -59,30 +58,6 @@ namespace Origin::Editor
 			imguiRenderer_.Shutdown();
 			return false;
 		}
-
-		//テスト
-		bool result = projectManager_.LoadProject(
-			L"C:/YY/ゲーム制作/DirectX/OriginEngine/OriginEngine/Games/TestGame1"
-		);
-
-
-		if (!result)
-		{
-			// 読み込み失敗
-			return false;
-		}
-
-		const GameProject* project =
-			projectManager_.GetCurrentProject();
-
-		if (project != nullptr)
-		{
-			// ブレークポイントを設定して内容を確認
-		}
-
-
-
-
 		return true;
 	}
 	void Editor::Update()
@@ -92,8 +67,7 @@ namespace Origin::Editor
 	void Editor::Draw()
 	{
 		imguiRenderer_.BeginFrame();
-		// UIを構築
-		panels_[0]->Draw();
+		editorPanelManager_.Draw();
 		imguiRenderer_.Render(*graphics_.GetCommandList());
 	}
 	void Editor::Shutdown()

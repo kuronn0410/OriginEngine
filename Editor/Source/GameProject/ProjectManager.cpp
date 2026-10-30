@@ -2,15 +2,18 @@
 #include "Include/GameProject/GameProjectLoader.h"
 #include "Include/GameProject/GameProject.h"
 
-bool ProjectManager::LoadProject(const std::filesystem::path& directory)
+namespace Origin::Editor
 {
-
-	auto loaded = std::move(projectLoader_.LoadProject(directory));
-
-	if(!loaded.has_value())
+	bool ProjectManager::LoadProject(const std::filesystem::path& directory)
 	{
-		return false; // Failed to load project
+
+		auto loaded = std::move(projectLoader_.LoadProject(directory));
+
+		if (!loaded.has_value())
+		{
+			return false; // Failed to load project
+		}
+		currentProject_ = std::move(loaded);
+		return true;
 	}
-	currentProject_ = std::move(loaded);
-	return true;
 }

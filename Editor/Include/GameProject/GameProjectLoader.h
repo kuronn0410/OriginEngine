@@ -2,9 +2,12 @@
 #include "Include/GameProject/GameProject.h"
 #include <filesystem>
 #include <optional>
-class GameProjectLoader
+namespace Origin::Editor
 {
-public:
-	std::optional<GameProject> LoadProject(const std::filesystem::path& directory);
+	class GameProjectLoader
+	{
+	public:
+		std::optional<GameProject> LoadProject(const std::filesystem::path& directory);
 
-};
+	};
+}
