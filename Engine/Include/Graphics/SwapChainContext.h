@@ -30,7 +30,7 @@ namespace Origin
 		bool CreateRTVHeap(ID3D12Device& device);//RTV(Render Target View「このBackBufferを描画先として使う」という指定)を置くための場所を作れるようにする
 		bool CreateRenderTargets(ID3D12Device& device);//SwapChain が持っている各 BackBuffer を取得して、RTV Heap の各スロットに RTV を作る
 		bool CreateDSVHeap(ID3D12Device& device);
-		bool CreateDepthBuffer(ID3D12Device& device);
+		bool CreateDepthBuffer(ID3D12Device& device, HWND hwnd);
 		static constexpr UINT kFrameCount = 2;
 		Microsoft::WRL::ComPtr<IDXGISwapChain4> swapChain_;
 		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> rtvHeap_;

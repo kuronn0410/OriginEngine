@@ -34,7 +34,7 @@ namespace Origin
 		{
 			return false;
 		}
-		if (!CreateDepthBuffer(device))
+		if (!CreateDepthBuffer(device, hwnd))
 		{
 			return false;
 		}
@@ -191,16 +191,21 @@ namespace Origin
 		return true;
 	}
 
-	bool SwapChainContext::CreateDepthBuffer(ID3D12Device& device)
+	bool SwapChainContext::CreateDepthBuffer(ID3D12Device& device,HWND hwnd)
 	{
 
 		D3D12_HEAP_PROPERTIES heapProperties = {};
 		heapProperties.Type = D3D12_HEAP_TYPE_DEFAULT;
 
+		RECT rect{};
+		GetClientRect(hwnd, &rect);
+		UINT width = rect.right - rect.left;
+		UINT height = rect.bottom - rect.top;
+
 		D3D12_RESOURCE_DESC resourceDesc = {};
 		resourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
-		resourceDesc.Width = 1280;
-		resourceDesc.Height = 720;
+		resourceDesc.Width = width;
+		resourceDesc.Height = height;
 		resourceDesc.DepthOrArraySize = 1;
 		resourceDesc.MipLevels = 1;
 		resourceDesc.Format = DXGI_FORMAT_D32_FLOAT;

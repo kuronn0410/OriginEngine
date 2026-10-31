@@ -1,6 +1,7 @@
 #include "Include/EditorUI/EditorPanelManager.h"
 #include "Include/EditorUI/DesignSupportPanel.h"
 #include "Include/EditorUI/ProjectPanel.h"
+#include "External/imgui/imgui.h"
 #include <memory>
 #include <algorithm>
 namespace Origin::Editor
@@ -17,6 +18,7 @@ namespace Origin::Editor
 	}
 	void EditorPanelManager::Draw()
 	{
+		ImGui::DockSpaceOverViewport();
 		for(const auto& index : drawIndices_ )
 		{
 			panels_[index]->Draw();

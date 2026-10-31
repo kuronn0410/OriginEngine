@@ -34,13 +34,16 @@ int WINAPI WinMain(
 	Origin::WindowHandle mainEditorWindowHandle
 		= windowManager.Create(hInstance, Origin::WindowDesc{ L"Editor Window", CW_USEDEFAULT, CW_USEDEFAULT,1600, 940, true, {} });
     Origin::WindowHandle editorWindowHandle
-		= windowManager.Create(hInstance, Origin::WindowDesc{ L"Editor Window", 840, 20,730, 880, false, mainEditorWindowHandle });
+		= windowManager.Create(hInstance, Origin::WindowDesc{ L"Editor Window", 840, 20,730, 860, false, mainEditorWindowHandle });
     Origin::WindowHandle gameWindowHandle
         = windowManager.Create(hInstance, Origin::WindowDesc{ L"Game Window", 20, 20 ,800, 420, false, mainEditorWindowHandle });
     Origin::WindowHandle view3DWindowHandle
         = windowManager.Create(hInstance, Origin::WindowDesc{ L"3D View Window", 20, 460, 800, 420,false, mainEditorWindowHandle });
 
     
+    //RECT rect{};
+    //GetClientRect(windowManager.GetHwnd(editorWindowHandle), &rect);
+
     Origin::Graphics graphics;
     if (!graphics.Initialize(windowManager.GetHwnd(gameWindowHandle)))
     {
@@ -72,6 +75,23 @@ int WINAPI WinMain(
 	{
 		return -1;
 	}
+
+    //auto* context = swapChainManager.GetContext(editorWindowHandle);
+    //auto* swapChain = context->GetSwapChain();
+    //Microsoft::WRL::ComPtr<ID3D12Resource> backBuffer;
+
+    //HRESULT hr = swapChain->GetBuffer(
+    //    0,
+    //    IID_PPV_ARGS(backBuffer.GetAddressOf())
+    //);
+    //if (SUCCEEDED(hr))
+    //{
+    //    D3D12_RESOURCE_DESC desc = backBuffer->GetDesc();
+
+    //    UINT64 width = desc.Width;
+    //    UINT height = desc.Height;
+    //}
+
 
     Origin::Editor::Editor editor(graphics, windowManager);
     if(!editor.Initialize(
@@ -169,7 +189,7 @@ int WINAPI WinMain(
         if (windowManager.Exists(editorWindowHandle))
         {
             sceneManager.Update();
-            graphics.BeginFrame(Color(0.0f, 0.0f, 0.0f, 1.0f), windowManager.GetHwnd(editorWindowHandle), *swapChainManager.GetContext(editorWindowHandle));
+            graphics.BeginFrame(Color(1.0f, 0.0f, 0.0f, 1.0f), windowManager.GetHwnd(editorWindowHandle), *swapChainManager.GetContext(editorWindowHandle));
             renderer.BeginFrame(graphics.GetCommandList(), graphics.GetSRVHeap());
             editor.Draw();
             graphics.EndFrame(*swapChainManager.GetContext(editorWindowHandle));

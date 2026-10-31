@@ -7,15 +7,15 @@ namespace Origin::Editor
 	{
 		// Implement the drawing logic for the design support panel here
 
-		ImGui::SetNextWindowPos(
-			ImVec2(20, 20),
-			ImGuiCond_Once
-		);
+		//ImGui::SetNextWindowPos(
+		//	ImVec2(20, 20),
+		//	ImGuiCond_Once
+		//);
 
-		ImGui::SetNextWindowSize(
-			ImVec2(500, 400),
-			ImGuiCond_Once
-		);
+		//ImGui::SetNextWindowSize(
+		//	ImVec2(500, 400),
+		//	ImGuiCond_Once
+		//);
 		ImGui::Begin("OriginEngine Editor");
 
 		static int clickCount = 0;

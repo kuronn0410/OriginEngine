@@ -103,7 +103,10 @@ namespace Origin::Editor
     {
         // 1. ImGuiの描画データを生成
         ImGui::Render();
+        ImDrawData* drawData = ImGui::GetDrawData();
 
+        ImVec2 displaySize = drawData->DisplaySize;
+        ImVec2 framebufferScale = drawData->FramebufferScale;
         // 2. 描画データをDirectX12のCommandListに記録
         ImGui_ImplDX12_RenderDrawData(
             ImGui::GetDrawData(),
