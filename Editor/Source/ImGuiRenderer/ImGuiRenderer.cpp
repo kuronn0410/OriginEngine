@@ -77,8 +77,12 @@ namespace Origin::Editor
 
         ImGuiIO& io = ImGui::GetIO();
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-
-        // 5. DX12初期化情報の設定
+        io.Fonts->AddFontFromFileTTF(
+            "C:/Windows/Fonts/meiryo.ttc",
+            18.0f,
+            nullptr,
+            io.Fonts->GetGlyphRangesJapanese()
+        );
         if (!ImGui_ImplDX12_Init(&init_info))
         {
 

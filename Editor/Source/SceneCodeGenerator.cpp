@@ -1,4 +1,5 @@
 #include "Include/SceneCodeGenerator.h"
+#include "Include/GameProject/GameProject.h"
 
 #include <fstream>
 #include <string>
@@ -7,18 +8,20 @@ using std::string;
 
 namespace Origin::Editor
 {
-	bool SceneCodeGenerator::SceneCodeGenerate(const string& filename)
+	bool SceneCodeGenerator::SceneCodeGenerate(const string& filename, const GameProject& project)
 	{
 		// フォルダが存在しなければ生成
 		namespace fs = std::filesystem;
-		fs::create_directories("Games/TestGame1/Game/Generate");
-		fs::create_directories("Games/TestGame1/Game/Generate/Scenes");
-		fs::create_directories("Games/TestGame1/Game/Generate/Scenes/" + filename);
+		fs::create_directories(project.rootPath /"Game/Generate");
+		fs::create_directories(project.rootPath /"Game/Generate/Scenes");
+		fs::create_directories(project.rootPath /"Game/Generate/Scenes"/filename);
 
-		std::string cppPath
-			= "Games/TestGame1/Game/Generate/Scenes/" + filename + "/" + filename + "Scene.cpp";
-		std::string hPath
-			= "Games/TestGame1/Game/Generate/Scenes/" + filename + "/" + filename + "Scene.h";
+		fs::path directory = project.rootPath / "Game/Generate/Scenes" / filename;
+
+		fs::path cppPath
+			= directory /  (filename + "Scene.cpp");
+		fs::path hPath
+			= directory /  (filename + "Scene.h");
 
 		if (fs::exists(cppPath))
 		{
@@ -30,10 +33,10 @@ namespace Origin::Editor
 		}
 
 		std::ofstream ofs(
-			"Games/TestGame1/Game/Generate/Scenes/" + filename + "/" + filename + "Scene.cpp"
+			directory / (filename + "Scene.cpp")
 		);
 		std::ofstream ofsHeader(
-			"Games/TestGame1/Game/Generate/Scenes/" + filename + "/" + filename + "Scene.h"
+			directory / (filename + "Scene.h")
 		);
 
 		if (!ofs)

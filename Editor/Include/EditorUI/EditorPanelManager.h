@@ -1,5 +1,6 @@
 #pragma once
 #include "Include/EditorUI/IEditorPanel.h"
+#include "Include/GameProject/ProjectManager.h"
 #include <vector>
 #include <memory>
 #include <cstdint>
@@ -9,7 +10,7 @@ namespace Origin::Editor
     class EditorPanelManager
     {
     public:
-		bool Initialize();
+		bool Initialize(ProjectManager& projectManager);
         void Draw();
         void DrawMenuBar();
 

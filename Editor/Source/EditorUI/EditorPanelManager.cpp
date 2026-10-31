@@ -1,16 +1,17 @@
 #include "Include/EditorUI/EditorPanelManager.h"
 #include "Include/EditorUI/DesignSupportPanel.h"
 #include "Include/EditorUI/ProjectPanel.h"
+#include "Include/GameProject/ProjectManager.h"
 #include "External/imgui/imgui.h"
 #include <memory>
 #include <algorithm>
 namespace Origin::Editor
 {
 
-	bool EditorPanelManager::Initialize()
+	bool EditorPanelManager::Initialize(ProjectManager& projectManager)
 	{
-		panels_.push_back(std::make_unique<DesignSupportPanel>());
-		panels_.push_back(std::make_unique<ProjectPanel>());
+		panels_.push_back(std::make_unique<DesignSupportPanel>(projectManager));
+		panels_.push_back(std::make_unique<ProjectPanel>(projectManager));
 
 		AddDrawPanel(0);
 		AddDrawPanel(1);

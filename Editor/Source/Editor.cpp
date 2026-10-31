@@ -26,7 +26,7 @@ namespace Origin::Editor
 		WindowHandle windowHandle)
 	{
 
-		editorPanelManager_.Initialize();
+		editorPanelManager_.Initialize(projectManager_);
 
 		windowHandle_ = windowHandle;
 		// ImGuiRendererの初期化
