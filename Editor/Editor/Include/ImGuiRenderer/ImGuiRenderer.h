@@ -28,7 +28,7 @@ namespace Origin::Editor
             HWND hwnd
         );
 
-        void BeginFrame();
+        void BeginFrame(ID3D12GraphicsCommandList* commandList, ID3D12DescriptorHeap* srvHeap);
 
         void Render(
             ID3D12GraphicsCommandList& commandList

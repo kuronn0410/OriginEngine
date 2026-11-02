@@ -94,11 +94,12 @@ namespace Origin::Editor
         return true;
     }
 
-    void ImGuiRenderer::BeginFrame()
+    void ImGuiRenderer::BeginFrame(ID3D12GraphicsCommandList* commandList, ID3D12DescriptorHeap* srvHeap)
     {
         ImGui_ImplDX12_NewFrame();
         ImGui_ImplWin32_NewFrame();
         ImGui::NewFrame();
+		commandList->SetDescriptorHeaps(1, &srvHeap);
     }
 
     void ImGuiRenderer::Render(

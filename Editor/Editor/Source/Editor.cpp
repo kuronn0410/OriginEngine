@@ -66,7 +66,7 @@ namespace Origin::Editor
 	}
 	void Editor::Draw()
 	{
-		imguiRenderer_.BeginFrame();
+		imguiRenderer_.BeginFrame(graphics_.GetCommandList(), graphics_.GetSRVHeap());
 		editorPanelManager_.Draw();
 		imguiRenderer_.Render(*graphics_.GetCommandList());
 	}

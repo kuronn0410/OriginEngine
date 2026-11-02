@@ -155,7 +155,6 @@
     <ClCompile Include="Game\Source\Scene\GameSceneFactory.cpp" />
     <ClCompile Include="Game\Source\Scene\TestScene.cpp" />
     <ClCompile Include="Game\Source\Scene\TitleScene.cpp" />
-    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\GameMain.h" />

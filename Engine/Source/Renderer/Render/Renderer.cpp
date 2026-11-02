@@ -33,7 +33,6 @@ namespace Origin
             L"Engine/Shader/BasicVS.hlsl"
         );
 
-
         // シェーダーのコンパイル
         auto vertexShader =
             shaderCompiler.CompileFromFile(
@@ -46,6 +45,7 @@ namespace Origin
                 L"Engine/Shader/BasicPS.hlsl",
                 L"ps_6_0"
             );
+
         if (!vertexShader || !pixelShader)
         {
             return false;
@@ -53,7 +53,6 @@ namespace Origin
         // パイプラインステート、ルートシグネチャ、頂点バッファの作成
         if (!CreateRootSignature(device))
         {
-
             return false;
         }
 
@@ -347,6 +346,8 @@ namespace Origin
         commandList_ = commandList;
         srvHeap_ = srvHeap;
         drawCount_ = 0;
+        commandList_->SetDescriptorHeaps(1, &srvHeap_); 
+
     }
 
     void Renderer::Draw(const Object& object)
@@ -393,7 +394,7 @@ namespace Origin
             worldConstantBuffer_->GetGPUVirtualAddress() + offset;
 
         // コマンドリストの設定
-        commandList_->SetDescriptorHeaps(1, &srvHeap_);
+        //commandList_->SetDescriptorHeaps(1, &srvHeap_);
         commandList_->SetGraphicsRootSignature(rootSignature_.Get());
         commandList_->SetPipelineState(pipelineState_.Get());
         commandList_->SetGraphicsRootConstantBufferView(0, gpuAddress);
