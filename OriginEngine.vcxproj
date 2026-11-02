@@ -167,6 +167,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\External\stb\stb_image.h" />
+    <ClInclude Include="Engine\Include\GameModule\GameModuleAPI.h" />
     <ClInclude Include="Engine\Include\Graphics\DescriptorAllocation.h" />
     <ClInclude Include="Engine\Include\Graphics\DescriptorAllocator.h" />
     <ClInclude Include="Engine\Include\Graphics\SwapChainContext.h" />

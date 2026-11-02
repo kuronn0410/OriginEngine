@@ -8,6 +8,7 @@
 #include "Include/EditorUI/IEditorPanel.h"
 #include "Include/GameProject/ProjectManager.h"
 #include "Include/EditorUI/EditorPanelManager.h" 
+#include "Include/GameModuleLoader/GameModuleLoader.h"
 
 namespace Origin::Editor
 {
@@ -40,6 +41,7 @@ namespace Origin::Editor
         WindowHandle windowHandle_;
         ProjectManager projectManager_;
         EditorPanelManager editorPanelManager_;
+		GameModuleLoader gameModuleLoader_;
 
     };
 }

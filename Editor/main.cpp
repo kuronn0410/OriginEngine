@@ -172,9 +172,7 @@ int WINAPI WinMain(
 
         if (windowManager.Exists(editorWindowHandle))
         {
-            //sceneManager.Update();
             graphics.BeginFrame(Color(1.0f, 0.0f, 0.0f, 1.0f), windowManager.GetHwnd(editorWindowHandle), *swapChainManager.GetContext(editorWindowHandle));
-            //renderer.BeginFrame(graphics.GetCommandList(), graphics.GetSRVHeap());
             editor.Draw();
             graphics.EndFrame(*swapChainManager.GetContext(editorWindowHandle));
         }

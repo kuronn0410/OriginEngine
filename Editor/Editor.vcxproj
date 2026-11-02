@@ -78,6 +78,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)Editor\;$(ProjectDir)..\Engine\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -97,6 +98,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)Editor\;$(ProjectDir)..\Engine\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -114,6 +116,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)Editor\;$(ProjectDir)..\Engine\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -133,6 +136,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)Editor\;$(ProjectDir)..\Engine\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -157,6 +161,7 @@
     <ClInclude Include="Editor\Include\EditorUI\IEditorPanel.h" />
     <ClInclude Include="Editor\Include\EditorUI\ImGuiDocking.h" />
     <ClInclude Include="Editor\Include\EditorUI\ProjectPanel.h" />
+    <ClInclude Include="Editor\Include\GameModuleLoader\GameModuleLoader.h" />
     <ClInclude Include="Editor\Include\GameProject\GameProject.h" />
     <ClInclude Include="Editor\Include\GameProject\GameProjectLoader.h" />
     <ClInclude Include="Editor\Include\GameProject\ProjectManager.h" />
@@ -176,6 +181,7 @@
     <ClCompile Include="Editor\Source\EditorUI\EditorPanelManager.cpp" />
     <ClCompile Include="Editor\Source\EditorUI\ImGuiDocking.cpp" />
     <ClCompile Include="Editor\Source\EditorUI\ProjectPanel.cpp" />
+    <ClCompile Include="Editor\Source\GameModuleLoader\GameModuleLoader.cpp" />
     <ClCompile Include="Editor\Source\GameProject\GameProjectLoader.cpp" />
     <ClCompile Include="Editor\Source\GameProject\ProjectManager.cpp" />
     <ClCompile Include="Editor\Source\ImGuiRenderer\ImGuiRenderer.cpp" />
