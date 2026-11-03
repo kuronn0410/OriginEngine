@@ -1,6 +1,9 @@
 #pragma once
 #include "Include/EditorUI/IEditorPanel.h"
 #include "Include/GameProject/ProjectManager.h"
+#include "Include/Scenes/SceneChangeRequest.h"
+#include "Include/Renderer/Resource/ResourceManager.h"
+#include "Include/GameModuleLoader/GameModuleLoader.h"
 #include <vector>
 #include <memory>
 #include <cstdint>
@@ -10,9 +13,10 @@ namespace Origin::Editor
     class EditorPanelManager
     {
     public:
-		bool Initialize(ProjectManager& projectManager);
+		bool Initialize(ProjectManager& projectManager, GameModuleLoader& gameModuleLoader);
         void Draw();
         void DrawMenuBar();
+		void GameInitialize(SceneChangeRequest& sceneRequest, ResourceManager& resourceManager);
 
     private:
 		bool AddDrawPanel(uint32_t index);

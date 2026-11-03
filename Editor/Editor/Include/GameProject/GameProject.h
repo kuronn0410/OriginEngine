@@ -9,5 +9,6 @@ namespace Origin::Editor
         std::string name;
         std::filesystem::path rootPath;
         std::filesystem::path projectFilePath;
+		std::filesystem::path gameDllPath;
     };
 }

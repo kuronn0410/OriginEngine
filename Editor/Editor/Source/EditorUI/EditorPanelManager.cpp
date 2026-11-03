@@ -3,15 +3,16 @@
 #include "Include/EditorUI/ProjectPanel.h"
 #include "Include/GameProject/ProjectManager.h"
 #include "External/imgui/imgui.h"
+#include "Include/GameModuleLoader/GameModuleLoader.h"
 #include <memory>
 #include <algorithm>
 namespace Origin::Editor
 {
 
-	bool EditorPanelManager::Initialize(ProjectManager& projectManager)
+	bool EditorPanelManager::Initialize(ProjectManager& projectManager, GameModuleLoader& gameModuleLoader)
 	{
 		panels_.push_back(std::make_unique<DesignSupportPanel>(projectManager));
-		panels_.push_back(std::make_unique<ProjectPanel>(projectManager));
+		panels_.push_back(std::make_unique<ProjectPanel>(projectManager, gameModuleLoader));
 
 		AddDrawPanel(0);
 		AddDrawPanel(1);
@@ -30,8 +31,6 @@ namespace Origin::Editor
 	{
 	   
 	}
-
-
 	
 	bool EditorPanelManager::AddDrawPanel(uint32_t index)
 	{

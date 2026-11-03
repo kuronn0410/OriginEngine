@@ -9,6 +9,8 @@
 #include "Include/GameProject/ProjectManager.h"
 #include "Include/EditorUI/EditorPanelManager.h" 
 #include "Include/GameModuleLoader/GameModuleLoader.h"
+#include "Include/Renderer/Resource/ResourceManager.h"
+#include "Include/Scenes/SceneChangeRequest.h"
 
 namespace Origin::Editor
 {
@@ -30,6 +32,8 @@ namespace Origin::Editor
             DXGI_FORMAT rtvFormat,
             //ウィンドウ側
             WindowHandle windowHandle);
+		//ゲーム側の初期化するために必要なクラスの参照を受け取る
+		void GameInitialize(SceneChangeRequest& sceneRequest, ResourceManager& resourceManager);
         void Update();
         void Draw();
         void Shutdown();
@@ -42,6 +46,5 @@ namespace Origin::Editor
         ProjectManager projectManager_;
         EditorPanelManager editorPanelManager_;
 		GameModuleLoader gameModuleLoader_;
-
     };
 }

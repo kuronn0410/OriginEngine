@@ -29,6 +29,15 @@ namespace Origin::Editor
 			++clickCount;
 		}
 
+		if(ImGui::Button("Open Game", ImVec2(200, 50)))
+		{
+			if (projectManager_.GetCurrentProject())
+			{
+				gameModuleLoader_.Load(projectManager_.GetCurrentProject()->gameDllPath);
+				gameModuleLoader_.InitializeGame();
+			}
+
+		}
 		ImGui::Text("Click Count: %d", clickCount);
 
 		ImGui::End();

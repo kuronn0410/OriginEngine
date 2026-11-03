@@ -26,7 +26,7 @@ namespace Origin::Editor
 		WindowHandle windowHandle)
 	{
 
-		editorPanelManager_.Initialize(projectManager_);
+		editorPanelManager_.Initialize(projectManager_, gameModuleLoader_);
 
 		windowHandle_ = windowHandle;
 		// ImGuiRendererの初期化
@@ -75,6 +75,12 @@ namespace Origin::Editor
 	{
 
 	}
+
+	void Editor::GameInitialize(SceneChangeRequest& sceneRequest, ResourceManager& resourceManager)
+	{
+		gameModuleLoader_.SetGameInitialize(sceneRequest, resourceManager);	
+	}
+
 	void Editor::Draw()
 	{
 		imguiRenderer_.BeginFrame(graphics_.GetCommandList(), graphics_.GetSRVHeap());

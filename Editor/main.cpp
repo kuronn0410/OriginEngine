@@ -110,21 +110,24 @@ int WINAPI WinMain(
 		*graphics.GetDescriptorAllocator()
     );
 
-	GameModuleLoader gameModuleLoader;
-	if (!gameModuleLoader.Load(LR"(C:\YY\ゲーム制作\DirectX\OriginEngine\OriginEngine\x64\Debug\TestGame1.dll)"))
-	{
-		return -1;
-	}
+	//GameModuleLoader gameModuleLoader;
+	//if (!gameModuleLoader.Load(LR"(C:\YY\ゲーム制作\DirectX\OriginEngine\OriginEngine\x64\Debug\TestGame1.dll)"))
+	//{
+	//	return -1;
+	//}
 
     Origin::SceneManager sceneManager(graphics);
 
     Origin::SceneChangeRequest sceneRequest(sceneManager);
 
-    bool isGameInitialized = gameModuleLoader.InitializeGame(sceneRequest, resourceManager);
-    if (!isGameInitialized)
-    {
-        return -1;
-    }
+	editor.GameInitialize(sceneRequest, resourceManager);
+
+    //bool isGameInitialized = gameModuleLoader.InitializeGame(sceneRequest, resourceManager);
+    //if (!isGameInitialized)
+    //{
+    //    return -1;
+    //}
+    
     //Game::GameMain gameMain;
     //if (!gameMain.Initialize(sceneRequest, resourceManager))
     //{

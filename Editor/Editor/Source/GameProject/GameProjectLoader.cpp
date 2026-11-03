@@ -25,6 +25,9 @@ namespace Origin::Editor
 					project.value().name = entry.path().stem().string();
 					project.value().rootPath = _directory;
 					project.value().projectFilePath = entry.path();
+					fs::path solutionRoot =
+						_directory.parent_path().parent_path();
+					project.value().gameDllPath = solutionRoot / "x64" / "Debug" / (entry.path().stem().string() + ".dll");
 				}
 			}
 		}
