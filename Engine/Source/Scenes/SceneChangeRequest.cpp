@@ -8,6 +8,7 @@
 
 namespace Origin
 {
+	//ゲーム側の開始処理でSceneFactoryをセットする
 	void SceneChangeRequest::SetSceneFactory(std::unique_ptr<ISceneFactory> sceneFactory)
 	{
 		sceneFactory_ = std::move(sceneFactory);

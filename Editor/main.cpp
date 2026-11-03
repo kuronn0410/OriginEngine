@@ -13,6 +13,7 @@
 #include "Include/Window/WindowHandle.h"
 #include "Include/Graphics/SwapChainManager.h"
 #include "Include/Editor.h"
+#include "Include/GameModuleLoader/GameModuleLoader.h"
 #include <sal.h>
 #include <cstdint>
 
@@ -109,10 +110,21 @@ int WINAPI WinMain(
 		*graphics.GetDescriptorAllocator()
     );
 
+	GameModuleLoader gameModuleLoader;
+	if (!gameModuleLoader.Load(LR"(C:\YY\ゲーム制作\DirectX\OriginEngine\OriginEngine\x64\Debug\TestGame1.dll)"))
+	{
+		return -1;
+	}
+
     Origin::SceneManager sceneManager(graphics);
 
     Origin::SceneChangeRequest sceneRequest(sceneManager);
 
+    bool isGameInitialized = gameModuleLoader.InitializeGame(sceneRequest, resourceManager);
+    if (!isGameInitialized)
+    {
+        return -1;
+    }
     //Game::GameMain gameMain;
     //if (!gameMain.Initialize(sceneRequest, resourceManager))
     //{
@@ -153,19 +165,18 @@ int WINAPI WinMain(
         //TranslateMessage(&msg);
         if(windowManager.Exists(gameWindowHandle))
         {
-            //sceneManager.Update();
+            sceneManager.Update();
             graphics.BeginFrame(Color(0.0f, 0.8f, 1.0f, 1.0f), windowManager.GetHwnd(gameWindowHandle), *swapChainManager.GetContext(gameWindowHandle));
-            //renderer.BeginFrame(graphics.GetCommandList(), graphics.GetSRVHeap());
-            //sceneManager.Render(renderer);
+            renderer.BeginFrame(graphics.GetCommandList(), graphics.GetSRVHeap());
+            sceneManager.Render(renderer);
             graphics.EndFrame(*swapChainManager.GetContext(gameWindowHandle));
         }
 
         if (windowManager.Exists(mainEditorWindowHandle))
         {
-            //sceneManager.Update();
+            sceneManager.Update();
             graphics.BeginFrame(Color(0.65f, 0.65f, 0.65f, 1.0f), windowManager.GetHwnd(mainEditorWindowHandle), *swapChainManager.GetContext(mainEditorWindowHandle));
-            //renderer.BeginFrame(graphics.GetCommandList(), graphics.GetSRVHeap());
-			//editor.Draw();
+            renderer.BeginFrame(graphics.GetCommandList(), graphics.GetSRVHeap());
             graphics.EndFrame(*swapChainManager.GetContext(mainEditorWindowHandle));
             
         }
@@ -179,10 +190,10 @@ int WINAPI WinMain(
 
         if (windowManager.Exists(view3DWindowHandle))
         {
-            //sceneManager.Update();
+            sceneManager.Update();
             graphics.BeginFrame(Color(0.0f, 0.4f, 0.8f, 1.0f), windowManager.GetHwnd(view3DWindowHandle), *swapChainManager.GetContext(view3DWindowHandle));
-            //renderer.BeginFrame(graphics.GetCommandList(), graphics.GetSRVHeap());
-            //sceneManager.Render(renderer);
+            renderer.BeginFrame(graphics.GetCommandList(), graphics.GetSRVHeap());
+            sceneManager.Render(renderer);
             graphics.EndFrame(*swapChainManager.GetContext(view3DWindowHandle));
 
         }

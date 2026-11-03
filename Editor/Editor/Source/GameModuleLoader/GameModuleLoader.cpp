@@ -1,4 +1,6 @@
 #include "Include/GameModuleLoader/GameModuleLoader.h"
+#include "Include/Scenes/SceneChangeRequest.h"
+#include "Include/Renderer/Resource/ResourceManager.h"
 
 bool GameModuleLoader::Load(const std::filesystem::path& dllpath)
 {
@@ -7,13 +9,6 @@ bool GameModuleLoader::Load(const std::filesystem::path& dllpath)
     {
 		return false;
     }
-    //bool exists = std::filesystem::exists(dllpath);
-    //std::filesystem::path absolutePath =
-    //    std::filesystem::absolute(dllpath);
-
-    //OutputDebugStringW(L"DLL Path: ");
-    //OutputDebugStringW(absolutePath.c_str());
-    //OutputDebugStringW(L"\n");
     module_ = LoadLibraryW(dllpath.c_str());
 
     if (module_ == nullptr)
@@ -37,6 +32,57 @@ bool GameModuleLoader::Load(const std::filesystem::path& dllpath)
 
     int version = getVersion();
     return true;
+}
+
+
+
+bool GameModuleLoader::InitializeGame(
+    Origin::SceneChangeRequest& sceneRequest,
+    Origin::ResourceManager& resourceManager)
+{
+    if (!module_)
+    {
+        return false;
+    }
+
+    FARPROC address = GetProcAddress(module_, "InitializeGame");
+    if (!address)
+    {
+        return false;
+    }
+
+    using InitializeGameFunc = bool (*)(
+        Origin::SceneChangeRequest&,
+        Origin::ResourceManager&
+        );
+
+    auto initialize =
+        reinterpret_cast<InitializeGameFunc>(address);
+
+    return initialize(sceneRequest, resourceManager);
+}
+
+void GameModuleLoader::ShutdownGame()
+{
+    if (!module_)
+    {
+        return;
+    }
+
+    FARPROC address = GetProcAddress(
+        module_,
+        "ShutdownGame"
+    );
+    if (!address)
+    {
+        return;
+    }
+
+    using ShutdownGameFunc = void (*)();
+    ShutdownGameFunc shutdown =
+        reinterpret_cast<ShutdownGameFunc>(address);
+
+    shutdown();
 }
 
 void GameModuleLoader::Unload()
