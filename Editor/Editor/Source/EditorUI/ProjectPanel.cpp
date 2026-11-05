@@ -33,7 +33,11 @@ namespace Origin::Editor
 		{
 			if (projectManager_.GetCurrentProject())
 			{
-				gameModuleLoader_.Load(projectManager_.GetCurrentProject()->gameDllPath);
+				if (!gameModuleLoader_.Load(projectManager_.GetCurrentProject()->gameDllPath))
+				{
+					// Handle error
+					return;
+				}	
 				gameModuleLoader_.InitializeGame();
 			}
 

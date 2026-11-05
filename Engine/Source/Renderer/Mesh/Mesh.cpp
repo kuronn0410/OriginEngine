@@ -77,6 +77,7 @@ namespace Origin
 
         // ⑤ verticesをコピー
         //std::memcpy(mappedData, vertices, sizeof(Vertex) * vertexCount);
+
         std::memcpy(mappedData, vertices, vertexBufferSize);
         // ⑥ Unmap
         vertexBuffer_->Unmap(0, nullptr);

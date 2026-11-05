@@ -181,7 +181,10 @@
     <ClCompile Include="Editor\Source\EditorUI\EditorPanelManager.cpp" />
     <ClCompile Include="Editor\Source\EditorUI\ImGuiDocking.cpp" />
     <ClCompile Include="Editor\Source\EditorUI\ProjectPanel.cpp" />
-    <ClCompile Include="Editor\Source\GameModuleLoader\GameModuleLoader.cpp" />
+    <ClCompile Include="Editor\Source\GameModuleLoader\GameModuleLoader.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Disabled</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+    </ClCompile>
     <ClCompile Include="Editor\Source\GameProject\GameProjectLoader.cpp" />
     <ClCompile Include="Editor\Source\GameProject\ProjectManager.cpp" />
     <ClCompile Include="Editor\Source\ImGuiRenderer\ImGuiRenderer.cpp" />
