@@ -25,6 +25,7 @@ namespace Origin::Editor
 		//ウィンドウ側
 		WindowHandle windowHandle)
 	{
+		projectManager_.Initialize();
 
 		editorPanelManager_.Initialize(projectManager_, gameModuleLoader_);
 
@@ -58,16 +59,6 @@ namespace Origin::Editor
 			imguiRenderer_.Shutdown();
 			return false;
 		}
-
-		//const wchar_t* testPath =
-		//	LR"(C:\YY\ゲーム制作\DirectX\OriginEngine\OriginEngine\x64\Debug\TestGame1.dll)";
-
-		//OutputDebugStringW(testPath);
-		//OutputDebugStringW(L"\n");
-
-		//bool result = gameModuleLoader_.Load(
-		//	testPath
-		//);
 
 		return true;
 	}

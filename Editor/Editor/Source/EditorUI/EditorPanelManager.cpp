@@ -14,8 +14,16 @@ namespace Origin::Editor
 		panels_.push_back(std::make_unique<DesignSupportPanel>(projectManager));
 		panels_.push_back(std::make_unique<ProjectPanel>(projectManager, gameModuleLoader));
 
+
+
+		for (size_t i = 0; i < panels_.size(); ++i)
+		{
+			panels_[i]->Initialize();
+		}
 		AddDrawPanel(0);
 		AddDrawPanel(1);
+
+
 		return true;
 	}
 	void EditorPanelManager::Draw()

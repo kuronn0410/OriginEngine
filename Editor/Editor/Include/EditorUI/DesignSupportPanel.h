@@ -11,6 +11,7 @@ namespace Origin::Editor
 			projectManager_(projectManager)
 		{
 		}
+        bool Initialize() override { return true; };
         void Draw() override;
     private:
         SceneCodeGenerator sceneCodeGenerator_;

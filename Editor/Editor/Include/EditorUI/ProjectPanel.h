@@ -14,10 +14,12 @@ namespace Origin::Editor
 			gameModuleLoader_(gameModuleLoader)
 		{
 		}
+		bool Initialize() override;
         void Draw() override;
     private:
 		ProjectManager& projectManager_;
 		GameModuleLoader& gameModuleLoader_;
+		const std::vector<GameProject>* loadedProjects_;
 		std::array<char, 1024> projectPathBuffer_{};
 
     };
