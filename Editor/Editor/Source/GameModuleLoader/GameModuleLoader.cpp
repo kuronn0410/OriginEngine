@@ -103,4 +103,39 @@ namespace Origin::Editor
     {
         Unload();
     }
+    bool GameModuleLoader::ProcessOpenRequest()
+    {
+        if (!requestedDllPath_)
+        {
+            return true;
+        }
+
+        const std::filesystem::path dllPath = *requestedDllPath_;
+        requestedDllPath_.reset();
+
+        if (!sceneRequest_ || !resourceManager_)
+        {
+            return false;
+        }
+
+        // DLL内のコードが利用できる間に旧オブジェクトを片付ける
+        sceneRequest_->ClearGame();
+        ShutdownGame();
+        Unload();
+
+        if (!Load(dllPath))
+        {
+            return false;
+        }
+
+        if (!InitializeGame())
+        {
+            sceneRequest_->ClearGame();
+            ShutdownGame();
+            Unload();
+            return false;
+        }
+
+        return true;
+    }
 }

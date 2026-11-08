@@ -40,4 +40,9 @@ bool InitializeGame(
 extern "C" __declspec(dllexport)
 void ShutdownGame()
 {
+    if (gameMain)
+    {
+        gameMain->Finalize();
+        gameMain.reset();
+    }
 }

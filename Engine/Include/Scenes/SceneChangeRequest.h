@@ -17,6 +17,12 @@ namespace Origin
 		void SetSceneFactory(std::unique_ptr<Origin::ISceneFactory> sceneFactory);
 		void RequestInitialScene(Origin::SceneType sceneType);
 		void RequestChangeScene(Origin::SceneType sceneType);
+		void ClearGame()
+		{
+			// Sceneの破棄中にFactoryが必要な場合も考え、この順番にする
+			sceneManager_.ClearScene();
+			sceneFactory_.reset();
+		}
 	private:
 		SceneManager& sceneManager_;
 		std::unique_ptr<ISceneFactory> sceneFactory_;

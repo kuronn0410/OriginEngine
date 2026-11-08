@@ -16,9 +16,7 @@ namespace Origin::Editor
 
         ImGui::Begin("OriginEngine Editor##ProjectPanel");
 
-        // ========================================
         // 1. 現在のプロジェクト
-        // ========================================
         ImGui::SeparatorText("Current Project");
 
         const auto* currentProject =
@@ -45,9 +43,7 @@ namespace Origin::Editor
         ImGui::Spacing();
         ImGui::Spacing();
 
-        // ========================================
         // 2. 既存プロジェクトの登録
-        // ========================================
         ImGui::SeparatorText("Add Existing Project");
 
         ImGui::TextDisabled("Enter the project directory.");
@@ -80,9 +76,7 @@ namespace Origin::Editor
         ImGui::Spacing();
         ImGui::Spacing();
 
-        // ========================================
         // 3. 登録済みプロジェクト一覧
-        // ========================================
         ImGui::SeparatorText("Registered Projects");
 
         std::optional<fs::path> requestedProject;
@@ -152,23 +146,29 @@ namespace Origin::Editor
 
         ImGui::BeginDisabled(selectedProject == nullptr);
 
+        //if (ImGui::Button("Open Game", ImVec2(-1, 42)))
+        //{
+        //    if (selectedProject)
+        //    {
+        //        if (gameModuleLoader_.Load(
+        //            selectedProject->gameDllPath))
+        //        {
+        //            // InitializeGame()の戻り値仕様は要確認
+        //            gameModuleLoader_.InitializeGame();
+        //        }
+        //        else
+        //        {
+        //            // TODO: DLL読み込み失敗の表示
+        //        }
+        //    }
+        //}
         if (ImGui::Button("Open Game", ImVec2(-1, 42)))
         {
             if (selectedProject)
             {
-                if (gameModuleLoader_.Load(
-                    selectedProject->gameDllPath))
-                {
-                    // InitializeGame()の戻り値仕様は要確認
-                    gameModuleLoader_.InitializeGame();
-                }
-                else
-                {
-                    // TODO: DLL読み込み失敗の表示
-                }
+                gameModuleLoader_.RequestOpen(selectedProject->gameDllPath);
             }
         }
-
         ImGui::EndDisabled();
 
         ImGui::End();

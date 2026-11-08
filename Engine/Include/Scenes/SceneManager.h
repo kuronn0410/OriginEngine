@@ -20,7 +20,7 @@ namespace Origin
 		void Update();
 		void ChangeScene(std::unique_ptr<Scene> scene);
 		void Render(Renderer& renderer);
-
+		void ClearScene(){currentScene_.reset();}
 	private:
 		std::unique_ptr<Scene> currentScene_;
 		Graphics& graphics_;

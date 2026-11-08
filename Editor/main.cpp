@@ -183,6 +183,13 @@ int WINAPI WinMain(
             graphics.EndFrame(*swapChainManager.GetContext(mainEditorWindowHandle));
             
         }
+        if (windowManager.IsExitRequested())
+        {
+            break;
+        }
+
+        // 前フレームのボタン操作を、描画開始前に処理する
+        editor.Update();
 
         if (windowManager.Exists(editorWindowHandle))
         {

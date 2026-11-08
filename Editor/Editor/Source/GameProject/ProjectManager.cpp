@@ -42,7 +42,24 @@ namespace Origin::Editor
 
 	bool ProjectManager::InitialRegistration(const std::filesystem::path& directory)
 	{
-		LoadProject(directory);
+		for (const auto& project : loadedProjects_)
+		{
+			std::error_code ec;
+
+			if (std::filesystem::equivalent(project.rootPath, directory, ec))
+			{
+				return false; // 同じフォルダーは登録しない
+			}
+
+			if (ec)
+			{
+				return false; // 比較できなかった場合も登録を中断
+			}
+		}
+		if (!LoadProject(directory))
+		{
+			return false;
+		}
 		loadedProjects_.push_back(*currentProject_);
 		if (!projectStorage_.ProjectSave(loadedProjects_, currentProject_.value().rootPath))
 		{
@@ -53,7 +70,11 @@ namespace Origin::Editor
 
 	bool ProjectManager::LoadProject(const std::filesystem::path& directory)
 	{
-
+		//存在するかを確認する
+		if (!std::filesystem::exists(directory))
+		{
+			return false; // Directory does not exist
+		}
 		auto loaded = std::move(projectLoader_.LoadProject(directory));
 
 		if (!loaded.has_value())

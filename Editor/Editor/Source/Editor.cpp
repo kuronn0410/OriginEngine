@@ -64,7 +64,27 @@ namespace Origin::Editor
 	}
 	void Editor::Update()
 	{
+		if (!gameModuleLoader_.HasOpenRequest())
+		{
+			return;
+		}
 
+		// GPU待機と、初期化用のコマンド記録開始
+		if (!graphics_.BeginInitializationCommands())
+		{
+			OutputDebugStringA("BeginInitializationCommands failed.\n");
+			return;
+		}
+
+		const bool opened = gameModuleLoader_.ProcessOpenRequest();
+
+		// 新ゲームが登録したメッシュ・テクスチャの転送を実行
+		const bool submitted = graphics_.EndInitializationCommands();
+
+		if (!opened || !submitted)
+		{
+			OutputDebugStringA("Open Game failed.\n");
+		}
 	}
 
 	void Editor::GameInitialize(SceneChangeRequest& sceneRequest, ResourceManager& resourceManager)
