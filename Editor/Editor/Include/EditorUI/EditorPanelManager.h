@@ -18,7 +18,7 @@ namespace Origin::Editor
             ProjectManager& projectManager, 
             GameModuleLoader& gameModuleLoader
         );
-		bool AddGamePanel(GameContext& gameContext);
+		bool AddGamePanel(GameContext& gameContext, Graphics& graphics);
         void Draw();
         void DrawMenuBar();
 		void GameInitialize(

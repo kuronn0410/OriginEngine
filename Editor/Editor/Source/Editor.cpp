@@ -94,7 +94,7 @@ namespace Origin::Editor
 
 	void Editor::AddGamePanel(GameContext& gameContext)
 	{
-		editorPanelManager_.AddGamePanel(gameContext);
+		editorPanelManager_.AddGamePanel(gameContext, graphics_);
 	}
 
 	void Editor::Draw()

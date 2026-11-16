@@ -43,7 +43,7 @@ namespace Origin
 		}
 		if (!CreateDescriptorAllocator())
 		{
-
+			return false;
 		}
 		if (!CreateCommandAllocator())
 		{

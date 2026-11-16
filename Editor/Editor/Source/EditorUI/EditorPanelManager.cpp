@@ -27,9 +27,9 @@ namespace Origin::Editor
 		return true;
 	}
 
-	bool EditorPanelManager::AddGamePanel(GameContext& gameContext)
+	bool EditorPanelManager::AddGamePanel(GameContext& gameContext, Graphics& graphics)
 	{
-		panels_.push_back(std::make_unique<GameViewPanel>(gameContext));
+		panels_.push_back(std::make_unique<GameViewPanel>(gameContext, graphics));
 
 		for (size_t i = 0; i < panels_.size(); ++i)
 		{
