@@ -12,6 +12,7 @@
 #include "Include/Window/WindowDesc.h"
 #include "Include/Window/WindowHandle.h"
 #include "Include/Graphics/SwapChainManager.h"
+#include "Include/EditorUI/GameContext.h"
 #include "Include/Editor.h"
 #include "Include/GameModuleLoader/GameModuleLoader.h"
 #include <sal.h>
@@ -76,7 +77,19 @@ int WINAPI WinMain(
 	{
 		return -1;
 	}
-
+    
+    //Origin::ShaderCompiler shaderCompiler;
+    //if (!shaderCompiler.Initialize())
+    //{
+    //    return -1;
+    //}
+    //Origin::Renderer renderer;
+    //if(!renderer.Initialize(shaderCompiler, *graphics.GetDevice()))
+    //{
+    //    return -1;
+    //}
+    //Origin::SceneManager sceneManager(graphics);
+    
 
     Origin::Editor::Editor editor(graphics, windowManager);
     if(!editor.Initialize(
@@ -104,37 +117,28 @@ int WINAPI WinMain(
 		return -1;
     }
     
+    
+
     Origin::ResourceManager resourceManager(
         *graphics.GetDevice(),
 		*graphics.GetCommandList(),
 		*graphics.GetDescriptorAllocator()
     );
 
-	//GameModuleLoader gameModuleLoader;
-	//if (!gameModuleLoader.Load(LR"(C:\YY\ゲーム制作\DirectX\OriginEngine\OriginEngine\x64\Debug\TestGame1.dll)"))
-	//{
-	//	return -1;
-	//}
-
     Origin::SceneManager sceneManager(graphics);
+
+    Origin::Editor::GameContext gameContext;
+
+    gameContext.renderer = &renderer;
+    gameContext.sceneManager = &sceneManager;
+	editor.AddGamePanel(gameContext);
 
     Origin::SceneChangeRequest sceneRequest(sceneManager);
 
 	editor.GameInitialize(sceneRequest, resourceManager);
 
-    //bool isGameInitialized = gameModuleLoader.InitializeGame(sceneRequest, resourceManager);
-    //if (!isGameInitialized)
-    //{
-    //    return -1;
-    //}
-    
-    //Game::GameMain gameMain;
-    //if (!gameMain.Initialize(sceneRequest, resourceManager))
-    //{
-    //    return -1;
-    //}
-
     renderer.SetResourceManager(resourceManager);
+
     if (!graphics.EndInitializationCommands())
     {
         return -1;

@@ -11,6 +11,7 @@
 #include "Include/GameModuleLoader/GameModuleLoader.h"
 #include "Include/Renderer/Resource/ResourceManager.h"
 #include "Include/Scenes/SceneChangeRequest.h"
+#include "Include/EditorUI/GameContext.h" 
 
 namespace Origin::Editor
 {
@@ -31,13 +32,19 @@ namespace Origin::Editor
             int numFramesInFlight,
             DXGI_FORMAT rtvFormat,
             //ウィンドウ側
-            WindowHandle windowHandle);
+            WindowHandle windowHandle
+        );
 		//ゲーム側の初期化するために必要なクラスの参照を受け取る
 		void GameInitialize(SceneChangeRequest& sceneRequest, ResourceManager& resourceManager);
         void Update();
         void Draw();
         void Shutdown();
-
+        void AddGamePanel(GameContext& gameContext);
+		//void SetGameContext(Renderer& renderer, SceneManager& sceneManager)
+		//{
+		//	gameContext_.renderer = &renderer;
+		//	gameContext_.sceneManager = &sceneManager;
+		//}
     private:
         Graphics& graphics_;
         ImGuiRenderer imguiRenderer_;
@@ -46,5 +53,6 @@ namespace Origin::Editor
         ProjectManager projectManager_;
         EditorPanelManager editorPanelManager_;
 		GameModuleLoader gameModuleLoader_;
+		//GameContext gameContext_;
     };
 }

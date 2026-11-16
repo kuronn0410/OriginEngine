@@ -230,6 +230,7 @@
     <None Include="Engine\docs\Renderer\3d\3DSpace.md" />
     <None Include="Engine\docs\Renderer\3d\3DModel.md" />
     <None Include="docs\README.md" />
+    <None Include="docs\improvement-log.md" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\Shader\BasicVS.hlsl" />

@@ -92,6 +92,11 @@ namespace Origin::Editor
 		gameModuleLoader_.SetGameInitialize(sceneRequest, resourceManager);	
 	}
 
+	void Editor::AddGamePanel(GameContext& gameContext)
+	{
+		editorPanelManager_.AddGamePanel(gameContext);
+	}
+
 	void Editor::Draw()
 	{
 		imguiRenderer_.BeginFrame(graphics_.GetCommandList(), graphics_.GetSRVHeap());

@@ -213,6 +213,10 @@
     <ClInclude Include="Engine\Include\Window\WindowManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="docs\improvement-log.md">
+      <SubType>
+      </SubType>
+    </None>
     <None Include="docs\README.md">
       <SubType>
       </SubType>

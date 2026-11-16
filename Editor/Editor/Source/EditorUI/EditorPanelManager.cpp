@@ -4,6 +4,8 @@
 #include "Include/GameProject/ProjectManager.h"
 #include "External/imgui/imgui.h"
 #include "Include/GameModuleLoader/GameModuleLoader.h"
+#include "Include/EditorUI/GameViewPanel.h"
+#include "Include/EditorUI/GameContext.h"
 #include <memory>
 #include <algorithm>
 namespace Origin::Editor
@@ -13,8 +15,6 @@ namespace Origin::Editor
 	{
 		panels_.push_back(std::make_unique<DesignSupportPanel>(projectManager));
 		panels_.push_back(std::make_unique<ProjectPanel>(projectManager, gameModuleLoader));
-
-
 
 		for (size_t i = 0; i < panels_.size(); ++i)
 		{
@@ -26,6 +26,21 @@ namespace Origin::Editor
 
 		return true;
 	}
+
+	bool EditorPanelManager::AddGamePanel(GameContext& gameContext)
+	{
+		panels_.push_back(std::make_unique<GameViewPanel>(gameContext));
+
+		for (size_t i = 0; i < panels_.size(); ++i)
+		{
+			panels_[i]->Initialize();
+		}
+		AddDrawPanel(panels_.size() - 1);
+
+		return true;
+	}
+
+
 	void EditorPanelManager::Draw()
 	{
 		ImGui::DockSpaceOverViewport();
