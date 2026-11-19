@@ -18,10 +18,23 @@ namespace Origin
 	public:
 		bool Initialize(HWND hwnd);
 		void Render(const Color& clearColor);// 1フレームの描画
-		bool BeginInitializationCommands();
-		bool EndInitializationCommands();
-		void BeginFrame(const Color& clearColor, HWND hwnd, SwapChainContext& swapChainContext);
-		void EndFrame(SwapChainContext& swapChainContext);
+		//bool BeginInitializationCommands();
+		//bool EndInitializationCommands();
+		//void BeginFrame(const Color& clearColor, HWND hwnd, SwapChainContext& swapChainContext);
+		//void EndFrame(SwapChainContext& swapChainContext);
+
+		// CommandListの記録開始・終了
+		bool BeginCommands();
+		bool EndCommands();
+
+		// Window描画
+		void BeginWindowRender(const Color& clearColor, HWND hwnd, SwapChainContext& swapChainContext);
+		void EndWindowRender(SwapChainContext& swapChainContext);
+		bool Present(SwapChainContext& swapChainContext);
+		// Offscreen描画
+		void BeginOffscreenRender();
+		void EndOffscreenRender();
+
 		bool Update();
 		bool Finalize();
 		/*----取得関数------*/

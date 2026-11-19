@@ -70,7 +70,7 @@ namespace Origin::Editor
 		}
 
 		// GPU待機と、初期化用のコマンド記録開始
-		if (!graphics_.BeginInitializationCommands())
+		if (!graphics_.BeginCommands())
 		{
 			OutputDebugStringA("BeginInitializationCommands failed.\n");
 			return;
@@ -79,8 +79,8 @@ namespace Origin::Editor
 		const bool opened = gameModuleLoader_.ProcessOpenRequest();
 
 		// 新ゲームが登録したメッシュ・テクスチャの転送を実行
-		const bool submitted = graphics_.EndInitializationCommands();
-
+		const bool submitted = graphics_.EndCommands();
+		//graphics.Present(*swapChainManager.GetContext(gameWindowHandle));
 		if (!opened || !submitted)
 		{
 			OutputDebugStringA("Open Game failed.\n");

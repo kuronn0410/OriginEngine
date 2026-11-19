@@ -61,7 +61,7 @@ namespace Origin
 		return true;
 	}
 
-	bool Graphics::BeginInitializationCommands()
+	bool Graphics::BeginCommands()
 	{
 		HRESULT hr = commandAllocator_->Reset();
 		if (FAILED(hr))
@@ -81,7 +81,7 @@ namespace Origin
 
 		return true;
 	}
-	bool Graphics::EndInitializationCommands()
+	bool Graphics::EndCommands()
 	{
 		//⑨ CommandList Close
 		HRESULT cmhr = commandList_->Close();
@@ -134,15 +134,179 @@ namespace Origin
 		return true;
 	}
 
-	void Graphics::BeginFrame(const Color& clearColor, HWND hwnd, SwapChainContext& swapChainContext)
+	//void Graphics::BeginFrame(const Color& clearColor, HWND hwnd, SwapChainContext& swapChainContext)
+	//{
+	//	// ① 現在のBackBuffer(描画する場所)番号取得
+	//	frameIndex_ = swapChainContext.GetSwapChain()->GetCurrentBackBufferIndex();
+	//	// ② CommandAllocator Reset
+	//	commandAllocator_->Reset();
+	//	// ③ CommandList Reset
+	//	commandList_->Reset(commandAllocator_.Get(), nullptr);
+
+
+	//	// ④ PRESENT → RENDER_TARGET
+	//	D3D12_RESOURCE_BARRIER barrier = {};
+	//	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+	//	barrier.Transition.pResource = swapChainContext.GetRenderTarget(frameIndex_);
+	//	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;
+	//	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
+	//	barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
+
+	//	// ResourceBarrierをCommandListに記録する
+	//	commandList_->ResourceBarrier(
+	//		1,
+	//		&barrier
+	//	);
+	//	// ⑤ RTV取得
+	//	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle =
+	//		swapChainContext.GetRTVHeap()->GetCPUDescriptorHandleForHeapStart();
+	//	UINT descriptorSize =
+	//		device_->GetDescriptorHandleIncrementSize(
+	//			D3D12_DESCRIPTOR_HEAP_TYPE_RTV
+	//		);
+	//	rtvHandle.ptr += frameIndex_ * descriptorSize;
+
+	//	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle =
+	//		swapChainContext.GetDSVHeap()->GetCPUDescriptorHandleForHeapStart();
+	//	// ⑥ 描画先設定
+	//	commandList_->OMSetRenderTargets(
+	//		1,
+	//		&rtvHandle,
+	//		FALSE,
+	//		&dsvHandle
+	//	);
+
+	//	// Viewport設定
+	//	RECT rect{};
+	//	GetClientRect(hwnd, &rect);
+
+	//	D3D12_VIEWPORT viewport = {};
+	//	viewport.TopLeftX = 0.0f;
+	//	viewport.TopLeftY = 0.0f;
+	//	viewport.Width = static_cast<float>(rect.right - rect.left);
+	//	viewport.Height = static_cast<float>(rect.bottom - rect.top);
+	//	viewport.MinDepth = 0.0f;
+	//	viewport.MaxDepth = 1.0f;
+
+	//	commandList_->RSSetViewports(
+	//		1,
+	//		&viewport
+	//	);
+
+	//	// ScissorRect設定
+	//	D3D12_RECT scissorRect = {};
+	//	scissorRect.left = 0;
+	//	scissorRect.top = 0;
+	//	scissorRect.right = rect.right - rect.left;
+	//	scissorRect.bottom = rect.bottom - rect.top;
+	//	commandList_->RSSetScissorRects(
+	//		1,
+	//		&scissorRect
+	//	);
+
+	//	// ⑦ 単色クリア
+	//	float color[4] =
+	//	{
+	//		clearColor.r,
+	//		clearColor.g,
+	//		clearColor.b,
+	//		clearColor.a
+	//	};
+	//	commandList_->ClearRenderTargetView(
+	//		rtvHandle,
+	//		color,
+	//		0,
+	//		nullptr
+	//	);
+	//	commandList_->ClearDepthStencilView(
+	//		dsvHandle,
+	//		D3D12_CLEAR_FLAG_DEPTH,
+	//		1.0f,
+	//		0,
+	//		0,
+	//		nullptr
+	//	)
+	//}
+
+	//void Graphics::EndFrame(SwapChainContext& swapChainContext)
+	//{
+	//	// ⑧ RENDER_TARGET → PRESENT
+	//	D3D12_RESOURCE_BARRIER returnbarrier = {};
+	//	returnbarrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+	//	returnbarrier.Transition.pResource = swapChainContext.GetRenderTarget(frameIndex_);
+	//	returnbarrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
+	//	returnbarrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
+	//	returnbarrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
+	//	// ResourceBarrierをCommandListに記録する
+	//	commandList_->ResourceBarrier(
+	//		1,
+	//		&returnbarrier
+	//	);
+	//	// ⑨ CommandList Close
+	//	HRESULT cmhr = commandList_->Close();
+
+	//	if (FAILED(cmhr))
+	//	{
+	//		return;
+	//	}
+	//	// ⑩ ExecuteCommandLists
+	//	ID3D12CommandList* commandLists[] =
+	//	{
+	//		commandList_.Get()
+	//	};
+
+	//	commandQueue_->ExecuteCommandLists(
+	//		1,
+	//		commandLists
+	//	);
+
+	//	// ⑪ Present
+	//	HRESULT swhr = swapChainContext.GetSwapChain()->Present(
+	//		1,
+	//		0
+	//	);
+
+	//	if (FAILED(swhr))
+	//	{
+	//		return;
+	//	}
+	//	// ⑫ GPU同期
+	//	++fenceValue_;
+
+	//	HRESULT hr = commandQueue_->Signal(
+	//		fence_.Get(),
+	//		fenceValue_
+	//	);
+
+	//	if (FAILED(hr))
+	//	{
+	//		return;
+	//	}
+
+	//	if (fence_->GetCompletedValue() < fenceValue_)//GPUがまだ今回の処理を終えていないなら待つ
+	//	{
+	//		hr = fence_->SetEventOnCompletion(
+	//			fenceValue_,
+	//			fenceEvent_
+	//		);
+
+	//		if (FAILED(hr))
+	//		{
+	//			return;
+	//		}
+
+	//		WaitForSingleObject(
+	//			fenceEvent_,
+	//			INFINITE
+	//		);
+	//	}
+	//}
+
+	// Window描画
+	void Graphics::BeginWindowRender(const Color& clearColor, HWND hwnd, SwapChainContext& swapChainContext)
 	{
 		// ① 現在のBackBuffer(描画する場所)番号取得
 		frameIndex_ = swapChainContext.GetSwapChain()->GetCurrentBackBufferIndex();
-		// ② CommandAllocator Reset
-		commandAllocator_->Reset();
-		// ③ CommandList Reset
-		commandList_->Reset(commandAllocator_.Get(), nullptr);
-
 
 		// ④ PRESENT → RENDER_TARGET
 		D3D12_RESOURCE_BARRIER barrier = {};
@@ -228,11 +392,8 @@ namespace Origin
 			0,
 			nullptr
 		);
-
-
 	}
-
-	void Graphics::EndFrame(SwapChainContext& swapChainContext)
+	void Graphics::EndWindowRender(SwapChainContext& swapChainContext)
 	{
 		// ⑧ RENDER_TARGET → PRESENT
 		D3D12_RESOURCE_BARRIER returnbarrier = {};
@@ -247,64 +408,20 @@ namespace Origin
 			1,
 			&returnbarrier
 		);
-		// ⑨ CommandList Close
-		HRESULT cmhr = commandList_->Close();
+	}
+	bool Graphics::Present(SwapChainContext& swapChainContext)
+	{
+		HRESULT hr = swapChainContext.GetSwapChain()->Present(1, 0);
+		return SUCCEEDED(hr);
+	}
+	// Offscreen描画
+	void Graphics::BeginOffscreenRender()
+	{
 
-		if (FAILED(cmhr))
-		{
-			return;
-		}
-		// ⑩ ExecuteCommandLists
-		ID3D12CommandList* commandLists[] =
-		{
-			commandList_.Get()
-		};
+	}
+	void Graphics::EndOffscreenRender()
+	{
 
-		commandQueue_->ExecuteCommandLists(
-			1,
-			commandLists
-		);
-
-		// ⑪ Present
-		HRESULT swhr = swapChainContext.GetSwapChain()->Present(
-			1,
-			0
-		);
-
-		if (FAILED(swhr))
-		{
-			return;
-		}
-		// ⑫ GPU同期
-		++fenceValue_;
-
-		HRESULT hr = commandQueue_->Signal(
-			fence_.Get(),
-			fenceValue_
-		);
-
-		if (FAILED(hr))
-		{
-			return;
-		}
-
-		if (fence_->GetCompletedValue() < fenceValue_)//GPUがまだ今回の処理を終えていないなら待つ
-		{
-			hr = fence_->SetEventOnCompletion(
-				fenceValue_,
-				fenceEvent_
-			);
-
-			if (FAILED(hr))
-			{
-				return;
-			}
-
-			WaitForSingleObject(
-				fenceEvent_,
-				INFINITE
-			);
-		}
 	}
 	/*------------------------------------------------------------------------------------------------------------------*/
 	bool Graphics::CreateFactory()

@@ -101,7 +101,7 @@ int WINAPI WinMain(
         return -1;
     }
 
-    if (!graphics.BeginInitializationCommands())
+    if (!graphics.BeginCommands())
     {
         return -1;
     }
@@ -139,7 +139,7 @@ int WINAPI WinMain(
 
     renderer.SetResourceManager(resourceManager);
 
-    if (!graphics.EndInitializationCommands())
+    if (!graphics.EndCommands())
     {
         return -1;
     }
@@ -173,18 +173,24 @@ int WINAPI WinMain(
         if(windowManager.Exists(gameWindowHandle))
         {
             sceneManager.Update();
-            graphics.BeginFrame(Color(0.0f, 0.8f, 1.0f, 1.0f), windowManager.GetHwnd(gameWindowHandle), *swapChainManager.GetContext(gameWindowHandle));
+			graphics.BeginCommands();
+            graphics.BeginWindowRender(Color(0.0f, 0.8f, 1.0f, 1.0f), windowManager.GetHwnd(gameWindowHandle), *swapChainManager.GetContext(gameWindowHandle));
             renderer.BeginFrame(graphics.GetCommandList(), graphics.GetSRVHeap());
             sceneManager.Render(renderer);
-            graphics.EndFrame(*swapChainManager.GetContext(gameWindowHandle));
+            graphics.EndWindowRender(*swapChainManager.GetContext(gameWindowHandle));
+			graphics.EndCommands();
+            graphics.Present(*swapChainManager.GetContext(gameWindowHandle));
         }
 
         if (windowManager.Exists(mainEditorWindowHandle))
         {
             sceneManager.Update();
-            graphics.BeginFrame(Color(0.65f, 0.65f, 0.65f, 1.0f), windowManager.GetHwnd(mainEditorWindowHandle), *swapChainManager.GetContext(mainEditorWindowHandle));
+            graphics.BeginCommands();
+            graphics.BeginWindowRender(Color(0.65f, 0.65f, 0.65f, 1.0f), windowManager.GetHwnd(mainEditorWindowHandle), *swapChainManager.GetContext(mainEditorWindowHandle));
             renderer.BeginFrame(graphics.GetCommandList(), graphics.GetSRVHeap());
-            graphics.EndFrame(*swapChainManager.GetContext(mainEditorWindowHandle));
+            graphics.EndWindowRender(*swapChainManager.GetContext(mainEditorWindowHandle));
+			graphics.EndCommands();
+            graphics.Present(*swapChainManager.GetContext(mainEditorWindowHandle));
             
         }
         if (windowManager.IsExitRequested())
@@ -197,18 +203,25 @@ int WINAPI WinMain(
 
         if (windowManager.Exists(editorWindowHandle))
         {
-            graphics.BeginFrame(Color(1.0f, 0.0f, 0.0f, 1.0f), windowManager.GetHwnd(editorWindowHandle), *swapChainManager.GetContext(editorWindowHandle));
+            graphics.BeginCommands();
+            graphics.BeginWindowRender(Color(1.0f, 0.0f, 0.0f, 1.0f), windowManager.GetHwnd(editorWindowHandle), *swapChainManager.GetContext(editorWindowHandle));
             editor.Draw();
-            graphics.EndFrame(*swapChainManager.GetContext(editorWindowHandle));
+            graphics.EndWindowRender(*swapChainManager.GetContext(editorWindowHandle));
+			graphics.EndCommands();
+            graphics.Present(*swapChainManager.GetContext(editorWindowHandle));
         }
 
         if (windowManager.Exists(view3DWindowHandle))
         {
             sceneManager.Update();
-            graphics.BeginFrame(Color(0.0f, 0.4f, 0.8f, 1.0f), windowManager.GetHwnd(view3DWindowHandle), *swapChainManager.GetContext(view3DWindowHandle));
+            graphics.BeginCommands();
+            graphics.BeginWindowRender(Color(0.0f, 0.4f, 0.8f, 1.0f), windowManager.GetHwnd(view3DWindowHandle), *swapChainManager.GetContext(view3DWindowHandle));
             renderer.BeginFrame(graphics.GetCommandList(), graphics.GetSRVHeap());
             sceneManager.Render(renderer);
-            graphics.EndFrame(*swapChainManager.GetContext(view3DWindowHandle));
+            graphics.EndWindowRender(*swapChainManager.GetContext(view3DWindowHandle));
+            graphics.EndCommands();
+            graphics.Present(*swapChainManager.GetContext(view3DWindowHandle));
+            
 
         }
         
