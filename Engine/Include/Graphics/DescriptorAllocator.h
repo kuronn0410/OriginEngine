@@ -6,6 +6,9 @@
 #include <vector>
 namespace Origin
 {
+	/// <summary>
+	/// 汎用的なAllocator　
+	/// </summary>
 	class DescriptorAllocator
 	{
 	public:

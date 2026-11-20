@@ -65,9 +65,6 @@ namespace Origin
 		Free(static_cast<uint32_t>(index));
 	}
 
-
-
-
 	void DescriptorAllocator::Free(uint32_t index)
 	{
 

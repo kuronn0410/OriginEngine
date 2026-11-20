@@ -147,6 +147,8 @@
     <ClCompile Include="Engine\External\stb\stb_image.cpp" />
     <ClCompile Include="Engine\Include\Math\MatrixMath.cpp" />
     <ClCompile Include="Engine\Source\Graphics\DescriptorAllocator.cpp" />
+    <ClCompile Include="Engine\Source\Graphics\OffscreenRenderTarget.cpp" />
+    <ClCompile Include="Engine\Source\Graphics\OffscreenRenderTargetManager.cpp" />
     <ClCompile Include="Engine\Source\Graphics\SwapChainContext.cpp" />
     <ClCompile Include="Engine\Source\Graphics\SwapChainManager.cpp" />
     <ClCompile Include="Engine\Source\Renderer\Camera\Camera.cpp" />
@@ -170,6 +172,9 @@
     <ClInclude Include="Engine\Include\GameModule\GameModuleAPI.h" />
     <ClInclude Include="Engine\Include\Graphics\DescriptorAllocation.h" />
     <ClInclude Include="Engine\Include\Graphics\DescriptorAllocator.h" />
+    <ClInclude Include="Engine\Include\Graphics\OffscreenHandle.h" />
+    <ClInclude Include="Engine\Include\Graphics\OffscreenRenderTarget.h" />
+    <ClInclude Include="Engine\Include\Graphics\OffscreenRenderTargetManager.h" />
     <ClInclude Include="Engine\Include\Graphics\SwapChainContext.h" />
     <ClInclude Include="Engine\Include\Graphics\SwapChainManager.h" />
     <ClInclude Include="Engine\Include\Math\Vector2.h" />
