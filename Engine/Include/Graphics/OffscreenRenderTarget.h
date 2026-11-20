@@ -10,14 +10,15 @@ namespace Origin
 	class OffscreenRenderTarget
 	{
 	public:
-		OffscreenRenderTarget(DescriptorAllocator& descriptorAllocator) : 
-			descriptorAllocator_(descriptorAllocator) {}
-		bool Initialize(ID3D12Device& device,
+		//OffscreenRenderTarget(DescriptorAllocator& descriptorAllocator) : 
+		//	descriptorAllocator_(descriptorAllocator) {}
+		bool Initialize(
+			ID3D12Device& device,
 			UINT width,
 			UINT height,
-			D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle,
-			D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle
+			const DescriptorAllocation& allocation
 		);
+		const DescriptorAllocation GetSRVAllocation() const { return srvAllocation_; }
 	private:
 		bool CreateColorTextureResource(
 			ID3D12Device& device,
@@ -41,12 +42,10 @@ namespace Origin
 		bool CreateDSVDescriptorHeap(ID3D12Device& device);
 		bool CreateDepthStencilView(ID3D12Device& device);
 		// GraphicsのSRVはAllocatorで管理しているため、それを借りる用
-		DescriptorAllocator& descriptorAllocator_;
-		// SRVの割り当て情報
-		DescriptorAllocation srvAllocation_{};
 		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> rtvHeap_;
 		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> dsvHeap_;
 		D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle_{};
+		DescriptorAllocation srvAllocation_{};
 		Microsoft::WRL::ComPtr<ID3D12Resource> colorTexture_;
 		Microsoft::WRL::ComPtr<ID3D12Resource> depthTexture_;
 	};

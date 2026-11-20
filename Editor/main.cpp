@@ -8,19 +8,18 @@
 #include "include/Graphics/Color.h"
 //#include "GameMain.h"
 #include "Include/Renderer/Resource/ResourceManager.h"
+/*--Window・SwapChain---*/
 #include "Include/Window/WindowManager.h"
 #include "Include/Window/WindowDesc.h"
 #include "Include/Window/WindowHandle.h"
 #include "Include/Graphics/SwapChainManager.h"
+/*--OffscreenRenderTarget---*/
+#include "Include/Graphics/OffscreenRenderTargetManager.h"
+#include "Include/Graphics/OffscreenHandle.h"
 #include "Include/EditorUI/GameContext.h"
 #include "Include/Editor.h"
-#include "Include/GameModuleLoader/GameModuleLoader.h"
 #include <sal.h>
-#include <cstdint>
 
-#include "Include/Graphics/DescriptorAllocation.h"
-#include "Include/Graphics/DescriptorAllocator.h"
-#include <cassert>
 
 int WINAPI WinMain(
     _In_ HINSTANCE hInstance,
@@ -30,9 +29,10 @@ int WINAPI WinMain(
 )
 {
 
-	Origin::WindowManager windowManager;
-	
 
+
+
+	Origin::WindowManager windowManager;
 	Origin::WindowHandle mainEditorWindowHandle
 		= windowManager.Create(hInstance, Origin::WindowDesc{ L"Editor Window", CW_USEDEFAULT, CW_USEDEFAULT,1600, 940, true, {} });
     Origin::WindowHandle editorWindowHandle
@@ -52,7 +52,25 @@ int WINAPI WinMain(
         return -1;
     }
 
-	
+	//Origin::OffscreenRenderTargetManager offscreenRenderTargetManager(
+ //       *graphics.GetDescriptorAllocator(),
+ //       *graphics.GetDevice()
+ //   );
+ //   Origin::OffscreenHandle view3dOffscreenHandle = offscreenRenderTargetManager.CreateOffscreenRenderTarget(
+ //       800,
+ //       420
+ //   );
+ //   Origin::OffscreenHandle sceneViewOffscreenHandle = offscreenRenderTargetManager.CreateOffscreenRenderTarget(
+ //       800,
+ //       420
+ //   );
+ //   Origin::OffscreenRenderTarget* view3dOffscreenRenderTarget = offscreenRenderTargetManager.GetOffscreenRenderTarget(view3dOffscreenHandle);
+ //   Origin::OffscreenRenderTarget* sceneViewOffscreenRenderTarget = offscreenRenderTargetManager.GetOffscreenRenderTarget(sceneViewOffscreenHandle);
+
+	//bool check = offscreenRenderTargetManager.Destory(view3dOffscreenHandle);
+ //   check = offscreenRenderTargetManager.Destory(view3dOffscreenHandle);
+
+ //   view3dOffscreenRenderTarget = offscreenRenderTargetManager.GetOffscreenRenderTarget(view3dOffscreenHandle);
 
     Origin::SwapChainManager swapChainManager(
 		*graphics.GetFactory(),

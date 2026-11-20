@@ -7,8 +7,7 @@ namespace Origin
 		ID3D12Device& device, 
 		UINT width, 
 		UINT height, 
-		D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle, 
-		D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle
+		const DescriptorAllocation& allocation
 	)
 	{
 		if(!CreateColorTextureResource(device, width, height))
@@ -19,7 +18,7 @@ namespace Origin
 		{
 			return false;
 		}
-		if(!CreateSRV(device, cpuHandle, gpuHandle))
+		if(!CreateSRV(device, allocation.cpuHandle, allocation.gpuHandle))
 		{
 			return false;
 		}
