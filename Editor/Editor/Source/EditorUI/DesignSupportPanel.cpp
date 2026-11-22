@@ -5,7 +5,7 @@ namespace Origin::Editor
 {
 	void DesignSupportPanel::Draw()
 	{
-		ImGui::Begin("OriginEngine Editor");
+		ImGui::Begin("Design Support");
 
 		static int clickCount = 0;
 

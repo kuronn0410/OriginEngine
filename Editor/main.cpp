@@ -15,7 +15,6 @@
 #include "Include/Graphics/SwapChainManager.h"
 /*--OffscreenRenderTarget---*/
 #include "Include/Graphics/OffscreenRenderTargetManager.h"
-#include "Include/Graphics/OffscreenHandle.h"
 #include "Include/EditorUI/GameContext.h"
 #include "Include/Editor.h"
 #include <sal.h>
@@ -28,26 +27,14 @@ int WINAPI WinMain(
     _In_ int nCmdShow
 )
 {
-
-
-
-
 	Origin::WindowManager windowManager;
 	Origin::WindowHandle mainEditorWindowHandle
 		= windowManager.Create(hInstance, Origin::WindowDesc{ L"Editor Window", CW_USEDEFAULT, CW_USEDEFAULT,1600, 940, true, {} });
     Origin::WindowHandle editorWindowHandle
-		= windowManager.Create(hInstance, Origin::WindowDesc{ L"Editor Window", 840, 20,730, 860, false, mainEditorWindowHandle });
-    Origin::WindowHandle gameWindowHandle
-        = windowManager.Create(hInstance, Origin::WindowDesc{ L"Game Window", 20, 20 ,800, 420, false, mainEditorWindowHandle });
-    Origin::WindowHandle view3DWindowHandle
-        = windowManager.Create(hInstance, Origin::WindowDesc{ L"3D View Window", 20, 460, 800, 420,false, mainEditorWindowHandle });
-
-    
-    //RECT rect{};
-    //GetClientRect(windowManager.GetHwnd(editorWindowHandle), &rect);
+		= windowManager.Create(hInstance, Origin::WindowDesc{ L"Editor Window", 20, 20,1560, 860, false, mainEditorWindowHandle });
 
     Origin::Graphics graphics;
-    if (!graphics.Initialize(windowManager.GetHwnd(gameWindowHandle)))
+    if (!graphics.Initialize())
     {
         return -1;
     }
@@ -56,33 +43,11 @@ int WINAPI WinMain(
         *graphics.GetDescriptorAllocator(),
         *graphics.GetDevice()
     );
-    //Origin::OffscreenHandle view3dOffscreenHandle = offscreenRenderTargetManager.CreateOffscreenRenderTarget(
-    //    800,
-    //    420
-    //);
-    //Origin::OffscreenHandle sceneViewOffscreenHandle = offscreenRenderTargetManager.CreateOffscreenRenderTarget(
-    //    800,
-    //    420
-    //);
-
- //   Origin::OffscreenRenderTarget* view3dOffscreenRenderTarget = offscreenRenderTargetManager.GetOffscreenRenderTarget(view3dOffscreenHandle);
- //   Origin::OffscreenRenderTarget* sceneViewOffscreenRenderTarget = offscreenRenderTargetManager.GetOffscreenRenderTarget(sceneViewOffscreenHandle);
-
-	//bool check = offscreenRenderTargetManager.Destory(view3dOffscreenHandle);
- //   check = offscreenRenderTargetManager.Destory(view3dOffscreenHandle);
-
- //   view3dOffscreenRenderTarget = offscreenRenderTargetManager.GetOffscreenRenderTarget(view3dOffscreenHandle);
-
     Origin::SwapChainManager swapChainManager(
 		*graphics.GetFactory(),
 		*graphics.GetDevice(),
 		*graphics.GetCommandQueue()
 	);
-
-	if (!swapChainManager.Create(gameWindowHandle, windowManager.GetHwnd(gameWindowHandle)))
-	{
-		return -1;
-	}
 
     if (!swapChainManager.Create(mainEditorWindowHandle, windowManager.GetHwnd(mainEditorWindowHandle)))
     {
@@ -91,24 +56,7 @@ int WINAPI WinMain(
     if (!swapChainManager.Create(editorWindowHandle, windowManager.GetHwnd(editorWindowHandle)))
     {
         return -1;
-    }
-	if(!swapChainManager.Create(view3DWindowHandle, windowManager.GetHwnd(view3DWindowHandle)))
-	{
-		return -1;
-	}
-    
-    //Origin::ShaderCompiler shaderCompiler;
-    //if (!shaderCompiler.Initialize())
-    //{
-    //    return -1;
-    //}
-    //Origin::Renderer renderer;
-    //if(!renderer.Initialize(shaderCompiler, *graphics.GetDevice()))
-    //{
-    //    return -1;
-    //}
-    //Origin::SceneManager sceneManager(graphics);
-    
+    }    
 
     Origin::Editor::Editor editor(graphics, windowManager);
     if(!editor.Initialize(
@@ -189,19 +137,6 @@ int WINAPI WinMain(
             break;
         }
 
-        //TranslateMessage(&msg);
-        if(windowManager.Exists(gameWindowHandle))
-        {
-            sceneManager.Update();
-			graphics.BeginCommands();
-            graphics.BeginWindowRender(Color(0.0f, 0.8f, 1.0f, 1.0f), windowManager.GetHwnd(gameWindowHandle), *swapChainManager.GetContext(gameWindowHandle));
-            renderer.BeginFrame(graphics.GetCommandList(), graphics.GetSRVHeap());
-            sceneManager.Render(renderer);
-            graphics.EndWindowRender(*swapChainManager.GetContext(gameWindowHandle));
-			graphics.EndCommands();
-            graphics.Present(*swapChainManager.GetContext(gameWindowHandle));
-        }
-
         if (windowManager.Exists(mainEditorWindowHandle))
         {
             sceneManager.Update();
@@ -231,23 +166,6 @@ int WINAPI WinMain(
 			graphics.EndCommands();
             graphics.Present(*swapChainManager.GetContext(editorWindowHandle));
         }
-
-        if (windowManager.Exists(view3DWindowHandle))
-        {
-            sceneManager.Update();
-            graphics.BeginCommands();
-            graphics.BeginWindowRender(Color(0.0f, 0.4f, 0.8f, 1.0f), windowManager.GetHwnd(view3DWindowHandle), *swapChainManager.GetContext(view3DWindowHandle));
-            renderer.BeginFrame(graphics.GetCommandList(), graphics.GetSRVHeap());
-            sceneManager.Render(renderer);
-            graphics.EndWindowRender(*swapChainManager.GetContext(view3DWindowHandle));
-            graphics.EndCommands();
-            graphics.Present(*swapChainManager.GetContext(view3DWindowHandle));
-            
-
-        }
-        
-            //graphics.Render();
-        
     }
    
 

@@ -1,13 +1,11 @@
 #include "Include/EditorUI/GameViewPanel.h"
 #include "External/imgui/imgui.h"
 #include <d3d12.h>
-#include <Windows.h>
-#include <wrl/client.h>
 namespace Origin::Editor
 {
 	bool GameViewPanel::Initialize()
 	{
-		offscreenHandle_ = gameContext_.offscreenRenderTargetManager->CreateOffscreenRenderTarget(800, 600);
+		offscreenHandle_ = gameContext_.offscreenRenderTargetManager->CreateOffscreenRenderTarget(680, 380);
 		return true;
 	}
 	void GameViewPanel::RenderOffscreen()
@@ -40,7 +38,7 @@ namespace Origin::Editor
 			// ③ ImGui::Image()で表示
 			ImTextureID textureID =
 				static_cast<ImTextureID>(srvHandle.ptr);
-			ImGui::Image(textureID, ImVec2(800, 600));
+			ImGui::Image(textureID, ImVec2(680, 380));
 		}
 		
 		

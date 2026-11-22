@@ -19,7 +19,7 @@ D3D12 Device
 */
 namespace Origin
 {
-	bool Graphics::Initialize(HWND hwnd)
+	bool Graphics::Initialize()
 	{
 		if (!CreateFactory())
 		{

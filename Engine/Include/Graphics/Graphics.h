@@ -17,7 +17,7 @@ namespace Origin
 	class Graphics
 	{
 	public:
-		bool Initialize(HWND hwnd);
+		bool Initialize();
 		void Render(const Color& clearColor);// 1フレームの描画
 
 		// CommandListの記録開始・終了

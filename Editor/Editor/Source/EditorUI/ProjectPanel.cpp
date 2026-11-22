@@ -14,7 +14,7 @@ namespace Origin::Editor
     {
         namespace fs = std::filesystem;
 
-        ImGui::Begin("OriginEngine Editor##ProjectPanel");
+        ImGui::Begin("ProjectPanel");
 
         // 1. 現在のプロジェクト
         ImGui::SeparatorText("Current Project");
