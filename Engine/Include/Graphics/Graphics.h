@@ -9,6 +9,7 @@
 #include "include/Graphics/SwapChainContext.h"
 #include <Windows.h>
 #include "include/Graphics/DescriptorAllocator.h"
+#include "include/Graphics/OffscreenRenderTarget.h"
 #include <optional>
 
 namespace Origin
@@ -28,8 +29,8 @@ namespace Origin
 		void EndWindowRender(SwapChainContext& swapChainContext);
 		bool Present(SwapChainContext& swapChainContext);
 		// Offscreen描画
-		void BeginOffscreenRender();
-		void EndOffscreenRender();
+		void BeginOffscreenRender(OffscreenRenderTarget& target);
+		void EndOffscreenRender(OffscreenRenderTarget& target);
 
 		bool Update();
 		bool Finalize();

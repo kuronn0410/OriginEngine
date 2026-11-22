@@ -52,18 +52,19 @@ int WINAPI WinMain(
         return -1;
     }
 
-	//Origin::OffscreenRenderTargetManager offscreenRenderTargetManager(
- //       *graphics.GetDescriptorAllocator(),
- //       *graphics.GetDevice()
- //   );
- //   Origin::OffscreenHandle view3dOffscreenHandle = offscreenRenderTargetManager.CreateOffscreenRenderTarget(
- //       800,
- //       420
- //   );
- //   Origin::OffscreenHandle sceneViewOffscreenHandle = offscreenRenderTargetManager.CreateOffscreenRenderTarget(
- //       800,
- //       420
- //   );
+	Origin::OffscreenRenderTargetManager offscreenRenderTargetManager(
+        *graphics.GetDescriptorAllocator(),
+        *graphics.GetDevice()
+    );
+    //Origin::OffscreenHandle view3dOffscreenHandle = offscreenRenderTargetManager.CreateOffscreenRenderTarget(
+    //    800,
+    //    420
+    //);
+    //Origin::OffscreenHandle sceneViewOffscreenHandle = offscreenRenderTargetManager.CreateOffscreenRenderTarget(
+    //    800,
+    //    420
+    //);
+
  //   Origin::OffscreenRenderTarget* view3dOffscreenRenderTarget = offscreenRenderTargetManager.GetOffscreenRenderTarget(view3dOffscreenHandle);
  //   Origin::OffscreenRenderTarget* sceneViewOffscreenRenderTarget = offscreenRenderTargetManager.GetOffscreenRenderTarget(sceneViewOffscreenHandle);
 
@@ -149,6 +150,7 @@ int WINAPI WinMain(
 
     gameContext.renderer = &renderer;
     gameContext.sceneManager = &sceneManager;
+    gameContext.offscreenRenderTargetManager = &offscreenRenderTargetManager;
 	editor.AddGamePanel(gameContext);
 
     Origin::SceneChangeRequest sceneRequest(sceneManager);
@@ -222,6 +224,7 @@ int WINAPI WinMain(
         if (windowManager.Exists(editorWindowHandle))
         {
             graphics.BeginCommands();
+			editor.RenderOffscreen();
             graphics.BeginWindowRender(Color(1.0f, 0.0f, 0.0f, 1.0f), windowManager.GetHwnd(editorWindowHandle), *swapChainManager.GetContext(editorWindowHandle));
             editor.Draw();
             graphics.EndWindowRender(*swapChainManager.GetContext(editorWindowHandle));

@@ -9,6 +9,7 @@
 #include <dxgiformat.h>
 #include "Include/EditorUI/DesignSupportPanel.h"
 #include "Include/EditorUI/ProjectPanel.h"
+#include "Include/Graphics/OffscreenRenderTargetManager.h"
 // 前方宣言
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(
 	HWND hWnd,
@@ -23,11 +24,15 @@ namespace Origin::Editor
 		int numFramesInFlight,
 		DXGI_FORMAT rtvFormat,
 		//ウィンドウ側
-		WindowHandle windowHandle)
+		WindowHandle windowHandle
+	)
 	{
 		projectManager_.Initialize();
 
-		editorPanelManager_.Initialize(projectManager_, gameModuleLoader_);
+		editorPanelManager_.Initialize(
+			projectManager_, 
+			gameModuleLoader_
+		);
 
 		windowHandle_ = windowHandle;
 		// ImGuiRendererの初期化
@@ -97,6 +102,12 @@ namespace Origin::Editor
 		editorPanelManager_.AddGamePanel(gameContext, graphics_);
 	}
 
+	void Editor::RenderOffscreen()
+	{
+		// Game ViewのTextureに描画
+		// Scene ViewのTextureに描画
+		editorPanelManager_.RenderOffscreen();
+	}
 	void Editor::Draw()
 	{
 		imguiRenderer_.BeginFrame(graphics_.GetCommandList(), graphics_.GetSRVHeap());

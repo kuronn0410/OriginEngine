@@ -37,6 +37,7 @@ namespace Origin::Editor
 		//ゲーム側の初期化するために必要なクラスの参照を受け取る
 		void GameInitialize(SceneChangeRequest& sceneRequest, ResourceManager& resourceManager);
         void Update();
+        void RenderOffscreen();
         void Draw();
         void Shutdown();
         void AddGamePanel(GameContext& gameContext);

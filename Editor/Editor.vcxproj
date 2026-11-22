@@ -162,6 +162,7 @@
     <ClInclude Include="Editor\Include\EditorUI\GameViewPanel.h" />
     <ClInclude Include="Editor\Include\EditorUI\IEditorPanel.h" />
     <ClInclude Include="Editor\Include\EditorUI\ImGuiDocking.h" />
+    <ClInclude Include="Editor\Include\EditorUI\IOffscreenRenderable.h" />
     <ClInclude Include="Editor\Include\EditorUI\ProjectPanel.h" />
     <ClInclude Include="Editor\Include\EditorUI\SceneViewPanel.h" />
     <ClInclude Include="Editor\Include\GameModuleLoader\GameModuleLoader.h" />

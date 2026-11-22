@@ -246,13 +246,110 @@ namespace Origin
 		return SUCCEEDED(hr);
 	}
 	// Offscreen描画
-	void Graphics::BeginOffscreenRender()
+	void Graphics::BeginOffscreenRender(OffscreenRenderTarget& target)
 	{
+		D3D12_RESOURCE_STATES currentState = target.GetCurrentState();
+		if (currentState != D3D12_RESOURCE_STATE_RENDER_TARGET)
+		{
+			// ④ PRESENT → RENDER_TARGET
+			D3D12_RESOURCE_BARRIER barrier = {};
+			barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+			barrier.Transition.pResource = target.GetRenderTarget();
+			barrier.Transition.StateBefore = currentState;
+			barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
+			barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
 
+			// ResourceBarrierをCommandListに記録する
+			commandList_->ResourceBarrier(
+				1,
+				&barrier
+			);
+			target.SetCurrentState(
+				D3D12_RESOURCE_STATE_RENDER_TARGET
+			);
+		}
+		
+		// ⑤ RTV取得
+		D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle =
+			target.GetRTVHeap()->GetCPUDescriptorHandleForHeapStart();
+
+		D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle =
+			target.GetDSVHeap()->GetCPUDescriptorHandleForHeapStart();
+		// ⑥ 描画先設定
+		commandList_->OMSetRenderTargets(
+			1,
+			&rtvHandle,
+			FALSE,
+			&dsvHandle
+		);
+
+		// Viewport設定
+	
+		D3D12_VIEWPORT viewport = {};
+		viewport.TopLeftX = 0.0f;
+		viewport.TopLeftY = 0.0f;
+		viewport.Width = static_cast<float>(target.GetWidth());
+		viewport.Height = static_cast<float>(target.GetHeight());
+		viewport.MinDepth = 0.0f;
+		viewport.MaxDepth = 1.0f;
+
+		commandList_->RSSetViewports(
+			1,
+			&viewport
+		);
+
+		// ScissorRect設定
+		D3D12_RECT scissorRect = {};
+		scissorRect.left = 0;
+		scissorRect.top = 0;
+		scissorRect.right = target.GetWidth();
+		scissorRect.bottom = target.GetHeight();
+
+		commandList_->RSSetScissorRects(
+			1,
+			&scissorRect
+		);
+		const float clearColor[4] = {
+			0.0f, 0.0f, 0.0f, 1.0f//黒でクリア
+		};
+
+		commandList_->ClearRenderTargetView(
+			rtvHandle,
+			clearColor,
+			0,
+			nullptr
+		);
+		commandList_->ClearDepthStencilView(
+			dsvHandle,
+			D3D12_CLEAR_FLAG_DEPTH,
+			1.0f,
+			0,
+			0,
+			nullptr
+		);
 	}
-	void Graphics::EndOffscreenRender()
+	void Graphics::EndOffscreenRender(OffscreenRenderTarget& target)
 	{
+		D3D12_RESOURCE_STATES currentState = target.GetCurrentState();
+		if (currentState != D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE)
+		{
+			// RENDER_TARGET → PIXEL_SHADER_RESOURCE
+			D3D12_RESOURCE_BARRIER returnbarrier = {};
+			returnbarrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+			returnbarrier.Transition.pResource = target.GetRenderTarget();
+			returnbarrier.Transition.StateBefore = currentState;
+			returnbarrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
+			returnbarrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
 
+			// ResourceBarrierをCommandListに記録する
+			commandList_->ResourceBarrier(
+				1,
+				&returnbarrier
+			);
+			target.SetCurrentState(
+				D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE
+			);
+		}
 	}
 	/*------------------------------------------------------------------------------------------------------------------*/
 	bool Graphics::CreateFactory()

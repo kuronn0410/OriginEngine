@@ -10,6 +10,9 @@ namespace Origin
 		const DescriptorAllocation& allocation
 	)
 	{
+		width_ = width;
+		height_ = height;
+		srvAllocation_ = allocation;
 		if(!CreateColorTextureResource(device, width, height))
 		{
 			return false;
